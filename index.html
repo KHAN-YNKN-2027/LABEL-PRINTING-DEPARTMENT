@@ -12,8 +12,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-     <link rel="icon" href="icon-192.png">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="icon-192.png">
     <style>
         :root {
             --navy: #00244d;
@@ -26,10 +26,14 @@
             --muted: #6b7a99;
             --danger: #d92b3a;
             --success: #0f7a55;
+            --font-ui: 'DM Sans', 'Cairo', system-ui, sans-serif;
+            --font-display: 'Syne', 'Cairo', system-ui, sans-serif;
+            --font-mono: 'DM Mono', ui-monospace, monospace;
+            --font-ar: 'Cairo', 'DM Sans', system-ui, sans-serif;
         }
  
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'DM Sans', sans-serif; background: var(--surface); color: var(--text); min-height: 100vh; }
+        body { font-family: var(--font-ui); background: var(--surface); color: var(--text); min-height: 100vh; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
  
         /* ===== ANTI-COPY PROTECTION ===== */
         body {
@@ -380,7 +384,8 @@
             box-shadow: 0 0 0 4px rgba(0,119,204,0.12);
             background: white;
         }
-        .field-input::placeholder { color: #a0aec0; font-family: 'DM Sans', sans-serif; font-size: 13px; }
+        .field-input::placeholder { color: #a0aec0; font-family: var(--font-ui); font-size: 13px; }
+        select.field-input { appearance: auto; -webkit-appearance: menulist; cursor: pointer; font-family: var(--font-ui); }
  
         /* ===== BUTTONS (PROFESSIONAL) ===== */
         .action-bar { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
@@ -504,7 +509,7 @@
         .edit-cell-input:focus { outline: none; box-shadow: 0 0 0 3px rgba(0,119,204,0.18); }
  
         /* ===== HUB (Main Menu) ===== */
-.hub-wrap { max-width: 1020px; margin: 0 auto; padding: 30px 16px 60px; }
+.hub-wrap { max-width: 1180px; margin: 0 auto; padding: 30px 16px 60px; }
 
 /* hero */
 .hub-hero { text-align: center; margin-bottom: 26px; animation: fadeUp .6s .05s cubic-bezier(.22,1.2,.36,1) both; }
@@ -522,8 +527,15 @@
 .hub-desc { font-size: 13.5px; color: var(--muted); margin-top: 8px; max-width: 520px; margin-left: auto; margin-right: auto; line-height: 1.6; }
 
 /* stats strip */
-.hub-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 30px; }
+.hub-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 14px; }
 @media (min-width: 760px) { .hub-stats { grid-template-columns: repeat(4, 1fr); gap: 16px; } }
+.hub-stats-label {
+    font-family: var(--font-display); font-size: 10px; font-weight: 700;
+    letter-spacing: 2.5px; color: var(--muted); text-transform: uppercase;
+    margin: 4px 0 10px; display: flex; align-items: center; gap: 10px;
+}
+.hub-stats-label::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, var(--border), transparent); }
+.hub-stats-wrap { margin-bottom: 28px; }
 .stat-card {
     background: white; border: 1px solid var(--border); border-radius: 16px;
     padding: 18px 16px; display: flex; align-items: center; gap: 13px;
@@ -531,6 +543,14 @@
     transition: transform .25s ease, box-shadow .25s ease;
     animation: fadeUp .6s .15s cubic-bezier(.22,1.2,.36,1) both;
 }
+.stat-value { font-family: var(--font-display) !important; }
+.hub-title { font-family: var(--font-display) !important; }
+.hub-card-title { font-family: var(--font-display) !important; }
+.section-label { font-family: var(--font-display) !important; }
+.field-label { font-family: var(--font-ui) !important; }
+.field-input { font-family: var(--font-mono) !important; }
+.btn { font-family: var(--font-display) !important; }
+
 .stat-card:nth-child(2) { animation-delay: .22s; }
 .stat-card:nth-child(3) { animation-delay: .29s; }
 .stat-card:nth-child(4) { animation-delay: .36s; }
@@ -558,7 +578,8 @@
 }
 .hub-heading::after { background: linear-gradient(90deg, var(--border), transparent); }
 .hub-grid { display:grid; grid-template-columns:1fr; gap:16px; }
-@media (min-width:700px){ .hub-grid{ grid-template-columns:repeat(3,1fr); gap:20px; } }
+@media (min-width:600px){ .hub-grid{ grid-template-columns:repeat(2,1fr); gap:20px; } }
+@media (min-width:960px){ .hub-grid{ grid-template-columns:repeat(4,1fr); gap:20px; } }
 .hub-card {
     background:white; border:1px solid var(--border); border-radius:20px;
     padding:34px 22px 28px; text-align:center; cursor:pointer;
@@ -570,6 +591,7 @@
 .hub-grid .hub-card:nth-child(1) { animation-delay: .42s; }
 .hub-grid .hub-card:nth-child(2) { animation-delay: .5s; }
 .hub-grid .hub-card:nth-child(3) { animation-delay: .58s; }
+.hub-grid .hub-card:nth-child(4) { animation-delay: .66s; }
 .hub-card::before {
     content:''; position:absolute; top:0; left:0; right:0; height:4px;
     background:linear-gradient(90deg,var(--navy),var(--gold));
@@ -592,6 +614,7 @@
 .hub-card-icon-wrap.iw-blue  { background: linear-gradient(135deg, #e8f3ff, #d0e7ff); color: #00417a; }
 .hub-card-icon-wrap.iw-gold  { background: linear-gradient(135deg, #fff6dd, #ffeab0); color: #b57e00; }
 .hub-card-icon-wrap.iw-green { background: linear-gradient(135deg, #e3fff3, #c8f5e2); color: #0f7a55; }
+.hub-card-icon-wrap.iw-purple { background: linear-gradient(135deg, #f1eaff, #e0d2ff); color: #5b2fb3; }
 .hub-card-title { font-family:'Syne',sans-serif; font-weight:800; font-size:15px; letter-spacing:1px; color:var(--navy); margin-bottom:8px; }
 .hub-card-sub { font-size:12px; color:var(--muted); line-height: 1.5; }
 .hub-card-go {
@@ -609,6 +632,42 @@
     box-shadow: 0 2px 8px rgba(0,36,77,0.05);
 }
 .btn-back:hover { background:var(--navy); color:white; border-color:var(--navy); box-shadow: 0 4px 14px rgba(0,36,77,0.2); }
+
+
+/* ===== TEAM PRODUCTION ===== */
+.team-toolbar { display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-bottom:18px; }
+.team-filter {
+    background:#fff; border:1.5px solid #d5e0ee; color:var(--navy);
+    font-family:'Syne',sans-serif; font-weight:700; font-size:11px; letter-spacing:1px;
+    padding:9px 16px; border-radius:10px; cursor:pointer; transition:all .2s ease;
+}
+.team-filter:hover { border-color: var(--accent); }
+.team-filter.active { background:var(--navy); color:#fff; border-color:var(--navy); }
+.team-summary { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:18px; }
+.team-sum-card { background:#fff; border:1px solid var(--border); border-radius:14px; padding:14px 16px; box-shadow:0 3px 14px rgba(0,36,77,0.05); }
+.team-sum-val { font-family:'Syne',sans-serif; font-size:22px; font-weight:800; color:var(--navy); line-height:1.1; }
+.team-sum-lbl { font-size:10px; font-weight:600; letter-spacing:1.4px; color:var(--muted); text-transform:uppercase; margin-top:4px; }
+.team-grid { display:grid; grid-template-columns:1fr; gap:16px; }
+@media (min-width:700px){ .team-grid { grid-template-columns:repeat(2,1fr); } }
+@media (min-width:1000px){ .team-grid { grid-template-columns:repeat(3,1fr); } }
+.team-card { background:#fff; border:1px solid var(--border); border-radius:18px; padding:20px; box-shadow:0 4px 18px rgba(0,36,77,0.06); position:relative; overflow:hidden; }
+.team-card { cursor:pointer; transition:transform .2s ease, box-shadow .2s ease; }
+.team-card:hover { transform:translateY(-4px); box-shadow:0 12px 30px rgba(0,36,77,0.13); }
+.team-card.rank-1 { border-color:var(--gold); box-shadow:0 8px 26px rgba(240,165,0,0.18); }
+.team-head { display:flex; align-items:center; gap:12px; margin-bottom:16px; }
+.team-avatar { width:46px; height:46px; border-radius:14px; background:linear-gradient(135deg,#0077cc,#00417a); color:#fff; display:flex; align-items:center; justify-content:center; font-family:'Syne',sans-serif; font-weight:800; font-size:18px; flex-shrink:0; }
+.team-name { font-family:'Syne',sans-serif; font-weight:800; font-size:13.5px; color:var(--navy); letter-spacing:.5px; }
+.team-meta { font-family:'DM Mono',monospace; font-size:10.5px; color:var(--muted); margin-top:2px; }
+.team-rank { margin-left:auto; font-family:'Syne',sans-serif; font-weight:800; font-size:12px; color:var(--muted); background:#f4f6fa; border-radius:20px; padding:4px 10px; }
+.team-card.rank-1 .team-rank { background:#fff3d1; color:#b57e00; }
+.team-qty { font-family:'Syne',sans-serif; font-size:30px; font-weight:800; color:var(--navy); line-height:1; }
+.team-qty small { font-size:10px; letter-spacing:1.4px; color:var(--muted); font-weight:700; margin-left:6px; }
+.team-bar { height:8px; background:#eef2f8; border-radius:8px; margin:12px 0 14px; overflow:hidden; }
+.team-bar > i { display:block; height:100%; background:linear-gradient(90deg,var(--accent),var(--navy)); border-radius:8px; transition:width .5s ease; }
+.team-stats { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+.team-stat { background:#f7f9fc; border-radius:10px; padding:8px 6px; text-align:center; }
+.team-stat b { display:block; font-family:'Syne',sans-serif; font-size:15px; color:var(--navy); }
+.team-stat span { font-size:9px; letter-spacing:1px; color:var(--muted); font-weight:600; text-transform:uppercase; }
 
 /* ===== CHARTS ===== */
         .charts-grid { display: grid; grid-template-columns: 1fr; gap: 14px; margin-bottom: 14px; }
@@ -633,7 +692,7 @@
             #loginOverlay { display: none !important; }
             #appHeader { display: none !important; }
             .form-section, .search-wrap, .charts-grid, .hub-wrap, .section-back-bar { display: none !important; }
-            #hubView, #dataEntrySection, #chartsSection { display: none !important; }
+            #hubView, #dataEntrySection, #chartsSection, #teamSection { display: none !important; }
             #recordsSection { display: block !important; }
             #devToolsWarning { display: none !important; }
             body { background: white !important; color: black !important; }
@@ -800,41 +859,79 @@ function toggleLgPass() {
                 <p class="hub-desc">Label Printing Department — track production, manage records and export reports in real time.</p>
             </div>
 
-            <div class="hub-stats">
-                <div class="stat-card">
-                    <div class="stat-icon si-blue">
-                        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+            <div class="hub-stats-wrap">
+                <div class="hub-stats-label">Acetate Labels</div>
+                <div class="hub-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon si-blue">
+                            <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+                        </div>
+                        <div><div class="stat-value" id="statRecords">0</div><div class="stat-label">Total Records</div></div>
                     </div>
-                    <div><div class="stat-value" id="statRecords">0</div><div class="stat-label">Total Records</div></div>
+                    <div class="stat-card">
+                        <div class="stat-icon si-gold">
+                            <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                        </div>
+                        <div><div class="stat-value" id="statQty">0</div><div class="stat-label">Total Qty</div></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon si-green">
+                            <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                        </div>
+                        <div><div class="stat-value" id="statToday">0</div><div class="stat-label">Today's Entries</div></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon si-navy">
+                            <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+                        </div>
+                        <div><div class="stat-value" id="statArchived">0</div><div class="stat-label">Archived Reports</div></div>
+                    </div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-icon si-gold">
-                        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                <div class="hub-stats-label" style="margin-top:16px;">Sticker Printing</div>
+                <div class="hub-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon si-blue">
+                            <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
+                        </div>
+                        <div><div class="stat-value" id="statStickerRecords">0</div><div class="stat-label">Sticker Records</div></div>
                     </div>
-                    <div><div class="stat-value" id="statQty">0</div><div class="stat-label">Total Qty</div></div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon si-green">
-                        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    <div class="stat-card">
+                        <div class="stat-icon si-gold">
+                            <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M2 12h20"/></svg>
+                        </div>
+                        <div><div class="stat-value" id="statStickerQty">0</div><div class="stat-label">Total Stickers</div></div>
                     </div>
-                    <div><div class="stat-value" id="statToday">0</div><div class="stat-label">Today's Entries</div></div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon si-navy">
-                        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+                    <div class="stat-card">
+                        <div class="stat-icon si-green">
+                            <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                        </div>
+                        <div><div class="stat-value" id="statStickerToday">0</div><div class="stat-label">Today's Stickers</div></div>
                     </div>
-                    <div><div class="stat-value" id="statArchived">0</div><div class="stat-label">Archived Reports</div></div>
+                    <div class="stat-card">
+                        <div class="stat-icon si-navy">
+                            <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h6v6H9z"/></svg>
+                        </div>
+                        <div><div class="stat-value" id="statStickerSizes">0</div><div class="stat-label">Active Sizes</div></div>
+                    </div>
                 </div>
             </div>
 
-            <div class="hub-heading">MAIN MENU</div>
+            <div class="hub-heading">ACETATE LABELS</div>
             <div class="hub-grid">
+                <div class="hub-card" onclick="showSection('acetateDashboard')">
+                    <div class="hub-card-icon-wrap iw-gold">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
+                    </div>
+                    <div class="hub-card-title">DASHBOARD</div>
+                    <div class="hub-card-sub">Overview, KPIs &amp; analytics<br>for acetate labels</div>
+                    <span class="hub-card-go">OPEN →</span>
+                </div>
                 <div class="hub-card" onclick="showSection('dataEntry')">
                     <div class="hub-card-icon-wrap iw-blue">
                         <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
                     </div>
                     <div class="hub-card-title">DATA ENTRY</div>
-                    <div class="hub-card-sub">Add new production records<br>to the system</div>
+                    <div class="hub-card-sub">Add acetate / label<br>production records</div>
                     <span class="hub-card-go">OPEN →</span>
                 </div>
                 <div class="hub-card" onclick="showSection('records')">
@@ -842,7 +939,7 @@ function toggleLgPass() {
                         <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M9 12h6"/><path d="M9 16h6"/></svg>
                     </div>
                     <div class="hub-card-title">PRODUCTION RECORDS</div>
-                    <div class="hub-card-sub">View, search, edit &amp;<br>export production records</div>
+                    <div class="hub-card-sub">View, search, edit &amp;<br>export acetate records</div>
                     <span class="hub-card-go">OPEN →</span>
                 </div>
                 <div class="hub-card" onclick="showSection('charts')">
@@ -853,7 +950,130 @@ function toggleLgPass() {
                     <div class="hub-card-sub">Visual insights &amp; analytics<br>for production output</div>
                     <span class="hub-card-go">OPEN →</span>
                 </div>
+                <div class="hub-card" onclick="showSection('team')">
+                    <div class="hub-card-icon-wrap iw-purple">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    </div>
+                    <div class="hub-card-title">TEAM PRODUCTION</div>
+                    <div class="hub-card-sub">Production count<br>per team member</div>
+                    <span class="hub-card-go">OPEN →</span>
+                </div>
             </div>
+
+            <div class="hub-heading" style="margin-top:28px;">STICKER PRINTING</div>
+            <div class="hub-grid">
+                <div class="hub-card" onclick="showSection('stickerDashboard')">
+                    <div class="hub-card-icon-wrap iw-gold">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
+                    </div>
+                    <div class="hub-card-title">DASHBOARD</div>
+                    <div class="hub-card-sub">Overview, KPIs &amp; size<br>breakdown for stickers</div>
+                    <span class="hub-card-go">OPEN →</span>
+                </div>
+                <div class="hub-card" onclick="showSection('stickerEntry')">
+                    <div class="hub-card-icon-wrap iw-blue">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                    </div>
+                    <div class="hub-card-title">POLYBAG STICKER</div>
+                    <div class="hub-card-sub">Data entry for<br>polybag stickers</div>
+                    <span class="hub-card-go">OPEN →</span>
+                </div>
+                <div class="hub-card" onclick="showSection('stickerCartonEntry')">
+                    <div class="hub-card-icon-wrap iw-green">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                    </div>
+                    <div class="hub-card-title">CARTON STICKER</div>
+                    <div class="hub-card-sub">Data entry for<br>carton stickers</div>
+                    <span class="hub-card-go">OPEN →</span>
+                </div>
+                <div class="hub-card" onclick="showSection('stickerOtherEntry')">
+                    <div class="hub-card-icon-wrap iw-purple">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                    </div>
+                    <div class="hub-card-title">OTHER STICKERS</div>
+                    <div class="hub-card-sub">Data entry for<br>other stickers</div>
+                    <span class="hub-card-go">OPEN →</span>
+                </div>
+                <div class="hub-card" onclick="showSection('stickerRecords')">
+                    <div class="hub-card-icon-wrap iw-gold">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M9 12h6"/><path d="M9 16h6"/></svg>
+                    </div>
+                    <div class="hub-card-title">PRODUCTION RECORDS</div>
+                    <div class="hub-card-sub">View, search, edit &amp;<br>export sticker records</div>
+                    <span class="hub-card-go">OPEN →</span>
+                </div>
+                <div class="hub-card" onclick="showSection('stickerCharts')">
+                    <div class="hub-card-icon-wrap iw-green">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                    </div>
+                    <div class="hub-card-title">CHARTS</div>
+                    <div class="hub-card-sub">Visual insights &amp; analytics<br>for sticker output</div>
+                    <span class="hub-card-go">OPEN →</span>
+                </div>
+                <div class="hub-card" onclick="showSection('stickerTeam')">
+                    <div class="hub-card-icon-wrap iw-purple">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    </div>
+                    <div class="hub-card-title">TEAM PRODUCTION</div>
+                    <div class="hub-card-sub">Sticker production count<br>per team member</div>
+                    <span class="hub-card-go">OPEN →</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== ACETATE DASHBOARD ===== -->
+        <div id="acetateDashboardSection" style="display:none;">
+        <div class="section-back-bar no-print"><button class="btn-back" onclick="showHub()">← MAIN MENU</button></div>
+        <div class="hub-hero" style="margin-bottom:18px;">
+            <div class="hub-hello">ACETATE LABELS</div>
+            <div class="hub-title">Acetate <span>Dashboard</span></div>
+            <div class="hub-desc">Live overview of acetate / label production, lines, styles and output KPIs.</div>
+        </div>
+        <div class="hub-stats" id="aDashStats">
+            <div class="stat-card">
+                <div class="stat-icon si-blue"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></div>
+                <div><div class="stat-value" id="aDashRecords">0</div><div class="stat-label">Total Records</div></div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon si-gold"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div>
+                <div><div class="stat-value" id="aDashQty">0</div><div class="stat-label">Total Qty</div></div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon si-green"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>
+                <div><div class="stat-value" id="aDashToday">0</div><div class="stat-label">Today Qty</div></div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon si-navy"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-6"/></svg></div>
+                <div><div class="stat-value" id="aDashMonth">0</div><div class="stat-label">This Month</div></div>
+            </div>
+        </div>
+        <div class="charts-grid no-print" style="margin-bottom:20px;">
+            <div class="chart-card">
+                <div class="chart-title">BY LINE <span class="chart-subtitle" id="aDashLineSub"></span></div>
+                <canvas id="aDashLineChart"></canvas>
+            </div>
+            <div class="chart-card">
+                <div class="chart-title">TOP STYLES <span class="chart-subtitle" id="aDashStyleSub"></span></div>
+                <canvas id="aDashStyleChart"></canvas>
+            </div>
+            <div class="chart-card">
+                <div class="chart-title">BY SEASON <span class="chart-subtitle" id="aDashSeasonSub"></span></div>
+                <canvas id="aDashSeasonChart"></canvas>
+            </div>
+            <div class="chart-card">
+                <div class="chart-title">TREND (BY DATE) <span class="chart-subtitle" id="aDashTrendSub"></span></div>
+                <canvas id="aDashTrendChart"></canvas>
+            </div>
+        </div>
+        <div class="form-section no-print" style="padding-top:18px;">
+            <div class="section-label">Quick actions</div>
+            <div class="action-bar" style="justify-content:flex-start;">
+                <button onclick="showSection('dataEntry')" class="btn btn-save">+ NEW ENTRY</button>
+                <button onclick="showSection('records')" class="btn btn-print">RECORDS</button>
+                <button onclick="showSection('charts')" class="btn btn-excel">FULL CHARTS</button>
+                <button onclick="showSection('team')" class="btn btn-closure">TEAM</button>
+            </div>
+        </div>
         </div>
 
         <!-- FORM -->
@@ -965,6 +1185,337 @@ function toggleLgPass() {
         </div>
  
         <!-- CHARTS -->
+
+        <!-- ===== STICKER DASHBOARD ===== -->
+        <div id="stickerDashboardSection" style="display:none;">
+        <div class="section-back-bar no-print"><button class="btn-back" onclick="showHub()">← MAIN MENU</button></div>
+        <div class="hub-hero" style="margin-bottom:18px;">
+            <div class="hub-hello">STICKER PRINTING</div>
+            <div class="hub-title">Sticker <span>Dashboard</span></div>
+            <div class="hub-desc">Live overview of sticker production, sizes (2×3 – 10×15 CM), and output KPIs.</div>
+        </div>
+        <div class="hub-stats" id="sDashStats">
+            <div class="stat-card">
+                <div class="stat-icon si-blue"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20"/></svg></div>
+                <div><div class="stat-value" id="sDashTotalQty">0</div><div class="stat-label">Total Stickers</div></div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon si-gold"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>
+                <div><div class="stat-value" id="sDashToday">0</div><div class="stat-label">Today</div></div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon si-green"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-6"/></svg></div>
+                <div><div class="stat-value" id="sDashMonth">0</div><div class="stat-label">This Month</div></div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon si-navy"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h6v6H9z"/></svg></div>
+                <div><div class="stat-value" id="sDashSizes">0</div><div class="stat-label">Active Sizes</div></div>
+            </div>
+        </div>
+        <div class="charts-grid no-print" style="margin-bottom:20px;">
+            <div class="chart-card">
+                <div class="chart-title">BY SIZE (CM) <span class="chart-subtitle" id="sDashSizeSub"></span></div>
+                <canvas id="sDashSizeChart"></canvas>
+            </div>
+            <div class="chart-card">
+                <div class="chart-title">TOP STYLES <span class="chart-subtitle" id="sDashStyleSub"></span></div>
+                <canvas id="sDashStyleChart"></canvas>
+            </div>
+        </div>
+        <div class="form-section no-print" style="padding-top:18px;">
+            <div class="section-label">Quick actions</div>
+            <div class="action-bar" style="justify-content:flex-start;">
+                <button onclick="showSection('stickerEntry')" class="btn btn-save">+ POLYBAG</button>
+                <button onclick="showSection('stickerCartonEntry')" class="btn btn-save">+ CARTON</button>
+                <button onclick="showSection('stickerOtherEntry')" class="btn btn-save">+ OTHER</button>
+                <button onclick="showSection('stickerRecords')" class="btn btn-print">RECORDS</button>
+                <button onclick="showSection('stickerCharts')" class="btn btn-excel">FULL CHARTS</button>
+                <button onclick="showSection('stickerTeam')" class="btn btn-closure">TEAM</button>
+            </div>
+            <p style="margin-top:14px;font-size:12px;color:var(--muted);line-height:1.55;">
+                Supported sticker sizes: <strong>min 2×3 CM</strong> → <strong>max 10×15 CM</strong>. Select size when saving each record.
+            </p>
+        </div>
+        </div>
+
+        <!-- ===== STICKER DATA ENTRY ===== -->
+        <div id="stickerDataEntrySection" style="display:none;">
+        <div class="section-back-bar no-print"><button class="btn-back" onclick="showHub()">← MAIN MENU</button></div>
+        <div class="form-section no-print">
+            <div class="section-label">Polybag Sticker — Data Entry</div>
+            <div class="form-grid" id="stickerInputForm">
+                <div class="form-field">
+                    <label class="field-label">Style No</label>
+                    <input type="text" id="s_styleNo" placeholder="e.g. ST-001" class="field-input" autocomplete="off">
+                </div>
+                <div class="form-field">
+                    <label class="field-label">PO No</label>
+                    <input type="text" id="s_poNo" placeholder="e.g. PO-2026-001" class="field-input" autocomplete="off">
+                </div>
+                <div class="form-field">
+                    <label class="field-label">Color</label>
+                    <input type="text" id="s_color" placeholder="e.g. Navy Blue" class="field-input" autocomplete="off">
+                </div>
+                <div class="form-field">
+                    <label class="field-label">Fit</label>
+                    <input type="text" id="s_fit" placeholder="e.g. Slim / Regular" class="field-input" autocomplete="off">
+                </div>
+                <div class="form-field">
+                    <label class="field-label">Color Code</label>
+                    <input type="text" id="s_colorCode" placeholder="e.g. NV-01" class="field-input" autocomplete="off">
+                </div>
+                <div class="form-field">
+                    <label class="field-label">Total CTN</label>
+                    <input type="number" id="s_totalCtn" placeholder="0" class="field-input" inputmode="numeric">
+                </div>
+                <div class="form-field">
+                    <label class="field-label">PAR</label>
+                    <input type="text" id="s_par" placeholder="e.g. 12" class="field-input" autocomplete="off">
+                </div>
+                <div class="form-field">
+                    <label class="field-label">Total Sticker</label>
+                    <input type="number" id="s_totalSticker" placeholder="0" class="field-input" inputmode="numeric">
+                </div>
+                <div class="form-field">
+                    <label class="field-label">Size (CM)</label>
+                    <select id="s_size" class="field-input" style="cursor:pointer;">
+                        <option value="">— Select size —</option>
+                        <option value="2×3">2 × 3 CM (min)</option>
+                        <option value="2×4">2 × 4 CM</option>
+                        <option value="2×5">2 × 5 CM</option>
+                        <option value="3×4">3 × 4 CM</option>
+                        <option value="3×5">3 × 5 CM</option>
+                        <option value="3×6">3 × 6 CM</option>
+                        <option value="4×5">4 × 5 CM</option>
+                        <option value="4×6">4 × 6 CM</option>
+                        <option value="4×7">4 × 7 CM</option>
+                        <option value="5×5">5 × 5 CM</option>
+                        <option value="5×7">5 × 7 CM</option>
+                        <option value="5×8">5 × 8 CM</option>
+                        <option value="6×6">6 × 6 CM</option>
+                        <option value="6×8">6 × 8 CM</option>
+                        <option value="6×9">6 × 9 CM</option>
+                        <option value="7×10">7 × 10 CM</option>
+                        <option value="8×8">8 × 8 CM</option>
+                        <option value="8×10">8 × 10 CM</option>
+                        <option value="8×12">8 × 12 CM</option>
+                        <option value="9×12">9 × 12 CM</option>
+                        <option value="10×10">10 × 10 CM</option>
+                        <option value="10×12">10 × 12 CM</option>
+                        <option value="10×15">10 × 15 CM (max)</option>
+                    </select>
+                </div>
+                <div class="form-field">
+                    <label class="field-label">Date</label>
+                    <input type="date" id="s_entryDate" class="field-input">
+                </div>
+            </div>
+            <div class="action-bar">
+                <button onclick="addStickerData('polybag')" class="btn btn-save">✓ SAVE</button>
+                <button onclick="resetStickerForm('polybag')" class="btn btn-reset">↺ RESET</button>
+                <button onclick="exportStickersToExcel()" class="btn btn-excel">⬇ EXCEL</button>
+                <button onclick="exportStickersToPDF()" class="btn btn-pdf">⬇ PDF</button>
+                <button onclick="printStickerReport()" class="btn btn-print">⎙ PRINT</button>
+                <button onclick="deleteSelectedStickerRows()" class="btn btn-delete">✕ DELETE</button>
+            </div>
+        </div>
+        </div>
+
+        <!-- ===== CARTON STICKER DATA ENTRY ===== -->
+        <div id="stickerCartonEntrySection" style="display:none;">
+        <div class="section-back-bar no-print"><button class="btn-back" onclick="showHub()">← MAIN MENU</button></div>
+        <div class="form-section no-print">
+            <div class="section-label">Carton Sticker — Data Entry</div>
+            <div class="form-grid" id="stickerCartonForm">
+                <div class="form-field">
+                    <label class="field-label">Style No</label>
+                    <input type="text" id="sc_styleNo" placeholder="e.g. ST-001" class="field-input" autocomplete="off" >
+                </div>
+                <div class="form-field">
+                    <label class="field-label">PO No</label>
+                    <input type="text" id="sc_poNo" placeholder="e.g. PO-2026-001" class="field-input" autocomplete="off" >
+                </div>
+                <div class="form-field">
+                    <label class="field-label">Color Name</label>
+                    <input type="text" id="sc_color" placeholder="e.g. Navy Blue" class="field-input" autocomplete="off" >
+                </div>
+                <div class="form-field">
+                    <label class="field-label">Packing Type</label>
+                    <input type="text" id="sc_packingType" list="packingTypeList" placeholder="e.g. SOLID / ASSORTED" class="field-input" autocomplete="off">
+                    <datalist id="packingTypeList"><option value="SOLID"><option value="ASSORTED"><option value="RATIO"></datalist>
+                </div>
+                <div class="form-field">
+                    <label class="field-label">Total Carton</label>
+                    <input type="number" id="sc_totalCtn" placeholder="0" class="field-input" inputmode="numeric" >
+                </div>
+                <div class="form-field">
+                    <label class="field-label">Sticker Size (CM)</label>
+                    <select id="sc_size" class="field-input" style="cursor:pointer;" data-size-select="1"><option value="">— Select size —</option></select>
+                </div>
+                <div class="form-field">
+                    <label class="field-label">Date</label>
+                    <input type="date" id="sc_entryDate" class="field-input">
+                </div>
+            </div>
+            <div class="action-bar">
+                <button onclick="addStickerData('carton')" class="btn btn-save">✓ SAVE</button>
+                <button onclick="resetStickerForm('carton')" class="btn btn-reset">↺ RESET</button>
+                <button onclick="exportStickersToExcel()" class="btn btn-excel">⬇ EXCEL</button>
+                <button onclick="exportStickersToPDF()" class="btn btn-pdf">⬇ PDF</button>
+                <button onclick="printStickerReport()" class="btn btn-print">⎙ PRINT</button>
+                <button onclick="deleteSelectedStickerRows()" class="btn btn-delete">✕ DELETE</button>
+            </div>
+        </div>
+        </div>
+
+        <!-- ===== OTHER STICKERS DATA ENTRY ===== -->
+        <div id="stickerOtherEntrySection" style="display:none;">
+        <div class="section-back-bar no-print"><button class="btn-back" onclick="showHub()">← MAIN MENU</button></div>
+        <div class="form-section no-print">
+            <div class="section-label">Other Stickers — Data Entry</div>
+            <div class="form-grid" id="stickerOtherForm">
+                <div class="form-field">
+                    <label class="field-label">Style No</label>
+                    <input type="text" id="so_styleNo" placeholder="e.g. ST-001" class="field-input" autocomplete="off" >
+                </div>
+                <div class="form-field">
+                    <label class="field-label">PO No</label>
+                    <input type="text" id="so_poNo" placeholder="e.g. PO-2026-001" class="field-input" autocomplete="off" >
+                </div>
+                <div class="form-field">
+                    <label class="field-label">Color</label>
+                    <input type="text" id="so_color" placeholder="e.g. Navy Blue" class="field-input" autocomplete="off" >
+                </div>
+                <div class="form-field">
+                    <label class="field-label">Sticker Description</label>
+                    <input type="text" id="so_description" placeholder="e.g. Hang tag / Barcode / Size sticker" class="field-input" autocomplete="off" >
+                </div>
+                <div class="form-field">
+                    <label class="field-label">Total Sticker</label>
+                    <input type="number" id="so_totalSticker" placeholder="0" class="field-input" inputmode="numeric" >
+                </div>
+                <div class="form-field">
+                    <label class="field-label">Size (CM)</label>
+                    <select id="so_size" class="field-input" style="cursor:pointer;" data-size-select="1"><option value="">— Select size —</option></select>
+                </div>
+                <div class="form-field">
+                    <label class="field-label">Date</label>
+                    <input type="date" id="so_entryDate" class="field-input">
+                </div>
+            </div>
+            <div class="action-bar">
+                <button onclick="addStickerData('other')" class="btn btn-save">✓ SAVE</button>
+                <button onclick="resetStickerForm('other')" class="btn btn-reset">↺ RESET</button>
+                <button onclick="exportStickersToExcel()" class="btn btn-excel">⬇ EXCEL</button>
+                <button onclick="exportStickersToPDF()" class="btn btn-pdf">⬇ PDF</button>
+                <button onclick="printStickerReport()" class="btn btn-print">⎙ PRINT</button>
+                <button onclick="deleteSelectedStickerRows()" class="btn btn-delete">✕ DELETE</button>
+            </div>
+        </div>
+        </div>
+
+        <!-- ===== STICKER RECORDS ===== -->
+        <div id="stickerRecordsSection" style="display:none;">
+        <div class="section-back-bar no-print"><button class="btn-back" onclick="showHub()">← MAIN MENU</button></div>
+
+        <div class="search-wrap no-print" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+            <span class="search-icon">⌕</span>
+            <input type="text" id="stickerSearchInput" onkeyup="filterStickerTable()" placeholder="Search by Style, PO, Color, Fit, Color Code, Packing..." class="search-input" autocomplete="off" style="flex:1;min-width:200px;">
+            <select id="stickerTypeFilter" onchange="filterStickerTable()" class="search-input" style="max-width:170px;cursor:pointer;" title="Filter by sticker type">
+                <option value="">ALL TYPES</option>
+                <option value="polybag">POLYBAG</option>
+                <option value="carton">CARTON</option>
+                <option value="other">OTHER</option>
+            </select>
+            <input type="date" id="stickerSearchDate" onchange="filterStickerTable()" class="search-input" style="max-width:180px;" title="Filter by date">
+            <button type="button" onclick="document.getElementById('stickerSearchDate').value=''; filterStickerTable();" class="btn" style="background:#6b7a99;color:#fff;padding:8px 14px;">CLEAR DATE</button>
+        </div>
+
+        <div class="table-wrap">
+            <div class="table-header-bar no-print">
+                <span class="table-title">STICKER PRODUCTION RECORDS</span>
+                <span class="record-count" id="stickerRecordCount">0 records</span>
+            </div>
+            <div class="overflow-x">
+                <table id="stickerTable">
+                    <thead>
+                        <tr>
+                            <th class="no-print" style="width:36px;">
+                                <input type="checkbox" id="stickerSelectAllChk" class="row-checkbox" onchange="toggleStickerSelectAll(this)">
+                            </th>
+                            <th>TYPE</th>
+                            <th>STYLE</th>
+                            <th>PO NO</th>
+                            <th>COLOR</th>
+                            <th>FIT</th>
+                            <th>COLOR CODE</th>
+                            <th>PACKING / DESC</th>
+                            <th>SIZE (CM)</th>
+                            <th>TOTAL CTN</th>
+                            <th>PAR</th>
+                            <th>TOTAL STICKER</th>
+                            <th>DATE</th>
+                            <th>ENTERED BY</th>
+                            <th class="no-print">EDIT</th>
+                        </tr>
+                    </thead>
+                    <tbody id="stickerTableBody"></tbody>
+                    <tfoot>
+                        <tr>
+                            <td class="no-print"></td>
+                            <td colspan="10" style="text-align:right;padding-right:16px;letter-spacing:2px;">GRAND TOTAL</td>
+                            <td id="stickerGrandTotal">0</td>
+                            <td></td>
+                            <td></td>
+                            <td class="no-print"></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        </div>
+
+
+        <!-- ===== STICKER CHARTS ===== -->
+        <div id="stickerChartsSection" style="display:none;">
+        <div class="section-back-bar no-print"><button class="btn-back" onclick="showHub()">← MAIN MENU</button></div>
+        <div class="charts-grid no-print">
+            <div class="chart-card">
+                <div class="chart-title">TOTAL STICKER BY STYLE <span class="chart-subtitle" id="sStyleSubtitle"></span></div>
+                <canvas id="sStyleChart"></canvas>
+            </div>
+            <div class="chart-card">
+                <div class="chart-title">TOTAL CTN BY COLOR <span class="chart-subtitle" id="sColorSubtitle"></span></div>
+                <canvas id="sColorChart"></canvas>
+            </div>
+            <div class="chart-card">
+                <div class="chart-title">STICKER TREND (BY DATE) <span class="chart-subtitle" id="sTrendSubtitle"></span></div>
+                <canvas id="sTrendChart"></canvas>
+            </div>
+            <div class="chart-card">
+                <div class="chart-title">SHARE BY FIT <span class="chart-subtitle" id="sFitSubtitle"></span></div>
+                <canvas id="sFitChart"></canvas>
+            </div>
+        </div>
+        </div>
+
+        <!-- ===== STICKER TEAM PRODUCTION ===== -->
+        <div id="stickerTeamSection" style="display:none;">
+        <div class="section-back-bar no-print"><button class="btn-back" onclick="showHub()">← MAIN MENU</button></div>
+        <div class="team-toolbar no-print">
+            <button class="team-filter active" data-period="all" onclick="setStickerTeamPeriod('all')">ALL RECORDS</button>
+            <button class="team-filter" data-period="today" onclick="setStickerTeamPeriod('today')">TODAY</button>
+            <button class="team-filter" data-period="month" onclick="setStickerTeamPeriod('month')">THIS MONTH</button>
+            <input type="date" id="stickerTeamDate" class="search-input" style="max-width:170px;" onchange="onStickerTeamDate()" title="Filter by date">
+        </div>
+        <div class="team-summary no-print">
+            <div class="team-sum-card"><div class="team-sum-val" id="sTeamTotalQty">0</div><div class="team-sum-lbl">Team Total Stickers</div></div>
+            <div class="team-sum-card"><div class="team-sum-val" id="sTeamTotalRecs">0</div><div class="team-sum-lbl">Team Records</div></div>
+            <div class="team-sum-card"><div class="team-sum-val" id="sTeamActive">0</div><div class="team-sum-lbl">Active Members</div></div>
+        </div>
+        <div class="team-grid no-print" id="stickerTeamGrid"></div>
+        </div>
+
         <div id="chartsSection" style="display:none;">
         <div class="section-back-bar no-print"><button class="btn-back" onclick="showHub()">← MAIN MENU</button></div>
         <div class="charts-grid no-print">
@@ -987,9 +1538,27 @@ function toggleLgPass() {
         </div>
         </div>
  
+        <!-- TEAM PRODUCTION -->
+        <div id="teamSection" style="display:none;">
+        <div class="section-back-bar no-print"><button class="btn-back" onclick="showHub()">← MAIN MENU</button></div>
+        <div class="team-toolbar no-print">
+            <button class="team-filter active" data-period="all" onclick="setTeamPeriod('all')">ALL RECORDS</button>
+            <button class="team-filter" data-period="today" onclick="setTeamPeriod('today')">TODAY</button>
+            <button class="team-filter" data-period="month" onclick="setTeamPeriod('month')">THIS MONTH</button>
+            <input type="date" id="teamDate" class="search-input" style="max-width:170px;" onchange="onTeamDate()" title="Filter by date (same as Production Records)">
+            <button class="team-filter" id="teamArchBtn" onclick="toggleTeamArchived()" title="Include archived (closed) reports">+ ARCHIVED</button>
+        </div>
+        <div class="team-summary no-print">
+            <div class="team-sum-card"><div class="team-sum-val" id="teamTotalQty">0</div><div class="team-sum-lbl">Team Total Qty</div></div>
+            <div class="team-sum-card"><div class="team-sum-val" id="teamTotalRecs">0</div><div class="team-sum-lbl">Team Records</div></div>
+            <div class="team-sum-card"><div class="team-sum-val" id="teamActive">0</div><div class="team-sum-lbl">Active Members</div></div>
+        </div>
+        <div class="team-grid no-print" id="teamGrid"></div>
+        </div>
+
     </div>
 </div>
- 
+
 <!-- Notification Toast -->
 <div id="notificationToast">
     <span class="toast-icon">🔔</span>
@@ -1020,18 +1589,30 @@ function updateHubHeader() {
     setTxt('hubHello', h < 12 ? 'GOOD MORNING' : h < 17 ? 'GOOD AFTERNOON' : 'GOOD EVENING');
 }
 function updateHubStats() {
-    let totalQty = 0, todayQty = 0;
+    let totalQty = 0, todayEntries = 0;
     const now = new Date();
     const todayKey = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + '-' + String(now.getDate()).padStart(2,'0');
     dataRecords.forEach(r => {
         totalQty += Number(r.total) || 0;
-        if (r.createdAt && r.createdAt.slice(0,10) === todayKey) todayQty++;
+        if (r.createdAt && r.createdAt.slice(0,10) === todayKey) todayEntries++;
+    });
+    let sQty = 0, sToday = 0;
+    const sizes = new Set();
+    (typeof stickerRecords !== 'undefined' ? stickerRecords : []).forEach(r => {
+        const q = Number(r.totalSticker) || 0;
+        sQty += q;
+        if (r.createdAt && r.createdAt.slice(0,10) === todayKey) sToday += q;
+        if (r.size) sizes.add(r.size);
     });
     const setTxt = (id, v) => { const el = document.getElementById(id); if (el) el.innerText = v; };
     setTxt('statRecords', dataRecords.length);
     setTxt('statQty', totalQty.toLocaleString('en-US'));
-    setTxt('statToday', todayQty);
-    setTxt('statArchived', reportHistory.length);
+    setTxt('statToday', todayEntries);
+    setTxt('statArchived', (typeof reportHistory !== 'undefined' ? reportHistory.length : 0));
+    setTxt('statStickerRecords', (typeof stickerRecords !== 'undefined' ? stickerRecords.length : 0));
+    setTxt('statStickerQty', sQty.toLocaleString('en-US'));
+    setTxt('statStickerToday', sToday.toLocaleString('en-US'));
+    setTxt('statStickerSizes', sizes.size);
 }
 
 // =============================================
@@ -1085,9 +1666,12 @@ const USERS = [
 // Current logged in user
 let currentUser = null;
 let currentUserIp = 'unknown';
-let dataRecords   = [];
-let reportHistory = [];
+let dataRecords    = [];
+let stickerRecords = [];
+let reportHistory  = [];
 let cutNoChart, totalQtyChart, trendChart, seasonChart;
+let sStyleChart, sColorChart, sTrendChart, sFitChart;
+let stickerTeamPeriod = 'all';
 let syncInterval    = null;
 let realtimeChannel = null; // Supabase Realtime subscription
 let isSaving        = false;
@@ -1139,18 +1723,23 @@ async function fetchData() {
     setSyncState('syncing', 'SYNCING...');
     try {
         const record = await binRead();
-        dataRecords   = (record.records  || []).filter(r => r.styleNo && r.styleNo !== 'N/A' && r.total > 0);
-        reportHistory = record.history   || [];
+        const all = record.records || [];
+        dataRecords    = all.filter(r => r.module !== 'sticker' && r.styleNo && r.styleNo !== 'N/A' && Number(r.total) > 0);
+        stickerRecords = all.filter(r => r.module === 'sticker' && r.styleNo);
+        reportHistory  = record.history || [];
         setSyncState('synced', 'LIVE ✓');
-        // Also cache locally as fallback
-        localStorage.setItem('gii_label_cache', JSON.stringify({ records: dataRecords, history: reportHistory }));
+        localStorage.setItem('gii_label_cache', JSON.stringify({ records: all, history: reportHistory }));
+        renderStickerTable();
     } catch(e) {
         console.warn('Supabase read failed, using local cache:', e.message);
         setSyncState('error', 'OFFLINE');
         const cache = JSON.parse(localStorage.getItem('gii_label_cache') || '{}');
-        dataRecords   = (cache.records  || []).filter(r => r.styleNo && r.styleNo !== 'N/A' && r.total > 0);
-        reportHistory = cache.history   || [];
+        const all = cache.records || [];
+        dataRecords    = all.filter(r => r.module !== 'sticker' && r.styleNo && r.styleNo !== 'N/A' && Number(r.total) > 0);
+        stickerRecords = all.filter(r => r.module === 'sticker' && r.styleNo);
+        reportHistory  = cache.history || [];
         renderTable();
+        renderStickerTable();
         updateCharts();
     }
 }
@@ -1159,8 +1748,11 @@ async function pushData() {
     if (isSaving) return;
     isSaving = true;
     setSyncState('syncing', 'SAVING...');
-    const payload = { records: dataRecords, history: reportHistory };
-    // Always update local cache immediately
+    const merged = [
+        ...dataRecords.map(r => ({ ...r, module: r.module || 'acetate' })),
+        ...stickerRecords.map(r => ({ ...r, module: 'sticker' }))
+    ];
+    const payload = { records: merged, history: reportHistory };
     localStorage.setItem('gii_label_cache', JSON.stringify(payload));
     try {
         await binWrite(payload);
@@ -1176,16 +1768,21 @@ async function pushData() {
 // Apply incoming shared state (from realtime or poll) only if it changed locally
 function applyIncoming(record) {
     if (!record) return;
-    const incoming = (record.records || []).filter(r => r.styleNo && r.styleNo !== 'N/A' && r.total > 0);
-    const myKey  = dataRecords.map(r => r.id).join(',');
-    const newKey = incoming.map(r => r.id).join(',');
+    const all = record.records || [];
+    const incomingAcetate  = all.filter(r => r.module !== 'sticker' && r.styleNo && r.styleNo !== 'N/A' && Number(r.total) > 0);
+    const incomingStickers = all.filter(r => r.module === 'sticker' && r.styleNo);
+    const myKey  = dataRecords.map(r => r.id).join(',') + '|' + stickerRecords.map(r => r.id).join(',');
+    const newKey = incomingAcetate.map(r => r.id).join(',') + '|' + incomingStickers.map(r => r.id).join(',');
     const histChanged = JSON.stringify(reportHistory) !== JSON.stringify(record.history || []);
     if (myKey !== newKey || histChanged) {
-        dataRecords   = incoming;
-        reportHistory = record.history || [];
+        dataRecords    = incomingAcetate;
+        stickerRecords = incomingStickers;
+        reportHistory  = record.history || [];
         renderTable();
+        renderStickerTable();
         updateCharts();
-        localStorage.setItem('gii_label_cache', JSON.stringify({ records: dataRecords, history: reportHistory }));
+        updateStickerCharts();
+        localStorage.setItem('gii_label_cache', JSON.stringify({ records: all, history: reportHistory }));
     }
 }
  
@@ -1250,8 +1847,10 @@ async function showSystem() {
  
     // تحميل البيانات من التخزين المحلي فوراً لضمان سرعة الاستجابة
     const cache = JSON.parse(localStorage.getItem('gii_label_cache') || '{}');
-    dataRecords   = (cache.records  || []).filter(r => r.styleNo && r.styleNo !== 'N/A' && r.total > 0);
-    reportHistory = cache.history   || [];
+    const _all = cache.records || [];
+    dataRecords    = _all.filter(r => r.module !== 'sticker' && r.styleNo && r.styleNo !== 'N/A' && Number(r.total) > 0);
+    stickerRecords = _all.filter(r => r.module === 'sticker' && r.styleNo);
+    reportHistory  = cache.history   || [];
  
     document.getElementById('loginOverlay').style.display = 'none';
     document.getElementById('mainContent').style.display = 'block';
@@ -1268,6 +1867,7 @@ async function showSystem() {
     setInterval(updateLiveDate, 1000);
  
     renderTable();
+    renderStickerTable();
     initCharts();
     applyUserPermissions();     // ← مهم جدًا
  
@@ -1306,14 +1906,53 @@ function showHub() {
     document.getElementById('dataEntrySection').style.display = 'none';
     document.getElementById('recordsSection').style.display = 'none';
     document.getElementById('chartsSection').style.display = 'none';
+    document.getElementById('teamSection').style.display = 'none';
+    ['stickerDataEntrySection','stickerCartonEntrySection','stickerOtherEntrySection','stickerRecordsSection','stickerChartsSection','stickerTeamSection','stickerDashboardSection','acetateDashboardSection'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.display = 'none';
+    });
 }
 function showSection(name) {
     document.getElementById('hubView').style.display = 'none';
     document.getElementById('dataEntrySection').style.display = (name === 'dataEntry') ? 'block' : 'none';
     document.getElementById('recordsSection').style.display  = (name === 'records')   ? 'block' : 'none';
     document.getElementById('chartsSection').style.display   = (name === 'charts')    ? 'block' : 'none';
+    document.getElementById('teamSection').style.display     = (name === 'team')      ? 'block' : 'none';
+    const map = {
+        stickerEntry:     'stickerDataEntrySection',
+        stickerCartonEntry: 'stickerCartonEntrySection',
+        stickerOtherEntry:  'stickerOtherEntrySection',
+        stickerRecords:   'stickerRecordsSection',
+        stickerCharts:    'stickerChartsSection',
+        stickerTeam:      'stickerTeamSection',
+        stickerDashboard: 'stickerDashboardSection',
+        acetateDashboard: 'acetateDashboardSection'
+    };
+    Object.values(map).forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.display = 'none';
+    });
+    if (map[name]) {
+        const el = document.getElementById(map[name]);
+        if (el) el.style.display = 'block';
+    }
+    if (name === 'stickerEntry' || name === 'stickerCartonEntry' || name === 'stickerOtherEntry') { initStickerSizeSelects(); setStickerTodayDate(); }
+    if (name === 'stickerRecords') renderStickerTable();
+    if (name === 'stickerDashboard') renderStickerDashboard();
+    if (name === 'acetateDashboard') renderAcetateDashboard();
+    if (name === 'stickerCharts') {
+        initStickerCharts();
+        updateStickerCharts();
+        setTimeout(() => {
+            if (sStyleChart) sStyleChart.resize();
+            if (sColorChart) sColorChart.resize();
+            if (sTrendChart) sTrendChart.resize();
+            if (sFitChart)   sFitChart.resize();
+        }, 50);
+    }
+    if (name === 'stickerTeam') renderStickerTeamProduction();
+    if (name === 'team') renderTeamProduction();
     if (name === 'charts') {
-        // الشارتس كانت متخفية فبيتم عمل resize ليها عشان تاخد المقاس الصح لما تظهر
         setTimeout(() => {
             if (cutNoChart)    cutNoChart.resize();
             if (totalQtyChart) totalQtyChart.resize();
@@ -1323,6 +1962,114 @@ function showSection(name) {
     }
 }
  
+// =============================================
+//  TEAM PRODUCTION (per-person production count)
+// =============================================
+let teamPeriod = 'all';       // all | today | month | date
+let teamViewList = [];
+function openPersonRecords(i) {
+    const p = teamViewList[i]; if (!p) return;
+    showSection('records');
+    const pad = n => String(n).padStart(2, '0');
+    const n = new Date();
+    const todayKey = n.getFullYear() + '-' + pad(n.getMonth() + 1) + '-' + pad(n.getDate());
+    document.getElementById('searchInput').value = (p.name === 'NOT ASSIGNED') ? '— · —' : p.name;
+    document.getElementById('searchDate').value  = teamPeriod === 'today' ? todayKey : (teamPeriod === 'date' ? (document.getElementById('teamDate').value || '') : '');
+    filterTable();
+}
+let teamArchived = false;    // include archived reports (off = identical to Production Records)
+function setTeamPeriod(p) {
+    teamPeriod = p;
+    const d = document.getElementById('teamDate'); if (d) d.value = '';
+    document.querySelectorAll('.team-filter[data-period]').forEach(b => b.classList.toggle('active', b.dataset.period === p));
+    renderTeamProduction();
+}
+function onTeamDate() {
+    const v = document.getElementById('teamDate').value;
+    teamPeriod = v ? 'date' : 'all';
+    document.querySelectorAll('.team-filter[data-period]').forEach(b => b.classList.toggle('active', !v && b.dataset.period === 'all'));
+    renderTeamProduction();
+}
+function toggleTeamArchived() {
+    teamArchived = !teamArchived;
+    document.getElementById('teamArchBtn').classList.toggle('active', teamArchived);
+    renderTeamProduction();
+}
+function renderTeamProduction() {
+    const grid = document.getElementById('teamGrid');
+    if (!grid) return;
+    const pad = n => String(n).padStart(2, '0');
+    const now = new Date();
+    const todayKey = now.getFullYear() + '-' + pad(now.getMonth() + 1) + '-' + pad(now.getDate());
+    const monthKey = todayKey.slice(0, 7);
+    const pickedDate = (document.getElementById('teamDate') || {}).value || '';
+
+    // Same source as the Production Records table (dataRecords), optionally + archived
+    let all = dataRecords.slice();
+    if (teamArchived) (reportHistory || []).forEach(h => (h.details || []).forEach(r => all.push(r)));
+
+    const inPeriod = r => {
+        const d = (r.createdAt || '').slice(0, 10);
+        if (teamPeriod === 'today') return d === todayKey;
+        if (teamPeriod === 'month') return d.slice(0, 7) === monthKey;
+        if (teamPeriod === 'date')  return d === pickedDate;
+        return true;
+    };
+
+    // seed all known users (so members with 0 still show)
+    const people = {};
+    const mk = (name, empId) => ({ name, empId, recs: 0, qty: 0, cuts: 0, lines: new Set() });
+    USERS.forEach(u => { people[u.empId] = mk(u.name, u.empId); });
+    const byName = {};
+    USERS.forEach(u => { byName[u.name.trim().toUpperCase()] = u.empId; });
+
+    all.filter(inPeriod).forEach(r => {
+        const id   = (r.enteredById && r.enteredById !== 'N/A') ? r.enteredById : '';
+        const nm   = (r.enteredBy   && r.enteredBy   !== 'N/A') ? String(r.enteredBy).trim() : '';
+        // resolve: by EMP id -> by name -> own bucket by name -> not assigned
+        let key = (id && people[id]) ? id : (nm && byName[nm.toUpperCase()]) ? byName[nm.toUpperCase()] : '';
+        if (!key) key = nm ? 'N:' + nm.toUpperCase() : 'NA';
+        if (!people[key]) people[key] = nm ? mk(nm, id || '—') : mk('NOT ASSIGNED', 'no user on record');
+        const p = people[key];
+        p.recs += 1;
+        p.qty  += Number(r.total) || 0;
+        p.cuts += Number(r.cutNo) || 0;
+        if (r.line && r.line !== 'N/A') p.lines.add(r.line);
+    });
+
+    const list = Object.values(people).filter(p => p.name !== 'NOT ASSIGNED' || p.recs > 0)
+        .sort((a, b) => b.qty - a.qty || b.recs - a.recs);
+    const maxQty = Math.max(1, ...list.map(p => p.qty));
+    const totalQty = list.reduce((s, p) => s + p.qty, 0);
+    const totalRecs = list.reduce((s, p) => s + p.recs, 0);
+
+    const setTxt = (id, v) => { const el = document.getElementById(id); if (el) el.innerText = v; };
+    setTxt('teamTotalQty', totalQty.toLocaleString('en-US'));
+    setTxt('teamTotalRecs', totalRecs.toLocaleString('en-US'));
+    setTxt('teamActive', list.filter(p => p.recs > 0 && p.name !== 'NOT ASSIGNED').length);
+
+    const esc = t => String(t).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    teamViewList = list;
+    grid.innerHTML = list.map((p, i) => `
+        <div class="team-card ${i === 0 && p.qty > 0 ? 'rank-1' : ''}" onclick="openPersonRecords(${i})" title="Click to view ${esc(p.name)}'s records">
+            <div class="team-head">
+                <div class="team-avatar">${esc(p.name.trim().charAt(0).toUpperCase() || '?')}</div>
+                <div>
+                    <div class="team-name">${esc(p.name)}</div>
+                    <div class="team-meta">${esc(p.empId)}</div>
+                </div>
+                <div class="team-rank">#${i + 1}</div>
+            </div>
+            <div class="team-qty">${p.qty.toLocaleString('en-US')}<small>TOTAL QTY</small></div>
+            <div class="team-bar"><i style="width:${(p.qty / maxQty * 100).toFixed(1)}%"></i></div>
+            <div class="team-stats">
+                <div class="team-stat"><b>${p.recs}</b><span>Records</span></div>
+                <div class="team-stat"><b>${p.cuts.toLocaleString('en-US')}</b><span>Cut No</span></div>
+                <div class="team-stat"><b>${p.lines.size}</b><span>Lines</span></div>
+            </div>
+        </div>`).join('');
+}
+
 // =============================================
 //  USER PERMISSIONS
 // =============================================
@@ -1399,6 +2146,7 @@ async function addData() {
  
     dataRecords.push({
         id:     Date.now(),
+        module: 'acetate',
         styleNo,
         erpNo:  document.getElementById('erpNo').value.trim()  || 'N/A',
         line:   document.getElementById('line').value.trim()   || 'N/A',
@@ -1475,6 +2223,7 @@ function renderTable() {
     applyUserPermissions();
     updateHubHeader();
     updateHubStats();
+    if (typeof renderTeamProduction === 'function') renderTeamProduction();
 }
  
 // =============================================
@@ -1502,6 +2251,15 @@ function toggleEdit(id) {
             const type = (f==='total'||f==='cutNo') ? 'number' : 'text';
             cell.innerHTML = `<input type="${type}" class="edit-cell-input" value="${val}" inputmode="${(f==='total'||f==='cutNo')?'numeric':'text'}">`;
         });
+        // Admin only: choose who entered this record (fixes records with no user)
+        if (currentUser?.role === 'admin') {
+            const cur = dataRecords.find(r => r.id === id) || {};
+            const ebCell = row.querySelector('.cell-enteredBy');
+            if (ebCell) ebCell.innerHTML = `<select class="edit-cell-input" id="eb-sel-${id}" style="min-width:160px;">`
+                + `<option value="">— keep as is —</option>`
+                + USERS.map(u => `<option value="${u.empId}" ${cur.enteredById === u.empId ? 'selected' : ''}>${u.name}</option>`).join('')
+                + `</select>`;
+        }
         btn.textContent = 'SAVE';
         btn.classList.replace('btn-edit-row', 'btn-save-row');
     } else {
@@ -1513,7 +2271,16 @@ function toggleEdit(id) {
             updated[f] = val;
         });
         const idx = dataRecords.findIndex(r => r.id === id);
-        if (idx !== -1) { dataRecords[idx] = updated; saveData(); }
+        if (idx !== -1) {
+            const merged = { ...dataRecords[idx], ...updated };   // keep createdAt + enteredBy/Id/Ip
+            const sel = document.getElementById(`eb-sel-${id}`);
+            if (sel && sel.value) {
+                const u = USERS.find(x => x.empId === sel.value);
+                if (u) { merged.enteredBy = u.name; merged.enteredById = u.empId; }
+            }
+            dataRecords[idx] = merged;
+            saveData();
+        }
     }
 }
  
@@ -2622,6 +3389,821 @@ setInterval(() => {
     console.log('%cThis is an internal system of Globe International Industries (GII). Copying or extracting this code is not permitted.', 'color:#00244d;font-size:13px;');
 }, 3000);
  
+
+// =============================================
+//  STICKER MODULE
+// =============================================
+const STICKER_TYPES = {
+    polybag: { label: 'POLYBAG', prefix: 's',  editFields: ['styleNo','poNo','color','fit','colorCode','size','totalCtn','par','totalSticker'] },
+    carton:  { label: 'CARTON',  prefix: 'sc', editFields: ['styleNo','poNo','color','packingType','size','totalCtn'] },
+    other:   { label: 'OTHER',   prefix: 'so', editFields: ['styleNo','poNo','color','description','size','totalSticker'] }
+};
+function stickerTypeOf(r) { return (r && STICKER_TYPES[r.stickerType]) ? r.stickerType : 'polybag'; }
+function stickerExtraOf(r) {
+    const t = stickerTypeOf(r);
+    if (t === 'carton') return r.packingType || '';
+    if (t === 'other')  return r.description || '';
+    return '';
+}
+function escS(v) { return String(v == null ? '' : v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;'); }
+
+function initStickerSizeSelects() {
+    const src = document.getElementById('s_size');
+    if (!src) return;
+    document.querySelectorAll('select[data-size-select]').forEach(sel => {
+        if (sel.options.length <= 1) sel.innerHTML = src.innerHTML;
+    });
+}
+
+function setStickerTodayDate() {
+    const d = new Date();
+    const m = String(d.getMonth()+1).padStart(2,'0');
+    const day = String(d.getDate()).padStart(2,'0');
+    const v = `${d.getFullYear()}-${m}-${day}`;
+    ['s_entryDate','sc_entryDate','so_entryDate'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = v;
+    });
+}
+
+function resetStickerForm(type) {
+    type = STICKER_TYPES[type] ? type : 'polybag';
+    const formId = { polybag: 'stickerInputForm', carton: 'stickerCartonForm', other: 'stickerOtherForm' }[type];
+    document.querySelectorAll('#' + formId + ' input').forEach(i => i.value = '');
+    const sizeEl = document.getElementById(STICKER_TYPES[type].prefix + '_size');
+    if (sizeEl) sizeEl.value = '';
+    setStickerTodayDate();
+}
+
+async function addStickerData(type) {
+    type = STICKER_TYPES[type] ? type : 'polybag';
+    const p = STICKER_TYPES[type].prefix;
+    const val = id => (document.getElementById(p + '_' + id)?.value || '').trim();
+    const styleNo = val('styleNo');
+    const size = val('size');
+    let totalSticker = 0, totalCtn = 0;
+
+    if (type === 'carton') {
+        totalCtn = Number(val('totalCtn'));
+        if (!styleNo || !totalCtn) { alert('Please fill in Style No and Total Carton.'); return; }
+        totalSticker = totalCtn; // one carton sticker per carton
+    } else if (type === 'other') {
+        totalSticker = Number(val('totalSticker'));
+        if (!styleNo || !totalSticker) { alert('Please fill in Style No and Total Sticker.'); return; }
+    } else {
+        totalSticker = Number(val('totalSticker'));
+        totalCtn = Number(val('totalCtn')) || 0;
+        if (!styleNo || !totalSticker) { alert('Please fill in Style No and Total Sticker.'); return; }
+    }
+    if (!size) { alert('Please select sticker Size (CM). Min 2×3 — Max 10×15.'); return; }
+
+    const entryDateVal = val('entryDate');
+    let createdAt;
+    if (entryDateVal) {
+        createdAt = new Date(entryDateVal + 'T12:00:00Z').toISOString();
+    } else {
+        const now = new Date();
+        const y = now.getFullYear();
+        const m = String(now.getMonth() + 1).padStart(2, '0');
+        const d = String(now.getDate()).padStart(2, '0');
+        createdAt = new Date(`${y}-${m}-${d}T12:00:00Z`).toISOString();
+    }
+    const rec = {
+        id: Date.now(),
+        module: 'sticker',
+        stickerType: type,
+        styleNo,
+        poNo: val('poNo') || 'N/A',
+        color: val('color') || 'N/A',
+        fit: 'N/A',
+        colorCode: 'N/A',
+        size,
+        totalCtn,
+        par: 'N/A',
+        totalSticker,
+        createdAt,
+        enteredBy: currentUser?.name || 'N/A',
+        enteredById: currentUser?.empId || 'N/A',
+        enteredIp: currentUserIp || 'unknown'
+    };
+    if (type === 'polybag') {
+        rec.fit = val('fit') || 'N/A';
+        rec.colorCode = val('colorCode') || 'N/A';
+        rec.par = val('par') || 'N/A';
+    } else if (type === 'carton') {
+        rec.packingType = val('packingType') || 'N/A';
+    } else {
+        rec.description = val('description') || 'N/A';
+    }
+    stickerRecords.push(rec);
+    resetStickerForm(type);
+    renderStickerTable();
+    updateStickerCharts();
+    await pushData();
+    document.getElementById(p + '_styleNo').focus();
+}
+
+function renderStickerTable() {
+    const tbody = document.getElementById('stickerTableBody');
+    if (!tbody) return;
+    let totalSum = 0;
+    tbody.innerHTML = stickerRecords.slice().reverse().map(r => {
+        totalSum += Number(r.totalSticker) || 0;
+        const t = stickerTypeOf(r);
+        const dateISO = r.createdAt ? r.createdAt.slice(0,10) : '';
+        const dateDisp = dateISO ? dateISO.split('-').reverse().join('/') : '—';
+        const dash = '—';
+        const isPoly = t === 'polybag', isCtn = t === 'carton', isOther = t === 'other';
+        const extraCls = isCtn ? 'cell-s-packingType' : (isOther ? 'cell-s-description' : '');
+        return `
+        <tr id="srow-${r.id}" data-date="${dateISO}" data-type="${t}">
+            <td class="no-print"><input type="checkbox" class="sticker-row-checkbox" data-total="${r.totalSticker || 0}"></td>
+            <td class="cell-s-type"><strong>${STICKER_TYPES[t].label}</strong></td>
+            <td class="td-style cell-s-styleNo">${escS(r.styleNo)}</td>
+            <td class="cell-s-poNo">${escS(r.poNo)}</td>
+            <td class="cell-s-color">${escS(r.color)}</td>
+            <td class="${isPoly ? 'cell-s-fit' : ''}">${isPoly ? escS(r.fit) : dash}</td>
+            <td class="${isPoly ? 'cell-s-colorCode' : ''}">${isPoly ? escS(r.colorCode) : dash}</td>
+            <td class="${extraCls}">${(isCtn || isOther) ? escS(stickerExtraOf(r)) : dash}</td>
+            <td class="cell-s-size">${escS(r.size) || '—'}</td>
+            <td class="${isOther ? '' : 'cell-s-totalCtn'}">${isOther ? dash : (r.totalCtn || 0)}</td>
+            <td class="${isPoly ? 'cell-s-par' : ''}">${isPoly ? escS(r.par) : dash}</td>
+            <td class="td-total ${isCtn ? '' : 'cell-s-totalSticker'}">${r.totalSticker || 0}</td>
+            <td class="cell-s-date">${dateDisp}</td>
+            <td class="cell-enteredBy">
+                <span class="eb-name">${escS(r.enteredBy) || '—'}</span>
+                <span class="eb-meta">${escS(r.enteredById) || '—'} · ${escS(r.enteredIp) || '—'}</span>
+            </td>
+            <td class="no-print">
+                <button onclick="toggleStickerEdit(${r.id})" id="sbtn-edit-${r.id}" class="btn-edit-row">EDIT</button>
+            </td>
+        </tr>`;
+    }).join('');
+    const gt = document.getElementById('stickerGrandTotal');
+    const rc = document.getElementById('stickerRecordCount');
+    if (gt) gt.innerText = totalSum;
+    if (rc) rc.innerText = stickerRecords.length + ' record' + (stickerRecords.length !== 1 ? 's' : '');
+    applyUserPermissions();
+}
+
+function filterStickerTable() {
+    const qEl = document.getElementById('stickerSearchInput');
+    const dEl = document.getElementById('stickerSearchDate');
+    const tEl = document.getElementById('stickerTypeFilter');
+    const q = (qEl ? qEl.value : '').toLowerCase();
+    const dateFilter = dEl ? dEl.value : '';
+    const typeFilter = tEl ? tEl.value : '';
+    let filteredTotal = 0, visCount = 0;
+    document.querySelectorAll('#stickerTableBody tr').forEach(row => {
+        const textMatch = row.innerText.toLowerCase().includes(q);
+        const dateMatch = !dateFilter || row.getAttribute('data-date') === dateFilter;
+        const typeMatch = !typeFilter || row.getAttribute('data-type') === typeFilter;
+        const show = textMatch && dateMatch && typeMatch;
+        row.style.display = show ? '' : 'none';
+        if (show) {
+            const cb = row.querySelector('.sticker-row-checkbox');
+            filteredTotal += Number(cb ? cb.getAttribute('data-total') : 0);
+            visCount++;
+        }
+    });
+    const gt = document.getElementById('stickerGrandTotal');
+    const rc = document.getElementById('stickerRecordCount');
+    if (gt) gt.innerText = filteredTotal;
+    if (rc) rc.innerText = visCount + ' record' + (visCount !== 1 ? 's' : '');
+}
+
+function toggleStickerSelectAll(src) {
+    document.querySelectorAll('.sticker-row-checkbox').forEach(cb => cb.checked = src.checked);
+}
+
+async function deleteSelectedStickerRows() {
+    const checked = document.querySelectorAll('.sticker-row-checkbox:checked');
+    if (!checked.length) { alert('Please select rows to delete.'); return; }
+    if (!confirm(`Delete ${checked.length} selected sticker row(s)?`)) return;
+    const ids = Array.from(checked).map(cb => parseInt(cb.closest('tr').id.replace('srow-','')));
+    stickerRecords = stickerRecords.filter(r => !ids.includes(r.id));
+    renderStickerTable();
+    updateStickerCharts();
+    await pushData();
+}
+
+function toggleStickerEdit(id) {
+    const row = document.getElementById(`srow-${id}`);
+    const btn = document.getElementById(`sbtn-edit-${id}`);
+    if (!row || !btn) return;
+    const rec = stickerRecords.find(r => r.id === id);
+    if (!rec) return;
+    const fields = STICKER_TYPES[stickerTypeOf(rec)].editFields;
+    const editing = btn.classList.contains('btn-save-row');
+    if (!editing) {
+        fields.forEach(f => {
+            const cell = row.querySelector(`.cell-s-${f}`);
+            if (!cell) return;
+            const val = cell.innerText;
+            const type = (f === 'totalCtn' || f === 'totalSticker') ? 'number' : 'text';
+            cell.innerHTML = `<input type="${type}" class="edit-cell-input" value="${val.replace(/"/g,'&quot;')}" inputmode="${type==='number'?'numeric':'text'}">`;
+        });
+        btn.innerText = 'SAVE';
+        btn.classList.add('btn-save-row');
+    } else {
+        const updated = {};
+        fields.forEach(f => {
+            const input = row.querySelector(`.cell-s-${f} input`);
+            if (!input) return;
+            let val = input.value;
+            if (f === 'totalCtn' || f === 'totalSticker') val = Number(val) || 0;
+            updated[f] = val;
+        });
+        if (stickerTypeOf(rec) === 'carton' && 'totalCtn' in updated) updated.totalSticker = updated.totalCtn;
+        const idx = stickerRecords.findIndex(r => r.id === id);
+        if (idx !== -1) {
+            stickerRecords[idx] = { ...stickerRecords[idx], ...updated };
+        }
+        renderStickerTable();
+        updateStickerCharts();
+        pushData();
+    }
+}
+
+function exportStickersToExcel() {
+    if (!stickerRecords.length) { alert('No sticker data to export.'); return; }
+    const rows = stickerRecords.map(r => ({
+        'TYPE': STICKER_TYPES[stickerTypeOf(r)].label,
+        'STYLE NO': r.styleNo,
+        'PO NO': r.poNo,
+        'COLOR': r.color,
+        'FIT': stickerTypeOf(r) === 'polybag' ? r.fit : '',
+        'COLOR CODE': stickerTypeOf(r) === 'polybag' ? r.colorCode : '',
+        'PACKING TYPE / DESCRIPTION': stickerExtraOf(r),
+        'SIZE (CM)': r.size || '',
+        'TOTAL CTN': stickerTypeOf(r) === 'other' ? '' : r.totalCtn,
+        'PAR': stickerTypeOf(r) === 'polybag' ? r.par : '',
+        'TOTAL STICKER': r.totalSticker,
+        'DATE': r.createdAt ? r.createdAt.slice(0,10).split('-').reverse().join('/') : '',
+        'ENTERED BY': r.enteredBy || ''
+    }));
+    const ws = XLSX.utils.json_to_sheet(rows);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Stickers');
+    XLSX.writeFile(wb, `Stickers_${Date.now()}.xlsx`);
+}
+
+function exportStickersToPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF('l','mm','a4');
+    const now = new Date();
+    const rDate = now.toLocaleDateString('en-GB');
+    const rTime = now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',hour12:true});
+    doc.setFillColor(0,36,77); doc.rect(0,0,297,35,'F');
+    doc.setTextColor(255,255,255); doc.setFontSize(18); doc.setFont(undefined,'bold');
+    doc.text("GLOBE INTERNATIONAL INDUSTRIES",14,14);
+    doc.setFontSize(10); doc.setFont(undefined,'normal');
+    doc.text("STICKER PRINTING DEPARTMENT — PRODUCTION REPORT",14,21);
+    doc.setFontSize(9); doc.setTextColor(200,210,230);
+    doc.text(`DATE: ${rDate}   TIME: ${rTime}`,14,28);
+
+    let selData = [], selTotal = 0;
+    const rows = document.querySelectorAll('#stickerTableBody tr');
+    rows.forEach(row => {
+        if (row.style.display === 'none') return;
+        const cb = row.querySelector('.sticker-row-checkbox');
+        if (cb && cb.checked) {
+            const cells = row.querySelectorAll('td');
+            // cells: 0 chk, 1 type, 2 style, 3 po, 4 color, 5 fit, 6 code, 7 packing/desc, 8 size, 9 ctn, 10 par, 11 total, 12 date
+            selData.push([
+                cells[1].innerText, cells[2].innerText, cells[3].innerText, cells[4].innerText, cells[5].innerText, cells[6].innerText,
+                cells[7].innerText, cells[8].innerText, cells[9].innerText, cells[10].innerText, cells[11].innerText, cells[12].innerText
+            ]);
+            selTotal += Number(cells[11].innerText) || 0;
+        }
+    });
+    if (!selData.length) {
+        // export all if nothing selected
+        stickerRecords.forEach(r => {
+            const dateDisp = r.createdAt ? r.createdAt.slice(0,10).split('-').reverse().join('/') : '';
+            const t = stickerTypeOf(r);
+            selData.push([STICKER_TYPES[t].label, r.styleNo, r.poNo, r.color,
+                t === 'polybag' ? r.fit : '—', t === 'polybag' ? r.colorCode : '—', stickerExtraOf(r) || '—',
+                r.size || '', t === 'other' ? '—' : r.totalCtn, t === 'polybag' ? r.par : '—', r.totalSticker, dateDisp]);
+            selTotal += Number(r.totalSticker) || 0;
+        });
+    }
+    if (!selData.length) { alert('No sticker data to export.'); return; }
+    selData.push([
+        {content:'GRAND TOTAL', colSpan:10, styles:{halign:'right',fontStyle:'bold',fillColor:[238,242,251]}},
+        {content:String(selTotal), styles:{halign:'center',fontStyle:'bold',fillColor:[238,242,251]}},
+        {content:'', styles:{fillColor:[238,242,251]}}
+    ]);
+    doc.autoTable({
+        head:[['TYPE','STYLE NO','PO NO','COLOR','FIT','COLOR CODE','PACKING / DESC','SIZE (CM)','TOTAL CTN','PAR','TOTAL STICKER','DATE']],
+        body: selData, startY:38, theme:'grid',
+        styles:{fontSize:8,halign:'center',cellPadding:2,valign:'middle'},
+        headStyles:{fillColor:[0,36,77],textColor:[255,255,255],fontSize:8},
+        margin:{bottom:30}
+    });
+    const ph = doc.internal.pageSize.height;
+    doc.setTextColor(0); doc.setFontSize(8);
+    doc.setDrawColor(80); doc.setLineWidth(0.4);
+    doc.line(25,ph-20,90,ph-20);  doc.text("RECEIVED BY",45,ph-14,{align:'center'});
+    doc.line(210,ph-20,275,ph-20); doc.text("AUTHORISED SIGNATORY",242,ph-14,{align:'center'});
+    doc.save(`Sticker_Report_${rDate.replace(/\//g,'-')}.pdf`);
+}
+
+
+// =============================================
+//  STICKER CHARTS
+// =============================================
+function initStickerCharts() {
+    if (sStyleChart) return; // already initialized
+    const c1 = document.getElementById('sStyleChart');
+    const c2 = document.getElementById('sColorChart');
+    const c3 = document.getElementById('sTrendChart');
+    const c4 = document.getElementById('sFitChart');
+    if (!c1 || !c2 || !c3 || !c4) return;
+
+    const barGradient = (ctx, topColor, bottomColor) => {
+        const g = ctx.getContext('2d').createLinearGradient(0, 0, 0, 280);
+        g.addColorStop(0, topColor);
+        g.addColorStop(1, bottomColor);
+        return g;
+    };
+    const barOpts = {
+        responsive: true, maintainAspectRatio: false,
+        plugins: {
+            legend: { display: false },
+            tooltip: {
+                backgroundColor: '#00244d', padding: 10, cornerRadius: 8,
+                titleFont: { family: 'Syne', size: 12, weight: '700' },
+                bodyFont: { family: 'DM Sans', size: 12 },
+                callbacks: { label: (ctx) => ' ' + Number(ctx.parsed.y||0).toLocaleString('en-US') }
+            }
+        },
+        scales: {
+            y: { beginAtZero: true, grid: { color: '#eef1f6' }, ticks: { precision: 0, callback: v => Number(v).toLocaleString('en-US') } },
+            x: { grid: { display: false }, ticks: { autoSkip: false, maxRotation: 60, minRotation: 0, font: { size: 10.5 } } }
+        }
+    };
+
+    sStyleChart = new Chart(c1.getContext('2d'), {
+        type: 'bar',
+        data: { labels: [], datasets: [{
+            label: 'Total Sticker', data: [],
+            backgroundColor: barGradient(c1, '#0077cc', '#00244d'),
+            borderRadius: 6, maxBarThickness: 42, hoverBackgroundColor: '#f0a500'
+        }]},
+        options: barOpts
+    });
+
+    sColorChart = new Chart(c2.getContext('2d'), {
+        type: 'bar',
+        data: { labels: [], datasets: [{
+            label: 'Total CTN', data: [],
+            backgroundColor: barGradient(c2, '#ff5566', '#8f1b28'),
+            borderRadius: 6, maxBarThickness: 42, hoverBackgroundColor: '#f0a500'
+        }]},
+        options: barOpts
+    });
+
+    const trendCtx = c3.getContext('2d');
+    const trendGradient = trendCtx.createLinearGradient(0, 0, 0, 280);
+    trendGradient.addColorStop(0, 'rgba(0,119,204,0.35)');
+    trendGradient.addColorStop(1, 'rgba(0,119,204,0.02)');
+    sTrendChart = new Chart(trendCtx, {
+        type: 'line',
+        data: { labels: [], datasets: [{
+            label: 'Total Sticker', data: [],
+            borderColor: 'rgba(0,65,122,1)',
+            backgroundColor: trendGradient,
+            borderWidth: 2.5, tension: 0.35, fill: true,
+            pointRadius: 3, pointBackgroundColor: '#00417a', pointBorderColor: '#fff', pointBorderWidth: 1.5,
+            pointHoverRadius: 6, pointHoverBackgroundColor: '#f0a500'
+        }]},
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    enabled: true, mode: 'index', intersect: false,
+                    backgroundColor: '#00244d', padding: 10, cornerRadius: 8,
+                    titleFont: { family: 'Syne', size: 12, weight: '700' },
+                    bodyFont: { family: 'DM Sans', size: 12 },
+                    callbacks: { label: (ctx) => ' ' + Number(ctx.parsed.y||0).toLocaleString('en-US') }
+                }
+            },
+            interaction: { mode: 'index', intersect: false },
+            scales: {
+                y: { beginAtZero: true, grid: { color: '#eef1f6' }, ticks: { precision: 0, callback: v => Number(v).toLocaleString('en-US') } },
+                x: { grid: { display: false }, ticks: { autoSkip: true, maxRotation: 45, minRotation: 0, font: { size: 10.5 } } }
+            }
+        }
+    });
+
+    const seasonPalette = ['#00244d','#f0a500','#0077cc','#0f7a55','#d92b3a','#6b7a99','#8f1b28','#00a8a8'];
+    sFitChart = new Chart(c4.getContext('2d'), {
+        type: 'doughnut',
+        data: { labels: [], datasets: [{
+            data: [],
+            backgroundColor: seasonPalette,
+            borderColor: '#ffffff', borderWidth: 3,
+            hoverOffset: 10, hoverBorderColor: '#ffffff'
+        }]},
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            cutout: '68%',
+            plugins: {
+                legend: { display: true, position: 'bottom', labels: { boxWidth: 11, boxHeight: 11, padding: 14, font: { family: 'DM Sans', size: 11 }, usePointStyle: true, pointStyle: 'circle' } },
+                tooltip: {
+                    backgroundColor: '#00244d', padding: 10, cornerRadius: 8,
+                    titleFont: { family: 'Syne', size: 12, weight: '700' },
+                    bodyFont: { family: 'DM Sans', size: 12 },
+                    callbacks: {
+                        label: (ctx) => {
+                            const total = ctx.dataset.data.reduce((a,b) => a + b, 0);
+                            const pct = total ? ((ctx.parsed / total) * 100).toFixed(1) : 0;
+                            return ` ${ctx.label}: ${Number(ctx.parsed).toLocaleString('en-US')} (${pct}%)`;
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
+function updateStickerCharts() {
+    if (!sStyleChart) return;
+    const TOP_N = 12;
+    const fmt = n => Number(n || 0).toLocaleString('en-US');
+
+    // TOTAL STICKER BY STYLE
+    const byStyleAll = aggregateBy(stickerRecords, r => r.styleNo, r => r.totalSticker);
+    const byStyle = byStyleAll.slice(0, TOP_N);
+    sStyleChart.data.labels = byStyle.map(e => e[0]);
+    sStyleChart.data.datasets[0].data = byStyle.map(e => e[1]);
+    sStyleChart.update();
+    const ss = document.getElementById('sStyleSubtitle');
+    if (ss) ss.textContent = byStyleAll.length > TOP_N ? `(Top ${TOP_N} of ${byStyleAll.length} styles)` : '';
+    toggleEmptyState('sStyleChart', byStyleAll.length === 0);
+
+    // TOTAL CTN BY COLOR
+    const byColorAll = aggregateBy(stickerRecords, r => r.color, r => r.totalCtn);
+    const byColor = byColorAll.slice(0, TOP_N);
+    sColorChart.data.labels = byColor.map(e => e[0]);
+    sColorChart.data.datasets[0].data = byColor.map(e => e[1]);
+    sColorChart.update();
+    const sc = document.getElementById('sColorSubtitle');
+    if (sc) sc.textContent = byColorAll.length > TOP_N ? `(Top ${TOP_N} of ${byColorAll.length} colors)` : '';
+    toggleEmptyState('sColorChart', byColorAll.length === 0);
+
+    // TREND BY DATE
+    const dateMap = new Map();
+    stickerRecords.forEach(r => {
+        if (!r.createdAt) return;
+        const k = r.createdAt.slice(0, 10);
+        dateMap.set(k, (dateMap.get(k) || 0) + (Number(r.totalSticker) || 0));
+    });
+    const sortedDates = Array.from(dateMap.entries()).sort((a,b) => new Date(a[0]) - new Date(b[0]));
+    sTrendChart.data.labels = sortedDates.map(e => {
+        const d = new Date(e[0] + 'T12:00:00Z');
+        return isNaN(d) ? e[0] : d.toLocaleDateString('en-GB', { day:'2-digit', month:'short' });
+    });
+    sTrendChart.data.datasets[0].data = sortedDates.map(e => e[1]);
+    sTrendChart.update();
+    const st = document.getElementById('sTrendSubtitle');
+    if (st) st.textContent = sortedDates.length ? `(${sortedDates.length} days)` : '';
+    toggleEmptyState('sTrendChart', sortedDates.length === 0);
+
+    // SHARE BY FIT
+    const byFit = aggregateBy(stickerRecords.filter(r => stickerTypeOf(r) === 'polybag'), r => r.fit, r => r.totalSticker);
+    sFitChart.data.labels = byFit.map(e => e[0]);
+    sFitChart.data.datasets[0].data = byFit.map(e => e[1]);
+    const fitTotal = byFit.reduce((a,e) => a + e[1], 0);
+    sFitChart._centerText = { value: fmt(fitTotal), label: 'TOTAL STICKER' };
+    sFitChart.update();
+    toggleEmptyState('sFitChart', byFit.length === 0);
+}
+
+// =============================================
+//  STICKER TEAM PRODUCTION
+// =============================================
+function setStickerTeamPeriod(p) {
+    stickerTeamPeriod = p;
+    document.querySelectorAll('#stickerTeamSection .team-filter').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-period') === p);
+    });
+    const dateEl = document.getElementById('stickerTeamDate');
+    if (dateEl && p !== 'date') dateEl.value = '';
+    renderStickerTeamProduction();
+}
+function onStickerTeamDate() {
+    const v = (document.getElementById('stickerTeamDate') || {}).value || '';
+    if (v) {
+        stickerTeamPeriod = 'date';
+        document.querySelectorAll('#stickerTeamSection .team-filter').forEach(btn => btn.classList.remove('active'));
+    }
+    renderStickerTeamProduction();
+}
+
+function renderStickerTeamProduction() {
+    const grid = document.getElementById('stickerTeamGrid');
+    if (!grid) return;
+    const pad = n => String(n).padStart(2, '0');
+    const now = new Date();
+    const todayKey = now.getFullYear() + '-' + pad(now.getMonth() + 1) + '-' + pad(now.getDate());
+    const monthKey = todayKey.slice(0, 7);
+    const pickedDate = (document.getElementById('stickerTeamDate') || {}).value || '';
+
+    let all = stickerRecords.slice();
+    const inPeriod = r => {
+        const d = (r.createdAt || '').slice(0, 10);
+        if (stickerTeamPeriod === 'today') return d === todayKey;
+        if (stickerTeamPeriod === 'month') return d.slice(0, 7) === monthKey;
+        if (stickerTeamPeriod === 'date')  return d === pickedDate;
+        return true;
+    };
+
+    const people = {};
+    const mk = (name, empId) => ({ name, empId, recs: 0, qty: 0, ctn: 0, colors: new Set() });
+    USERS.forEach(u => { people[u.empId] = mk(u.name, u.empId); });
+    const byName = {};
+    USERS.forEach(u => { byName[u.name.trim().toUpperCase()] = u.empId; });
+
+    all.filter(inPeriod).forEach(r => {
+        const id = (r.enteredById && r.enteredById !== 'N/A') ? r.enteredById : '';
+        const nm = (r.enteredBy && r.enteredBy !== 'N/A') ? String(r.enteredBy).trim() : '';
+        let key = (id && people[id]) ? id : (nm && byName[nm.toUpperCase()]) ? byName[nm.toUpperCase()] : '';
+        if (!key) key = nm ? 'N:' + nm.toUpperCase() : 'NA';
+        if (!people[key]) people[key] = nm ? mk(nm, id || '—') : mk('NOT ASSIGNED', 'no user on record');
+        const p = people[key];
+        p.recs += 1;
+        p.qty  += Number(r.totalSticker) || 0;
+        p.ctn  += Number(r.totalCtn) || 0;
+        if (r.color && r.color !== 'N/A') p.colors.add(r.color);
+    });
+
+    const list = Object.values(people).filter(p => p.name !== 'NOT ASSIGNED' || p.recs > 0)
+        .sort((a, b) => b.qty - a.qty || b.recs - a.recs);
+    const maxQty = Math.max(1, ...list.map(p => p.qty));
+    const totalQty = list.reduce((s, p) => s + p.qty, 0);
+    const totalRecs = list.reduce((s, p) => s + p.recs, 0);
+
+    const setTxt = (id, v) => { const el = document.getElementById(id); if (el) el.innerText = v; };
+    setTxt('sTeamTotalQty', totalQty.toLocaleString('en-US'));
+    setTxt('sTeamTotalRecs', totalRecs);
+    setTxt('sTeamActive', list.filter(p => p.recs > 0).length);
+
+    grid.innerHTML = list.map((p, i) => `
+        <div class="team-card">
+            <div class="team-card-top">
+                <div class="team-avatar">${(p.name || '?').charAt(0)}</div>
+                <div class="team-info">
+                    <div class="team-name">${p.name}</div>
+                    <div class="team-id">${p.empId}</div>
+                </div>
+                <div class="team-rank">#${i + 1}</div>
+            </div>
+            <div class="team-qty">${p.qty.toLocaleString('en-US')}<small>TOTAL STICKER</small></div>
+            <div class="team-bar"><i style="width:${(p.qty / maxQty * 100).toFixed(1)}%"></i></div>
+            <div class="team-stats">
+                <div class="team-stat"><b>${p.recs}</b><span>Records</span></div>
+                <div class="team-stat"><b>${p.ctn.toLocaleString('en-US')}</b><span>Total CTN</span></div>
+                <div class="team-stat"><b>${p.colors.size}</b><span>Colors</span></div>
+            </div>
+        </div>`).join('');
+}
+
+function printStickerReport() {
+    // Print the sticker records table view
+    const section = document.getElementById('stickerRecordsSection');
+    if (!section) { alert('Open Sticker Records first.'); return; }
+    // Temporarily show records section if hidden, then print
+    const wasHidden = section.style.display === 'none';
+    if (wasHidden) section.style.display = 'block';
+    window.print();
+    if (wasHidden) section.style.display = 'none';
+}
+
+
+
+// =============================================
+//  ACETATE DASHBOARD
+// =============================================
+let aDashLineChart = null, aDashStyleChart = null, aDashSeasonChart = null, aDashTrendChart = null;
+
+function renderAcetateDashboard() {
+    const pad = n => String(n).padStart(2, '0');
+    const now = new Date();
+    const todayKey = now.getFullYear() + '-' + pad(now.getMonth() + 1) + '-' + pad(now.getDate());
+    const monthKey = todayKey.slice(0, 7);
+
+    let totalQty = 0, todayQty = 0, monthQty = 0;
+    const lineMap = new Map(), styleMap = new Map(), seasonMap = new Map(), dateMap = new Map();
+
+    dataRecords.forEach(r => {
+        const q = Number(r.total) || 0;
+        totalQty += q;
+        const d = (r.createdAt || '').slice(0, 10);
+        if (d === todayKey) todayQty += q;
+        if (d.slice(0, 7) === monthKey) monthQty += q;
+        lineMap.set(r.line || 'N/A', (lineMap.get(r.line || 'N/A') || 0) + q);
+        styleMap.set(r.styleNo || 'N/A', (styleMap.get(r.styleNo || 'N/A') || 0) + q);
+        seasonMap.set(r.season || 'N/A', (seasonMap.get(r.season || 'N/A') || 0) + q);
+        if (d) dateMap.set(d, (dateMap.get(d) || 0) + q);
+    });
+
+    const setTxt = (id, v) => { const el = document.getElementById(id); if (el) el.innerText = typeof v === 'number' ? v.toLocaleString('en-US') : v; };
+    setTxt('aDashRecords', dataRecords.length);
+    setTxt('aDashQty', totalQty);
+    setTxt('aDashToday', todayQty);
+    setTxt('aDashMonth', monthQty);
+
+    const byLine = Array.from(lineMap.entries()).sort((a,b) => b[1]-a[1]).slice(0, 12);
+    const byStyle = Array.from(styleMap.entries()).sort((a,b) => b[1]-a[1]).slice(0, 10);
+    const bySeason = Array.from(seasonMap.entries()).sort((a,b) => b[1]-a[1]);
+    const byDate = Array.from(dateMap.entries()).sort((a,b) => new Date(a[0]) - new Date(b[0]));
+
+    const sub = (id, t) => { const el = document.getElementById(id); if (el) el.textContent = t; };
+    sub('aDashLineSub', byLine.length ? `(Top ${byLine.length})` : '');
+    sub('aDashStyleSub', styleMap.size > 10 ? `(Top 10 of ${styleMap.size})` : (styleMap.size ? `(${styleMap.size})` : ''));
+    sub('aDashSeasonSub', bySeason.length ? `(${bySeason.length})` : '');
+    sub('aDashTrendSub', byDate.length ? `(${byDate.length} days)` : '');
+
+    [aDashLineChart, aDashStyleChart, aDashSeasonChart, aDashTrendChart].forEach(c => { if (c) { c.destroy(); } });
+    aDashLineChart = aDashStyleChart = aDashSeasonChart = aDashTrendChart = null;
+
+    const empty = dataRecords.length === 0;
+    ['aDashLineChart','aDashStyleChart','aDashSeasonChart','aDashTrendChart'].forEach(id => toggleEmptyState(id, empty));
+    if (empty) return;
+
+    const palette = ['#00244d','#f0a500','#0077cc','#0f7a55','#d92b3a','#6b7a99','#8f1b28','#00a8a8','#5b2fb3','#c42828'];
+    const barOpts = {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false }, tooltip: { backgroundColor: '#00244d', padding: 10, cornerRadius: 8, callbacks: { label: ctx => ' ' + Number(ctx.parsed.y||0).toLocaleString('en-US') } } },
+        scales: {
+            y: { beginAtZero: true, grid: { color: '#eef1f6' }, ticks: { precision: 0, callback: v => Number(v).toLocaleString('en-US') } },
+            x: { grid: { display: false }, ticks: { maxRotation: 45, font: { size: 10.5 } } }
+        }
+    };
+
+    const c1 = document.getElementById('aDashLineChart');
+    if (c1) {
+        const ctx = c1.getContext('2d');
+        const g = ctx.createLinearGradient(0,0,0,280); g.addColorStop(0,'#0077cc'); g.addColorStop(1,'#00244d');
+        aDashLineChart = new Chart(ctx, { type: 'bar', data: { labels: byLine.map(e=>e[0]), datasets: [{ data: byLine.map(e=>e[1]), backgroundColor: g, borderRadius: 6, maxBarThickness: 40, hoverBackgroundColor: '#f0a500' }] }, options: barOpts });
+    }
+
+    const c2 = document.getElementById('aDashStyleChart');
+    if (c2) {
+        const ctx = c2.getContext('2d');
+        const g = ctx.createLinearGradient(0,0,0,280); g.addColorStop(0,'#ff5566'); g.addColorStop(1,'#8f1b28');
+        aDashStyleChart = new Chart(ctx, { type: 'bar', data: { labels: byStyle.map(e=>e[0]), datasets: [{ data: byStyle.map(e=>e[1]), backgroundColor: g, borderRadius: 6, maxBarThickness: 40, hoverBackgroundColor: '#f0a500' }] }, options: barOpts });
+    }
+
+    const c3 = document.getElementById('aDashSeasonChart');
+    if (c3) {
+        aDashSeasonChart = new Chart(c3.getContext('2d'), {
+            type: 'doughnut',
+            data: { labels: bySeason.map(e=>e[0]), datasets: [{ data: bySeason.map(e=>e[1]), backgroundColor: palette, borderColor: '#fff', borderWidth: 3, hoverOffset: 8 }] },
+            options: {
+                responsive: true, maintainAspectRatio: false, cutout: '62%',
+                plugins: {
+                    legend: { display: true, position: 'bottom', labels: { boxWidth: 11, padding: 12, font: { family: 'DM Sans', size: 11 }, usePointStyle: true, pointStyle: 'circle' } },
+                    tooltip: { backgroundColor: '#00244d', padding: 10, cornerRadius: 8,
+                        callbacks: { label: ctx => { const t = ctx.dataset.data.reduce((a,b)=>a+b,0); const pct = t ? ((ctx.parsed/t)*100).toFixed(1) : 0; return ' ' + Number(ctx.parsed).toLocaleString('en-US') + ' (' + pct + '%)'; } } }
+                }
+            }
+        });
+        aDashSeasonChart._centerText = { value: totalQty.toLocaleString('en-US'), label: 'TOTAL QTY' };
+        aDashSeasonChart.update();
+    }
+
+    const c4 = document.getElementById('aDashTrendChart');
+    if (c4) {
+        const ctx = c4.getContext('2d');
+        const g = ctx.createLinearGradient(0,0,0,280); g.addColorStop(0,'rgba(0,119,204,0.35)'); g.addColorStop(1,'rgba(0,119,204,0.02)');
+        aDashTrendChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: byDate.map(e => { const d = new Date(e[0]+'T12:00:00Z'); return isNaN(d) ? e[0] : d.toLocaleDateString('en-GB',{day:'2-digit',month:'short'}); }),
+                datasets: [{ data: byDate.map(e=>e[1]), borderColor: 'rgba(0,65,122,1)', backgroundColor: g, borderWidth: 2.5, tension: 0.35, fill: true, pointRadius: 3, pointBackgroundColor: '#00417a', pointHoverBackgroundColor: '#f0a500' }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { display: false }, tooltip: { backgroundColor: '#00244d', padding: 10, cornerRadius: 8, callbacks: { label: ctx => ' ' + Number(ctx.parsed.y||0).toLocaleString('en-US') } } },
+                scales: {
+                    y: { beginAtZero: true, grid: { color: '#eef1f6' }, ticks: { precision: 0, callback: v => Number(v).toLocaleString('en-US') } },
+                    x: { grid: { display: false }, ticks: { maxRotation: 45, font: { size: 10.5 } } }
+                }
+            }
+        });
+    }
+}
+
+// =============================================
+//  STICKER DASHBOARD
+// =============================================
+let sDashSizeChart = null;
+let sDashStyleChart = null;
+
+function renderStickerDashboard() {
+    const pad = n => String(n).padStart(2, '0');
+    const now = new Date();
+    const todayKey = now.getFullYear() + '-' + pad(now.getMonth() + 1) + '-' + pad(now.getDate());
+    const monthKey = todayKey.slice(0, 7);
+
+    let totalQty = 0, todayQty = 0, monthQty = 0;
+    const sizeMap = new Map();
+    const styleMap = new Map();
+
+    stickerRecords.forEach(r => {
+        const q = Number(r.totalSticker) || 0;
+        totalQty += q;
+        const d = (r.createdAt || '').slice(0, 10);
+        if (d === todayKey) todayQty += q;
+        if (d.slice(0, 7) === monthKey) monthQty += q;
+        const sz = r.size || 'N/A';
+        sizeMap.set(sz, (sizeMap.get(sz) || 0) + q);
+        const st = r.styleNo || 'N/A';
+        styleMap.set(st, (styleMap.get(st) || 0) + q);
+    });
+
+    const setTxt = (id, v) => { const el = document.getElementById(id); if (el) el.innerText = typeof v === 'number' ? v.toLocaleString('en-US') : v; };
+    setTxt('sDashTotalQty', totalQty);
+    setTxt('sDashToday', todayQty);
+    setTxt('sDashMonth', monthQty);
+    setTxt('sDashSizes', sizeMap.size);
+
+    const bySize = Array.from(sizeMap.entries()).sort((a,b) => b[1]-a[1]);
+    const byStyle = Array.from(styleMap.entries()).sort((a,b) => b[1]-a[1]).slice(0, 10);
+
+    const subS = document.getElementById('sDashSizeSub');
+    if (subS) subS.textContent = bySize.length ? `(${bySize.length} sizes)` : '';
+    const subT = document.getElementById('sDashStyleSub');
+    if (subT) subT.textContent = styleMap.size > 10 ? `(Top 10 of ${styleMap.size})` : (styleMap.size ? `(${styleMap.size})` : '');
+
+    const palette = ['#00244d','#f0a500','#0077cc','#0f7a55','#d92b3a','#6b7a99','#8f1b28','#00a8a8','#5b2fb3','#c42828','#00417a','#17b981'];
+
+    const c1 = document.getElementById('sDashSizeChart');
+    const c2 = document.getElementById('sDashStyleChart');
+    if (!c1 || !c2) return;
+
+    if (sDashSizeChart) { sDashSizeChart.destroy(); sDashSizeChart = null; }
+    if (sDashStyleChart) { sDashStyleChart.destroy(); sDashStyleChart = null; }
+
+    if (bySize.length === 0) {
+        toggleEmptyState('sDashSizeChart', true);
+        toggleEmptyState('sDashStyleChart', true);
+        return;
+    }
+    toggleEmptyState('sDashSizeChart', false);
+    toggleEmptyState('sDashStyleChart', byStyle.length === 0);
+
+    sDashSizeChart = new Chart(c1.getContext('2d'), {
+        type: 'doughnut',
+        data: {
+            labels: bySize.map(e => e[0] + ' CM'),
+            datasets: [{ data: bySize.map(e => e[1]), backgroundColor: palette, borderColor: '#fff', borderWidth: 3, hoverOffset: 8 }]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false, cutout: '62%',
+            plugins: {
+                legend: { display: true, position: 'bottom', labels: { boxWidth: 11, padding: 12, font: { family: 'DM Sans', size: 11 }, usePointStyle: true, pointStyle: 'circle' } },
+                tooltip: {
+                    backgroundColor: '#00244d', padding: 10, cornerRadius: 8,
+                    callbacks: {
+                        label: (ctx) => {
+                            const total = ctx.dataset.data.reduce((a,b) => a + b, 0);
+                            const pct = total ? ((ctx.parsed / total) * 100).toFixed(1) : 0;
+                            return ' ' + Number(ctx.parsed).toLocaleString('en-US') + ' (' + pct + '%)';
+                        }
+                    }
+                }
+            }
+        }
+    });
+    sDashSizeChart._centerText = { value: totalQty.toLocaleString('en-US'), label: 'TOTAL' };
+    sDashSizeChart.update();
+
+    const ctx2 = c2.getContext('2d');
+    const g = ctx2.createLinearGradient(0, 0, 0, 280);
+    g.addColorStop(0, '#0077cc');
+    g.addColorStop(1, '#00244d');
+    sDashStyleChart = new Chart(ctx2, {
+        type: 'bar',
+        data: {
+            labels: byStyle.map(e => e[0]),
+            datasets: [{ label: 'Total Sticker', data: byStyle.map(e => e[1]), backgroundColor: g, borderRadius: 6, maxBarThickness: 40, hoverBackgroundColor: '#f0a500' }]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { display: false }, tooltip: { backgroundColor: '#00244d', padding: 10, cornerRadius: 8, callbacks: { label: (ctx) => ' ' + Number(ctx.parsed.y||0).toLocaleString('en-US') } } },
+            scales: {
+                y: { beginAtZero: true, grid: { color: '#eef1f6' }, ticks: { precision: 0, callback: v => Number(v).toLocaleString('en-US') } },
+                x: { grid: { display: false }, ticks: { autoSkip: false, maxRotation: 45, font: { size: 10.5 } } }
+            }
+        }
+    });
+}
+
 // =============================================
 //  INIT
 // =============================================
