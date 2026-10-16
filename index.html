@@ -669,6 +669,19 @@
 .team-stat b { display:block; font-family:'Syne',sans-serif; font-size:15px; color:var(--navy); }
 .team-stat span { font-size:9px; letter-spacing:1px; color:var(--muted); font-weight:600; text-transform:uppercase; }
 
+
+/* ===== STICKER BRAND DASHBOARD ===== */
+.bd-size-row { display:grid; grid-template-columns:62px 1fr auto; gap:10px; align-items:center; margin-top:8px; }
+.bd-size-lbl { font-family:'DM Mono',monospace; font-size:11px; font-weight:600; color:var(--navy); }
+.bd-size-bar { height:8px; background:#eef2f8; border-radius:8px; overflow:hidden; }
+.bd-size-bar > i { display:block; height:100%; background:linear-gradient(90deg,var(--gold),#e07b00); border-radius:8px; }
+.bd-size-val { font-family:'Syne',sans-serif; font-size:12px; font-weight:800; color:var(--navy); text-align:right; white-space:nowrap; }
+.bd-size-val small { font-family:'DM Sans',sans-serif; font-size:10px; font-weight:600; color:var(--muted); margin-left:4px; }
+.bd-matrix th, .bd-matrix td { text-align:center; white-space:nowrap; }
+.bd-matrix td:first-child, .bd-matrix th:first-child { text-align:left; font-weight:700; position:sticky; left:0; background:#fff; }
+.bd-matrix thead th:first-child { background:var(--navy); }
+.bd-zero { color:#c3cbd9; }
+
 /* ===== CHARTS ===== */
         .charts-grid { display: grid; grid-template-columns: 1fr; gap: 14px; margin-bottom: 14px; }
         @media (min-width: 768px) { .charts-grid { grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; } }
@@ -974,24 +987,8 @@ function toggleLgPass() {
                     <div class="hub-card-icon-wrap iw-blue">
                         <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
                     </div>
-                    <div class="hub-card-title">POLYBAG STICKER</div>
-                    <div class="hub-card-sub">Data entry for<br>polybag stickers</div>
-                    <span class="hub-card-go">OPEN →</span>
-                </div>
-                <div class="hub-card" onclick="showSection('stickerCartonEntry')">
-                    <div class="hub-card-icon-wrap iw-green">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-                    </div>
-                    <div class="hub-card-title">CARTON STICKER</div>
-                    <div class="hub-card-sub">Data entry for<br>carton stickers</div>
-                    <span class="hub-card-go">OPEN →</span>
-                </div>
-                <div class="hub-card" onclick="showSection('stickerOtherEntry')">
-                    <div class="hub-card-icon-wrap iw-purple">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-                    </div>
-                    <div class="hub-card-title">OTHER STICKERS</div>
-                    <div class="hub-card-sub">Data entry for<br>other stickers</div>
+                    <div class="hub-card-title">DATA ENTRY</div>
+                    <div class="hub-card-sub">Add sticker<br>production records</div>
                     <span class="hub-card-go">OPEN →</span>
                 </div>
                 <div class="hub-card" onclick="showSection('stickerRecords')">
@@ -1016,6 +1013,22 @@ function toggleLgPass() {
                     </div>
                     <div class="hub-card-title">TEAM PRODUCTION</div>
                     <div class="hub-card-sub">Sticker production count<br>per team member</div>
+                    <span class="hub-card-go">OPEN →</span>
+                </div>
+                <div class="hub-card" onclick="showSection('stickerBrand')">
+                    <div class="hub-card-icon-wrap iw-gold">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+                    </div>
+                    <div class="hub-card-title">BRAND DASHBOARD</div>
+                    <div class="hub-card-sub">Production per brand<br>by sticker size</div>
+                    <span class="hub-card-go">OPEN →</span>
+                </div>
+                <div class="hub-card" onclick="showSection('otherSticker')">
+                    <div class="hub-card-icon-wrap iw-blue">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/><rect x="3" y="3" width="18" height="18" rx="3"/></svg>
+                    </div>
+                    <div class="hub-card-title">OTHER STICKER</div>
+                    <div class="hub-card-sub">Data entry &amp; records for<br>other sticker types</div>
                     <span class="hub-card-go">OPEN →</span>
                 </div>
             </div>
@@ -1225,9 +1238,7 @@ function toggleLgPass() {
         <div class="form-section no-print" style="padding-top:18px;">
             <div class="section-label">Quick actions</div>
             <div class="action-bar" style="justify-content:flex-start;">
-                <button onclick="showSection('stickerEntry')" class="btn btn-save">+ POLYBAG</button>
-                <button onclick="showSection('stickerCartonEntry')" class="btn btn-save">+ CARTON</button>
-                <button onclick="showSection('stickerOtherEntry')" class="btn btn-save">+ OTHER</button>
+                <button onclick="showSection('stickerEntry')" class="btn btn-save">+ NEW ENTRY</button>
                 <button onclick="showSection('stickerRecords')" class="btn btn-print">RECORDS</button>
                 <button onclick="showSection('stickerCharts')" class="btn btn-excel">FULL CHARTS</button>
                 <button onclick="showSection('stickerTeam')" class="btn btn-closure">TEAM</button>
@@ -1242,8 +1253,12 @@ function toggleLgPass() {
         <div id="stickerDataEntrySection" style="display:none;">
         <div class="section-back-bar no-print"><button class="btn-back" onclick="showHub()">← MAIN MENU</button></div>
         <div class="form-section no-print">
-            <div class="section-label">Polybag Sticker — Data Entry</div>
+            <div class="section-label">Sticker Data Entry</div>
             <div class="form-grid" id="stickerInputForm">
+                <div class="form-field">
+                    <label class="field-label">Brand</label>
+                    <input type="text" id="s_brand" placeholder="e.g. LC Waikiki" class="field-input" autocomplete="off">
+                </div>
                 <div class="form-field">
                     <label class="field-label">Style No</label>
                     <input type="text" id="s_styleNo" placeholder="e.g. ST-001" class="field-input" autocomplete="off">
@@ -1257,53 +1272,97 @@ function toggleLgPass() {
                     <input type="text" id="s_color" placeholder="e.g. Navy Blue" class="field-input" autocomplete="off">
                 </div>
                 <div class="form-field">
-                    <label class="field-label">Fit</label>
-                    <input type="text" id="s_fit" placeholder="e.g. Slim / Regular" class="field-input" autocomplete="off">
+                    <label class="field-label">Part</label>
+                    <input type="text" id="s_part" placeholder="e.g. Top / Bottom" class="field-input" autocomplete="off">
                 </div>
                 <div class="form-field">
-                    <label class="field-label">Color Code</label>
-                    <input type="text" id="s_colorCode" placeholder="e.g. NV-01" class="field-input" autocomplete="off">
-                </div>
-                <div class="form-field">
-                    <label class="field-label">Total CTN</label>
+                    <select id="s_totalType" class="field-input field-label-select" style="cursor:pointer;font-weight:700;margin-bottom:6px;" title="Choose TOTAL CARTON or TOTAL POLYBAG">
+                        <option value="CARTON">TOTAL CARTON</option>
+                        <option value="POLYBAG">TOTAL POLYBAG</option>
+                    </select>
                     <input type="number" id="s_totalCtn" placeholder="0" class="field-input" inputmode="numeric">
                 </div>
                 <div class="form-field">
-                    <label class="field-label">PAR</label>
-                    <input type="text" id="s_par" placeholder="e.g. 12" class="field-input" autocomplete="off">
-                </div>
-                <div class="form-field">
-                    <label class="field-label">Total Sticker</label>
-                    <input type="number" id="s_totalSticker" placeholder="0" class="field-input" inputmode="numeric">
-                </div>
-                <div class="form-field">
-                    <label class="field-label">Size (CM)</label>
+
+                    <label class="field-label">Sticker Size (CM)</label>
+
                     <select id="s_size" class="field-input" style="cursor:pointer;">
+
                         <option value="">— Select size —</option>
-                        <option value="2×3">2 × 3 CM (min)</option>
+
+                        <option value="2×3">2 × 3 CM </option>
+
                         <option value="2×4">2 × 4 CM</option>
+
                         <option value="2×5">2 × 5 CM</option>
+
                         <option value="3×4">3 × 4 CM</option>
+
                         <option value="3×5">3 × 5 CM</option>
+
                         <option value="3×6">3 × 6 CM</option>
+
                         <option value="4×5">4 × 5 CM</option>
+
                         <option value="4×6">4 × 6 CM</option>
+
                         <option value="4×7">4 × 7 CM</option>
+
+                        <option value="4×7">4 × 7.5 CM</option>
+
                         <option value="5×5">5 × 5 CM</option>
+
                         <option value="5×7">5 × 7 CM</option>
+
                         <option value="5×8">5 × 8 CM</option>
+
+                        <option value="6×8">5 × 10 CM</option>
+
                         <option value="6×6">6 × 6 CM</option>
+
                         <option value="6×8">6 × 8 CM</option>
+
+                        <option value="6×8">6.5 × 12.5 CM</option>
+
                         <option value="6×9">6 × 9 CM</option>
+
                         <option value="7×10">7 × 10 CM</option>
+
                         <option value="8×8">8 × 8 CM</option>
+
                         <option value="8×10">8 × 10 CM</option>
+
                         <option value="8×12">8 × 12 CM</option>
+
                         <option value="9×12">9 × 12 CM</option>
+
                         <option value="10×10">10 × 10 CM</option>
+
                         <option value="10×12">10 × 12 CM</option>
-                        <option value="10×15">10 × 15 CM (max)</option>
+
+                        <option value="10×15">10 × 15 CM </option>
+
                     </select>
+
+                </div>
+
+                <div class="form-field">
+                    <label class="field-label">Sides</label>
+                    <select id="s_sides" class="field-input" style="cursor:pointer;">
+                        <option value="">— Select —</option>
+                        <option value="1 Side">1 Side</option>
+                        <option value="2 Sides">2 Sides</option>
+                        <option value="3 Sides">3 Sides</option>
+                        <option value="4 Sides">4 Sides</option>
+                    </select>
+                </div>
+                <div class="form-field">
+                    <label class="field-label">Sticker Per Sheet</label>
+                    <input type="number" id="s_perSheet" placeholder="0" class="field-input" inputmode="numeric">
+                </div>
+                <div class="form-field">
+                    <label class="field-label">Total Sticker (Sheets)</label>
+                    <input type="number" id="s_totalSticker" placeholder="0" class="field-input" inputmode="numeric">
                 </div>
                 <div class="form-field">
                     <label class="field-label">Date</label>
@@ -1311,101 +1370,8 @@ function toggleLgPass() {
                 </div>
             </div>
             <div class="action-bar">
-                <button onclick="addStickerData('polybag')" class="btn btn-save">✓ SAVE</button>
-                <button onclick="resetStickerForm('polybag')" class="btn btn-reset">↺ RESET</button>
-                <button onclick="exportStickersToExcel()" class="btn btn-excel">⬇ EXCEL</button>
-                <button onclick="exportStickersToPDF()" class="btn btn-pdf">⬇ PDF</button>
-                <button onclick="printStickerReport()" class="btn btn-print">⎙ PRINT</button>
-                <button onclick="deleteSelectedStickerRows()" class="btn btn-delete">✕ DELETE</button>
-            </div>
-        </div>
-        </div>
-
-        <!-- ===== CARTON STICKER DATA ENTRY ===== -->
-        <div id="stickerCartonEntrySection" style="display:none;">
-        <div class="section-back-bar no-print"><button class="btn-back" onclick="showHub()">← MAIN MENU</button></div>
-        <div class="form-section no-print">
-            <div class="section-label">Carton Sticker — Data Entry</div>
-            <div class="form-grid" id="stickerCartonForm">
-                <div class="form-field">
-                    <label class="field-label">Style No</label>
-                    <input type="text" id="sc_styleNo" placeholder="e.g. ST-001" class="field-input" autocomplete="off" >
-                </div>
-                <div class="form-field">
-                    <label class="field-label">PO No</label>
-                    <input type="text" id="sc_poNo" placeholder="e.g. PO-2026-001" class="field-input" autocomplete="off" >
-                </div>
-                <div class="form-field">
-                    <label class="field-label">Color Name</label>
-                    <input type="text" id="sc_color" placeholder="e.g. Navy Blue" class="field-input" autocomplete="off" >
-                </div>
-                <div class="form-field">
-                    <label class="field-label">Packing Type</label>
-                    <input type="text" id="sc_packingType" list="packingTypeList" placeholder="e.g. SOLID / ASSORTED" class="field-input" autocomplete="off">
-                    <datalist id="packingTypeList"><option value="SOLID"><option value="ASSORTED"><option value="RATIO"></datalist>
-                </div>
-                <div class="form-field">
-                    <label class="field-label">Total Carton</label>
-                    <input type="number" id="sc_totalCtn" placeholder="0" class="field-input" inputmode="numeric" >
-                </div>
-                <div class="form-field">
-                    <label class="field-label">Sticker Size (CM)</label>
-                    <select id="sc_size" class="field-input" style="cursor:pointer;" data-size-select="1"><option value="">— Select size —</option></select>
-                </div>
-                <div class="form-field">
-                    <label class="field-label">Date</label>
-                    <input type="date" id="sc_entryDate" class="field-input">
-                </div>
-            </div>
-            <div class="action-bar">
-                <button onclick="addStickerData('carton')" class="btn btn-save">✓ SAVE</button>
-                <button onclick="resetStickerForm('carton')" class="btn btn-reset">↺ RESET</button>
-                <button onclick="exportStickersToExcel()" class="btn btn-excel">⬇ EXCEL</button>
-                <button onclick="exportStickersToPDF()" class="btn btn-pdf">⬇ PDF</button>
-                <button onclick="printStickerReport()" class="btn btn-print">⎙ PRINT</button>
-                <button onclick="deleteSelectedStickerRows()" class="btn btn-delete">✕ DELETE</button>
-            </div>
-        </div>
-        </div>
-
-        <!-- ===== OTHER STICKERS DATA ENTRY ===== -->
-        <div id="stickerOtherEntrySection" style="display:none;">
-        <div class="section-back-bar no-print"><button class="btn-back" onclick="showHub()">← MAIN MENU</button></div>
-        <div class="form-section no-print">
-            <div class="section-label">Other Stickers — Data Entry</div>
-            <div class="form-grid" id="stickerOtherForm">
-                <div class="form-field">
-                    <label class="field-label">Style No</label>
-                    <input type="text" id="so_styleNo" placeholder="e.g. ST-001" class="field-input" autocomplete="off" >
-                </div>
-                <div class="form-field">
-                    <label class="field-label">PO No</label>
-                    <input type="text" id="so_poNo" placeholder="e.g. PO-2026-001" class="field-input" autocomplete="off" >
-                </div>
-                <div class="form-field">
-                    <label class="field-label">Color</label>
-                    <input type="text" id="so_color" placeholder="e.g. Navy Blue" class="field-input" autocomplete="off" >
-                </div>
-                <div class="form-field">
-                    <label class="field-label">Sticker Description</label>
-                    <input type="text" id="so_description" placeholder="e.g. Hang tag / Barcode / Size sticker" class="field-input" autocomplete="off" >
-                </div>
-                <div class="form-field">
-                    <label class="field-label">Total Sticker</label>
-                    <input type="number" id="so_totalSticker" placeholder="0" class="field-input" inputmode="numeric" >
-                </div>
-                <div class="form-field">
-                    <label class="field-label">Size (CM)</label>
-                    <select id="so_size" class="field-input" style="cursor:pointer;" data-size-select="1"><option value="">— Select size —</option></select>
-                </div>
-                <div class="form-field">
-                    <label class="field-label">Date</label>
-                    <input type="date" id="so_entryDate" class="field-input">
-                </div>
-            </div>
-            <div class="action-bar">
-                <button onclick="addStickerData('other')" class="btn btn-save">✓ SAVE</button>
-                <button onclick="resetStickerForm('other')" class="btn btn-reset">↺ RESET</button>
+                <button onclick="addStickerData()" class="btn btn-save">✓ SAVE</button>
+                <button onclick="resetStickerForm()" class="btn btn-reset">↺ RESET</button>
                 <button onclick="exportStickersToExcel()" class="btn btn-excel">⬇ EXCEL</button>
                 <button onclick="exportStickersToPDF()" class="btn btn-pdf">⬇ PDF</button>
                 <button onclick="printStickerReport()" class="btn btn-print">⎙ PRINT</button>
@@ -1420,13 +1386,7 @@ function toggleLgPass() {
 
         <div class="search-wrap no-print" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
             <span class="search-icon">⌕</span>
-            <input type="text" id="stickerSearchInput" onkeyup="filterStickerTable()" placeholder="Search by Style, PO, Color, Fit, Color Code, Packing..." class="search-input" autocomplete="off" style="flex:1;min-width:200px;">
-            <select id="stickerTypeFilter" onchange="filterStickerTable()" class="search-input" style="max-width:170px;cursor:pointer;" title="Filter by sticker type">
-                <option value="">ALL TYPES</option>
-                <option value="polybag">POLYBAG</option>
-                <option value="carton">CARTON</option>
-                <option value="other">OTHER</option>
-            </select>
+            <input type="text" id="stickerSearchInput" onkeyup="filterStickerTable()" placeholder="Search by Brand, Style, PO, Color, Part..." class="search-input" autocomplete="off" style="flex:1;min-width:200px;">
             <input type="date" id="stickerSearchDate" onchange="filterStickerTable()" class="search-input" style="max-width:180px;" title="Filter by date">
             <button type="button" onclick="document.getElementById('stickerSearchDate').value=''; filterStickerTable();" class="btn" style="background:#6b7a99;color:#fff;padding:8px 14px;">CLEAR DATE</button>
         </div>
@@ -1443,17 +1403,16 @@ function toggleLgPass() {
                             <th class="no-print" style="width:36px;">
                                 <input type="checkbox" id="stickerSelectAllChk" class="row-checkbox" onchange="toggleStickerSelectAll(this)">
                             </th>
-                            <th>TYPE</th>
-                            <th>STYLE</th>
+                            <th>BRAND</th>
+                            <th>STYLE NO</th>
                             <th>PO NO</th>
                             <th>COLOR</th>
-                            <th>FIT</th>
-                            <th>COLOR CODE</th>
-                            <th>PACKING / DESC</th>
-                            <th>SIZE (CM)</th>
-                            <th>TOTAL CTN</th>
-                            <th>PAR</th>
-                            <th>TOTAL STICKER</th>
+                            <th>PART</th>
+                            <th>TOTAL CARTON / POLYBAG</th>
+                            <th>STICKER SIZE</th>
+                            <th>SIDES</th>
+                            <th>STICKER PER SHEET</th>
+                            <th>TOTAL STICKER (SHEETS)</th>
                             <th>DATE</th>
                             <th>ENTERED BY</th>
                             <th class="no-print">EDIT</th>
@@ -1463,7 +1422,7 @@ function toggleLgPass() {
                     <tfoot>
                         <tr>
                             <td class="no-print"></td>
-                            <td colspan="10" style="text-align:right;padding-right:16px;letter-spacing:2px;">GRAND TOTAL</td>
+                            <td colspan="9" style="text-align:right;padding-right:16px;letter-spacing:2px;">GRAND TOTAL</td>
                             <td id="stickerGrandTotal">0</td>
                             <td></td>
                             <td></td>
@@ -1485,7 +1444,7 @@ function toggleLgPass() {
                 <canvas id="sStyleChart"></canvas>
             </div>
             <div class="chart-card">
-                <div class="chart-title">TOTAL CTN BY COLOR <span class="chart-subtitle" id="sColorSubtitle"></span></div>
+                <div class="chart-title">TOTAL CARTON / POLYBAG BY COLOR <span class="chart-subtitle" id="sColorSubtitle"></span></div>
                 <canvas id="sColorChart"></canvas>
             </div>
             <div class="chart-card">
@@ -1493,7 +1452,7 @@ function toggleLgPass() {
                 <canvas id="sTrendChart"></canvas>
             </div>
             <div class="chart-card">
-                <div class="chart-title">SHARE BY FIT <span class="chart-subtitle" id="sFitSubtitle"></span></div>
+                <div class="chart-title">SHARE BY BRAND <span class="chart-subtitle" id="sFitSubtitle"></span></div>
                 <canvas id="sFitChart"></canvas>
             </div>
         </div>
@@ -1514,6 +1473,110 @@ function toggleLgPass() {
             <div class="team-sum-card"><div class="team-sum-val" id="sTeamActive">0</div><div class="team-sum-lbl">Active Members</div></div>
         </div>
         <div class="team-grid no-print" id="stickerTeamGrid"></div>
+        </div>
+
+        <div id="stickerBrandSection" style="display:none;">
+        <div class="section-back-bar no-print"><button class="btn-back" onclick="showHub()">← MAIN MENU</button></div>
+        <div class="hub-hero" style="margin-bottom:18px;">
+            <div class="hub-hello">STICKER PRINTING</div>
+            <div class="hub-title">Brand <span>Dashboard</span></div>
+            <div class="hub-desc">Total stickers (sheets) printed for each brand, broken down by sticker size.</div>
+        </div>
+        <div class="team-toolbar no-print">
+            <button class="team-filter active" data-period="all" onclick="setStickerBrandPeriod('all')">ALL RECORDS</button>
+            <button class="team-filter" data-period="today" onclick="setStickerBrandPeriod('today')">TODAY</button>
+            <button class="team-filter" data-period="month" onclick="setStickerBrandPeriod('month')">THIS MONTH</button>
+            <input type="date" id="stickerBrandDate" class="search-input" style="max-width:170px;" onchange="onStickerBrandDate()" title="Filter by date">
+            <button class="btn btn-excel" style="margin-left:auto;" onclick="exportStickerBrandExcel()">⬇ EXCEL</button>
+        </div>
+        <div class="team-summary no-print">
+            <div class="team-sum-card"><div class="team-sum-val" id="sBrandTotalQty">0</div><div class="team-sum-lbl">Total Stickers (Sheets)</div></div>
+            <div class="team-sum-card"><div class="team-sum-val" id="sBrandCount">0</div><div class="team-sum-lbl">Brands</div></div>
+            <div class="team-sum-card"><div class="team-sum-val" id="sBrandRecs">0</div><div class="team-sum-lbl">Records</div></div>
+        </div>
+        <div class="team-grid" id="stickerBrandGrid"></div>
+        <div class="table-wrap" style="margin-top:22px;">
+            <div class="table-header-bar no-print">
+                <span class="table-title">BRAND × STICKER SIZE (SHEETS)</span>
+            </div>
+            <div class="overflow-x"><table class="bd-matrix" id="stickerBrandMatrix"></table></div>
+        </div>
+        </div>
+
+        <div id="otherStickerSection" style="display:none;">
+        <div class="section-back-bar no-print"><button class="btn-back" onclick="showHub()">← MAIN MENU</button></div>
+        <div class="form-section no-print">
+            <div class="section-label">Other Sticker Data Entry</div>
+            <div class="form-grid" id="otherStickerForm">
+                <div class="form-field">
+                    <label class="field-label">Sticker Type</label>
+                    <input type="text" id="o_type" list="o_typeList" placeholder="e.g. Barcode / Care Label" class="field-input" autocomplete="off">
+                    <datalist id="o_typeList"></datalist>
+                </div>
+                <div class="form-field">
+                    <label class="field-label">Sticker Size</label>
+                    <input type="text" id="o_size" list="o_sizeList" placeholder="e.g. 5×8 CM" class="field-input" autocomplete="off">
+                    <datalist id="o_sizeList"></datalist>
+                </div>
+                <div class="form-field">
+                    <label class="field-label">Qty</label>
+                    <input type="number" id="o_qty" placeholder="0" class="field-input" inputmode="numeric">
+                </div>
+                <div class="form-field">
+                    <label class="field-label">Note</label>
+                    <input type="text" id="o_note" placeholder="Optional note" class="field-input" autocomplete="off">
+                </div>
+                <div class="form-field">
+                    <label class="field-label">Date</label>
+                    <input type="date" id="o_entryDate" class="field-input">
+                </div>
+            </div>
+            <div class="action-bar">
+                <button onclick="addOtherSticker()" class="btn btn-save">✓ SAVE</button>
+                <button onclick="resetOtherStickerForm()" class="btn btn-reset">↺ RESET</button>
+                <button onclick="exportOtherStickersToExcel()" class="btn btn-excel">⬇ EXCEL</button>
+                <button onclick="deleteSelectedOtherStickers()" class="btn btn-delete">✕ DELETE</button>
+            </div>
+        </div>
+
+        <div class="search-wrap no-print" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+            <span class="search-icon">⌕</span>
+            <input type="text" id="otherStickerSearch" onkeyup="filterOtherStickerTable()" placeholder="Search by Type, Size, Note..." class="search-input" autocomplete="off" style="flex:1;min-width:200px;">
+            <input type="date" id="otherStickerSearchDate" onchange="filterOtherStickerTable()" class="search-input" style="max-width:180px;" title="Filter by date">
+            <button type="button" onclick="document.getElementById('otherStickerSearchDate').value=''; filterOtherStickerTable();" class="btn" style="background:#6b7a99;color:#fff;padding:8px 14px;">CLEAR DATE</button>
+        </div>
+        <div class="table-wrap">
+            <div class="table-header-bar no-print">
+                <span class="table-title">OTHER STICKER RECORDS</span>
+                <span class="record-count" id="otherStickerCount">0 records</span>
+            </div>
+            <div class="overflow-x">
+                <table id="otherStickerTable">
+                    <thead>
+                        <tr>
+                            <th class="no-print" style="width:36px;"><input type="checkbox" class="row-checkbox" onchange="toggleOtherStickerSelectAll(this)"></th>
+                            <th>STICKER TYPE</th>
+                            <th>STICKER SIZE</th>
+                            <th>QTY</th>
+                            <th>NOTE</th>
+                            <th>DATE</th>
+                            <th>ENTERED BY</th>
+                            <th class="no-print">EDIT</th>
+                        </tr>
+                    </thead>
+                    <tbody id="otherStickerBody"></tbody>
+                    <tfoot>
+                        <tr>
+                            <td class="no-print"></td>
+                            <td colspan="2" style="text-align:right;padding-right:16px;letter-spacing:2px;">GRAND TOTAL</td>
+                            <td id="otherStickerTotal">0</td>
+                            <td></td><td></td><td></td>
+                            <td class="no-print"></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
         </div>
 
         <div id="chartsSection" style="display:none;">
@@ -1668,6 +1731,7 @@ let currentUser = null;
 let currentUserIp = 'unknown';
 let dataRecords    = [];
 let stickerRecords = [];
+let otherStickerRecords = [];
 let reportHistory  = [];
 let cutNoChart, totalQtyChart, trendChart, seasonChart;
 let sStyleChart, sColorChart, sTrendChart, sFitChart;
@@ -1726,10 +1790,12 @@ async function fetchData() {
         const all = record.records || [];
         dataRecords    = all.filter(r => r.module !== 'sticker' && r.styleNo && r.styleNo !== 'N/A' && Number(r.total) > 0);
         stickerRecords = all.filter(r => r.module === 'sticker' && r.styleNo);
+        otherStickerRecords = all.filter(r => r.module === 'otherSticker');
         reportHistory  = record.history || [];
         setSyncState('synced', 'LIVE ✓');
         localStorage.setItem('gii_label_cache', JSON.stringify({ records: all, history: reportHistory }));
         renderStickerTable();
+        renderOtherStickerTable();
     } catch(e) {
         console.warn('Supabase read failed, using local cache:', e.message);
         setSyncState('error', 'OFFLINE');
@@ -1737,9 +1803,11 @@ async function fetchData() {
         const all = cache.records || [];
         dataRecords    = all.filter(r => r.module !== 'sticker' && r.styleNo && r.styleNo !== 'N/A' && Number(r.total) > 0);
         stickerRecords = all.filter(r => r.module === 'sticker' && r.styleNo);
+        otherStickerRecords = all.filter(r => r.module === 'otherSticker');
         reportHistory  = cache.history || [];
         renderTable();
         renderStickerTable();
+        renderOtherStickerTable();
         updateCharts();
     }
 }
@@ -1750,7 +1818,8 @@ async function pushData() {
     setSyncState('syncing', 'SAVING...');
     const merged = [
         ...dataRecords.map(r => ({ ...r, module: r.module || 'acetate' })),
-        ...stickerRecords.map(r => ({ ...r, module: 'sticker' }))
+        ...stickerRecords.map(r => ({ ...r, module: 'sticker' })),
+        ...otherStickerRecords.map(r => ({ ...r, module: 'otherSticker' }))
     ];
     const payload = { records: merged, history: reportHistory };
     localStorage.setItem('gii_label_cache', JSON.stringify(payload));
@@ -1771,15 +1840,19 @@ function applyIncoming(record) {
     const all = record.records || [];
     const incomingAcetate  = all.filter(r => r.module !== 'sticker' && r.styleNo && r.styleNo !== 'N/A' && Number(r.total) > 0);
     const incomingStickers = all.filter(r => r.module === 'sticker' && r.styleNo);
-    const myKey  = dataRecords.map(r => r.id).join(',') + '|' + stickerRecords.map(r => r.id).join(',');
-    const newKey = incomingAcetate.map(r => r.id).join(',') + '|' + incomingStickers.map(r => r.id).join(',');
+    const incomingOther = all.filter(r => r.module === 'otherSticker');
+    const otherSig = arr => arr.map(r => r.id + ':' + r.qty + ':' + (r.type||'') + ':' + (r.size||'') + ':' + (r.note||'')).join(',');
+    const myKey  = dataRecords.map(r => r.id).join(',') + '|' + stickerRecords.map(r => r.id).join(',') + '|' + otherSig(otherStickerRecords);
+    const newKey = incomingAcetate.map(r => r.id).join(',') + '|' + incomingStickers.map(r => r.id).join(',') + '|' + otherSig(incomingOther);
     const histChanged = JSON.stringify(reportHistory) !== JSON.stringify(record.history || []);
     if (myKey !== newKey || histChanged) {
         dataRecords    = incomingAcetate;
         stickerRecords = incomingStickers;
+        otherStickerRecords = incomingOther;
         reportHistory  = record.history || [];
         renderTable();
         renderStickerTable();
+        renderOtherStickerTable();
         updateCharts();
         updateStickerCharts();
         localStorage.setItem('gii_label_cache', JSON.stringify({ records: all, history: reportHistory }));
@@ -1850,6 +1923,7 @@ async function showSystem() {
     const _all = cache.records || [];
     dataRecords    = _all.filter(r => r.module !== 'sticker' && r.styleNo && r.styleNo !== 'N/A' && Number(r.total) > 0);
     stickerRecords = _all.filter(r => r.module === 'sticker' && r.styleNo);
+    otherStickerRecords = _all.filter(r => r.module === 'otherSticker');
     reportHistory  = cache.history   || [];
  
     document.getElementById('loginOverlay').style.display = 'none';
@@ -1868,6 +1942,7 @@ async function showSystem() {
  
     renderTable();
     renderStickerTable();
+    renderOtherStickerTable();
     initCharts();
     applyUserPermissions();     // ← مهم جدًا
  
@@ -1907,7 +1982,7 @@ function showHub() {
     document.getElementById('recordsSection').style.display = 'none';
     document.getElementById('chartsSection').style.display = 'none';
     document.getElementById('teamSection').style.display = 'none';
-    ['stickerDataEntrySection','stickerCartonEntrySection','stickerOtherEntrySection','stickerRecordsSection','stickerChartsSection','stickerTeamSection','stickerDashboardSection','acetateDashboardSection'].forEach(id => {
+    ['stickerDataEntrySection','stickerRecordsSection','stickerChartsSection','stickerTeamSection','stickerDashboardSection','stickerBrandSection','otherStickerSection','acetateDashboardSection'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.style.display = 'none';
     });
@@ -1920,12 +1995,12 @@ function showSection(name) {
     document.getElementById('teamSection').style.display     = (name === 'team')      ? 'block' : 'none';
     const map = {
         stickerEntry:     'stickerDataEntrySection',
-        stickerCartonEntry: 'stickerCartonEntrySection',
-        stickerOtherEntry:  'stickerOtherEntrySection',
         stickerRecords:   'stickerRecordsSection',
         stickerCharts:    'stickerChartsSection',
         stickerTeam:      'stickerTeamSection',
         stickerDashboard: 'stickerDashboardSection',
+        stickerBrand:     'stickerBrandSection',
+        otherSticker:     'otherStickerSection',
         acetateDashboard: 'acetateDashboardSection'
     };
     Object.values(map).forEach(id => {
@@ -1936,7 +2011,7 @@ function showSection(name) {
         const el = document.getElementById(map[name]);
         if (el) el.style.display = 'block';
     }
-    if (name === 'stickerEntry' || name === 'stickerCartonEntry' || name === 'stickerOtherEntry') { initStickerSizeSelects(); setStickerTodayDate(); }
+    if (name === 'stickerEntry') setStickerTodayDate();
     if (name === 'stickerRecords') renderStickerTable();
     if (name === 'stickerDashboard') renderStickerDashboard();
     if (name === 'acetateDashboard') renderAcetateDashboard();
@@ -1951,6 +2026,8 @@ function showSection(name) {
         }, 50);
     }
     if (name === 'stickerTeam') renderStickerTeamProduction();
+    if (name === 'stickerBrand') renderStickerBrandDashboard();
+    if (name === 'otherSticker') { setOtherStickerTodayDate(); renderOtherStickerTable(); }
     if (name === 'team') renderTeamProduction();
     if (name === 'charts') {
         setTimeout(() => {
@@ -3393,71 +3470,63 @@ setInterval(() => {
 // =============================================
 //  STICKER MODULE
 // =============================================
-const STICKER_TYPES = {
-    polybag: { label: 'POLYBAG', prefix: 's',  editFields: ['styleNo','poNo','color','fit','colorCode','size','totalCtn','par','totalSticker'] },
-    carton:  { label: 'CARTON',  prefix: 'sc', editFields: ['styleNo','poNo','color','packingType','size','totalCtn'] },
-    other:   { label: 'OTHER',   prefix: 'so', editFields: ['styleNo','poNo','color','description','size','totalSticker'] }
-};
-function stickerTypeOf(r) { return (r && STICKER_TYPES[r.stickerType]) ? r.stickerType : 'polybag'; }
-function stickerExtraOf(r) {
-    const t = stickerTypeOf(r);
-    if (t === 'carton') return r.packingType || '';
-    if (t === 'other')  return r.description || '';
-    return '';
-}
-function escS(v) { return String(v == null ? '' : v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;'); }
-
-function initStickerSizeSelects() {
-    const src = document.getElementById('s_size');
-    if (!src) return;
-    document.querySelectorAll('select[data-size-select]').forEach(sel => {
-        if (sel.options.length <= 1) sel.innerHTML = src.innerHTML;
-    });
-}
-
 function setStickerTodayDate() {
+    const el = document.getElementById('s_entryDate');
+    if (!el) return;
     const d = new Date();
     const m = String(d.getMonth()+1).padStart(2,'0');
     const day = String(d.getDate()).padStart(2,'0');
-    const v = `${d.getFullYear()}-${m}-${day}`;
-    ['s_entryDate','sc_entryDate','so_entryDate'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.value = v;
-    });
+    el.value = `${d.getFullYear()}-${m}-${day}`;
 }
 
-function resetStickerForm(type) {
-    type = STICKER_TYPES[type] ? type : 'polybag';
-    const formId = { polybag: 'stickerInputForm', carton: 'stickerCartonForm', other: 'stickerOtherForm' }[type];
-    document.querySelectorAll('#' + formId + ' input').forEach(i => i.value = '');
-    const sizeEl = document.getElementById(STICKER_TYPES[type].prefix + '_size');
+// TOTAL STICKER (SHEETS) = ceil( TOTAL CARTON x SIDES / STICKER PER SHEET )  -- CARTON only
+function calcStickerTotal() {
+    const totalEl = document.getElementById('s_totalSticker');
+    const typeEl  = document.getElementById('s_totalType');
+    if (!totalEl || !typeEl) return;
+    const clearAuto = () => { if (totalEl.dataset.auto === '1') { totalEl.value = ''; totalEl.dataset.auto = ''; } };
+    if (typeEl.value !== 'CARTON') { clearAuto(); return; }          // polybag -> manual entry
+    const qty      = Number(document.getElementById('s_totalCtn').value) || 0;
+    const sides    = parseInt(document.getElementById('s_sides').value, 10) || 0;   // "2 Sides" -> 2
+    const perSheet = Number(document.getElementById('s_perSheet').value) || 0;
+    if (!qty || !sides || !perSheet) { clearAuto(); return; }
+    // don't overwrite a value the user typed manually
+    if (totalEl.value !== '' && totalEl.dataset.auto !== '1') return;
+    totalEl.value = Math.ceil(qty * sides / perSheet);
+    totalEl.dataset.auto = '1';
+}
+function initStickerAutoCalc() {
+    ['s_totalCtn','s_perSheet'].forEach(id => { const el = document.getElementById(id); if (el) el.addEventListener('input', calcStickerTotal); });
+    ['s_sides','s_totalType'].forEach(id => { const el = document.getElementById(id); if (el) el.addEventListener('change', calcStickerTotal); });
+    const t = document.getElementById('s_totalSticker');
+    if (t) t.addEventListener('input', () => { t.dataset.auto = ''; });   // manual edit takes over
+}
+
+function resetStickerForm() {
+    const _t = document.getElementById('s_totalSticker'); if (_t) _t.dataset.auto = '';
+    document.querySelectorAll('#stickerInputForm input').forEach(i => i.value = '');
+    const sizeEl = document.getElementById('s_size');
     if (sizeEl) sizeEl.value = '';
+    const sidesEl = document.getElementById('s_sides');
+    if (sidesEl) sidesEl.value = '';
+    const ttEl = document.getElementById('s_totalType');
+    if (ttEl) ttEl.value = 'CARTON';
     setStickerTodayDate();
 }
 
-async function addStickerData(type) {
-    type = STICKER_TYPES[type] ? type : 'polybag';
-    const p = STICKER_TYPES[type].prefix;
-    const val = id => (document.getElementById(p + '_' + id)?.value || '').trim();
-    const styleNo = val('styleNo');
-    const size = val('size');
-    let totalSticker = 0, totalCtn = 0;
-
-    if (type === 'carton') {
-        totalCtn = Number(val('totalCtn'));
-        if (!styleNo || !totalCtn) { alert('Please fill in Style No and Total Carton.'); return; }
-        totalSticker = totalCtn; // one carton sticker per carton
-    } else if (type === 'other') {
-        totalSticker = Number(val('totalSticker'));
-        if (!styleNo || !totalSticker) { alert('Please fill in Style No and Total Sticker.'); return; }
-    } else {
-        totalSticker = Number(val('totalSticker'));
-        totalCtn = Number(val('totalCtn')) || 0;
-        if (!styleNo || !totalSticker) { alert('Please fill in Style No and Total Sticker.'); return; }
+async function addStickerData() {
+    const styleNo = (document.getElementById('s_styleNo').value || '').trim();
+    const totalSticker = Number(document.getElementById('s_totalSticker').value);
+    const size = (document.getElementById('s_size').value || '').trim();
+    if (!styleNo || !totalSticker) {
+        alert('Please fill in Style No and Total Sticker.');
+        return;
     }
-    if (!size) { alert('Please select sticker Size (CM). Min 2×3 — Max 10×15.'); return; }
-
-    const entryDateVal = val('entryDate');
+    if (!size) {
+        alert('Please select sticker Size (CM). Min 2×3 — Max 10×15.');
+        return;
+    }
+    const entryDateVal = document.getElementById('s_entryDate').value;
     let createdAt;
     if (entryDateVal) {
         createdAt = new Date(entryDateVal + 'T12:00:00Z').toISOString();
@@ -3468,39 +3537,30 @@ async function addStickerData(type) {
         const d = String(now.getDate()).padStart(2, '0');
         createdAt = new Date(`${y}-${m}-${d}T12:00:00Z`).toISOString();
     }
-    const rec = {
+    stickerRecords.push({
         id: Date.now(),
         module: 'sticker',
-        stickerType: type,
         styleNo,
-        poNo: val('poNo') || 'N/A',
-        color: val('color') || 'N/A',
-        fit: 'N/A',
-        colorCode: 'N/A',
+        brand: (document.getElementById('s_brand').value || '').trim() || 'N/A',
+        poNo: (document.getElementById('s_poNo').value || '').trim() || 'N/A',
+        color: (document.getElementById('s_color').value || '').trim() || 'N/A',
+        part: (document.getElementById('s_part').value || '').trim() || 'N/A',
+        totalType: document.getElementById('s_totalType').value || 'CARTON',
+        totalCtn: Number(document.getElementById('s_totalCtn').value) || 0,
         size,
-        totalCtn,
-        par: 'N/A',
+        sides: (document.getElementById('s_sides').value || '').trim() || 'N/A',
+        perSheet: Number(document.getElementById('s_perSheet').value) || 0,
         totalSticker,
         createdAt,
         enteredBy: currentUser?.name || 'N/A',
         enteredById: currentUser?.empId || 'N/A',
         enteredIp: currentUserIp || 'unknown'
-    };
-    if (type === 'polybag') {
-        rec.fit = val('fit') || 'N/A';
-        rec.colorCode = val('colorCode') || 'N/A';
-        rec.par = val('par') || 'N/A';
-    } else if (type === 'carton') {
-        rec.packingType = val('packingType') || 'N/A';
-    } else {
-        rec.description = val('description') || 'N/A';
-    }
-    stickerRecords.push(rec);
-    resetStickerForm(type);
+    });
+    resetStickerForm();
     renderStickerTable();
     updateStickerCharts();
     await pushData();
-    document.getElementById(p + '_styleNo').focus();
+    document.getElementById('s_styleNo').focus();
 }
 
 function renderStickerTable() {
@@ -3509,30 +3569,25 @@ function renderStickerTable() {
     let totalSum = 0;
     tbody.innerHTML = stickerRecords.slice().reverse().map(r => {
         totalSum += Number(r.totalSticker) || 0;
-        const t = stickerTypeOf(r);
         const dateISO = r.createdAt ? r.createdAt.slice(0,10) : '';
         const dateDisp = dateISO ? dateISO.split('-').reverse().join('/') : '—';
-        const dash = '—';
-        const isPoly = t === 'polybag', isCtn = t === 'carton', isOther = t === 'other';
-        const extraCls = isCtn ? 'cell-s-packingType' : (isOther ? 'cell-s-description' : '');
         return `
-        <tr id="srow-${r.id}" data-date="${dateISO}" data-type="${t}">
+        <tr id="srow-${r.id}" data-date="${dateISO}">
             <td class="no-print"><input type="checkbox" class="sticker-row-checkbox" data-total="${r.totalSticker || 0}"></td>
-            <td class="cell-s-type"><strong>${STICKER_TYPES[t].label}</strong></td>
-            <td class="td-style cell-s-styleNo">${escS(r.styleNo)}</td>
-            <td class="cell-s-poNo">${escS(r.poNo)}</td>
-            <td class="cell-s-color">${escS(r.color)}</td>
-            <td class="${isPoly ? 'cell-s-fit' : ''}">${isPoly ? escS(r.fit) : dash}</td>
-            <td class="${isPoly ? 'cell-s-colorCode' : ''}">${isPoly ? escS(r.colorCode) : dash}</td>
-            <td class="${extraCls}">${(isCtn || isOther) ? escS(stickerExtraOf(r)) : dash}</td>
-            <td class="cell-s-size">${escS(r.size) || '—'}</td>
-            <td class="${isOther ? '' : 'cell-s-totalCtn'}">${isOther ? dash : (r.totalCtn || 0)}</td>
-            <td class="${isPoly ? 'cell-s-par' : ''}">${isPoly ? escS(r.par) : dash}</td>
-            <td class="td-total ${isCtn ? '' : 'cell-s-totalSticker'}">${r.totalSticker || 0}</td>
+            <td class="cell-s-brand">${r.brand || ''}</td>
+            <td class="td-style cell-s-styleNo">${r.styleNo || ''}</td>
+            <td class="cell-s-poNo">${r.poNo || ''}</td>
+            <td class="cell-s-color">${r.color || ''}</td>
+            <td class="cell-s-part">${r.part || r.fit || ''}</td>
+            <td class="cell-s-totalCtn" data-type="${r.totalType || 'CARTON'}">${r.totalCtn || 0} <small style="opacity:.65;font-weight:700;">${r.totalType === 'POLYBAG' ? 'POLYBAG' : 'CARTON'}</small></td>
+            <td class="cell-s-size">${r.size || '—'}</td>
+            <td class="cell-s-sides">${r.sides || ''}</td>
+            <td class="cell-s-perSheet">${r.perSheet || r.par || ''}</td>
+            <td class="td-total cell-s-totalSticker">${r.totalSticker || 0}</td>
             <td class="cell-s-date">${dateDisp}</td>
             <td class="cell-enteredBy">
-                <span class="eb-name">${escS(r.enteredBy) || '—'}</span>
-                <span class="eb-meta">${escS(r.enteredById) || '—'} · ${escS(r.enteredIp) || '—'}</span>
+                <span class="eb-name">${r.enteredBy || '—'}</span>
+                <span class="eb-meta">${r.enteredById || '—'} · ${r.enteredIp || '—'}</span>
             </td>
             <td class="no-print">
                 <button onclick="toggleStickerEdit(${r.id})" id="sbtn-edit-${r.id}" class="btn-edit-row">EDIT</button>
@@ -3549,16 +3604,13 @@ function renderStickerTable() {
 function filterStickerTable() {
     const qEl = document.getElementById('stickerSearchInput');
     const dEl = document.getElementById('stickerSearchDate');
-    const tEl = document.getElementById('stickerTypeFilter');
     const q = (qEl ? qEl.value : '').toLowerCase();
     const dateFilter = dEl ? dEl.value : '';
-    const typeFilter = tEl ? tEl.value : '';
     let filteredTotal = 0, visCount = 0;
     document.querySelectorAll('#stickerTableBody tr').forEach(row => {
         const textMatch = row.innerText.toLowerCase().includes(q);
         const dateMatch = !dateFilter || row.getAttribute('data-date') === dateFilter;
-        const typeMatch = !typeFilter || row.getAttribute('data-type') === typeFilter;
-        const show = textMatch && dateMatch && typeMatch;
+        const show = textMatch && dateMatch;
         row.style.display = show ? '' : 'none';
         if (show) {
             const cb = row.querySelector('.sticker-row-checkbox');
@@ -3591,30 +3643,43 @@ function toggleStickerEdit(id) {
     const row = document.getElementById(`srow-${id}`);
     const btn = document.getElementById(`sbtn-edit-${id}`);
     if (!row || !btn) return;
-    const rec = stickerRecords.find(r => r.id === id);
-    if (!rec) return;
-    const fields = STICKER_TYPES[stickerTypeOf(rec)].editFields;
     const editing = btn.classList.contains('btn-save-row');
+    const fields = ['brand','styleNo','poNo','color','part','totalCtn','size','sides','perSheet','totalSticker'];
+    const numFields = ['totalCtn','perSheet','totalSticker'];
     if (!editing) {
+        const rec = stickerRecords.find(r => r.id === id) || {};
         fields.forEach(f => {
             const cell = row.querySelector(`.cell-s-${f}`);
             if (!cell) return;
-            const val = cell.innerText;
-            const type = (f === 'totalCtn' || f === 'totalSticker') ? 'number' : 'text';
-            cell.innerHTML = `<input type="${type}" class="edit-cell-input" value="${val.replace(/"/g,'&quot;')}" inputmode="${type==='number'?'numeric':'text'}">`;
+            if (f === 'totalCtn') {
+                const t = rec.totalType === 'POLYBAG' ? 'POLYBAG' : 'CARTON';
+                cell.innerHTML = `<select class="edit-cell-input edit-type-sel"><option value="CARTON"${t==='CARTON'?' selected':''}>CARTON</option><option value="POLYBAG"${t==='POLYBAG'?' selected':''}>POLYBAG</option></select><input type="number" class="edit-cell-input" value="${Number(rec.totalCtn)||0}" inputmode="numeric">`;
+                return;
+            }
+            let val = cell.innerText;
+            if (f === 'part') val = rec.part || rec.fit || '';
+            if (f === 'perSheet') val = (rec.perSheet || rec.par || '');
+            const type = numFields.includes(f) ? 'number' : 'text';
+            cell.innerHTML = `<input type="${type}" class="edit-cell-input" value="${String(val).replace(/"/g,'&quot;')}" inputmode="${type==='number'?'numeric':'text'}">`;
         });
         btn.innerText = 'SAVE';
         btn.classList.add('btn-save-row');
     } else {
         const updated = {};
         fields.forEach(f => {
+            if (f === 'totalCtn') {
+                const sel = row.querySelector('.cell-s-totalCtn select');
+                const inp = row.querySelector('.cell-s-totalCtn input');
+                if (sel) updated.totalType = sel.value;
+                if (inp) updated.totalCtn = Number(inp.value) || 0;
+                return;
+            }
             const input = row.querySelector(`.cell-s-${f} input`);
             if (!input) return;
             let val = input.value;
-            if (f === 'totalCtn' || f === 'totalSticker') val = Number(val) || 0;
+            if (numFields.includes(f)) val = Number(val) || 0;
             updated[f] = val;
         });
-        if (stickerTypeOf(rec) === 'carton' && 'totalCtn' in updated) updated.totalSticker = updated.totalCtn;
         const idx = stickerRecords.findIndex(r => r.id === id);
         if (idx !== -1) {
             stickerRecords[idx] = { ...stickerRecords[idx], ...updated };
@@ -3627,21 +3692,30 @@ function toggleStickerEdit(id) {
 
 function exportStickersToExcel() {
     if (!stickerRecords.length) { alert('No sticker data to export.'); return; }
-    const rows = stickerRecords.map(r => ({
-        'TYPE': STICKER_TYPES[stickerTypeOf(r)].label,
+    // The "TOTAL" column header follows the dropdown choice: TOTAL CARTON / TOTAL POLYBAG.
+    // If all records are one type -> a single column with that name; if mixed -> both columns.
+    const isPoly = r => r.totalType === 'POLYBAG';
+    const hasPoly = stickerRecords.some(isPoly);
+    const hasCarton = stickerRecords.some(r => !isPoly(r));
+    const rows = stickerRecords.map(r => {
+      const o = {
+        'BRAND': r.brand || '',
         'STYLE NO': r.styleNo,
         'PO NO': r.poNo,
         'COLOR': r.color,
-        'FIT': stickerTypeOf(r) === 'polybag' ? r.fit : '',
-        'COLOR CODE': stickerTypeOf(r) === 'polybag' ? r.colorCode : '',
-        'PACKING TYPE / DESCRIPTION': stickerExtraOf(r),
-        'SIZE (CM)': r.size || '',
-        'TOTAL CTN': stickerTypeOf(r) === 'other' ? '' : r.totalCtn,
-        'PAR': stickerTypeOf(r) === 'polybag' ? r.par : '',
-        'TOTAL STICKER': r.totalSticker,
+        'PART': r.part || r.fit || ''
+      };
+      if (hasCarton) o['TOTAL CARTON'] = isPoly(r) ? '' : (Number(r.totalCtn) || 0);
+      if (hasPoly)   o['TOTAL POLYBAG'] = isPoly(r) ? (Number(r.totalCtn) || 0) : '';
+      return Object.assign(o, {
+        'STICKER SIZE': r.size || '',
+        'SIDES': r.sides || '',
+        'STICKER PER SHEET': r.perSheet || r.par || '',
+        'TOTAL STICKER (SHEETS)': r.totalSticker,
         'DATE': r.createdAt ? r.createdAt.slice(0,10).split('-').reverse().join('/') : '',
         'ENTERED BY': r.enteredBy || ''
-    }));
+      });
+    });
     const ws = XLSX.utils.json_to_sheet(rows);
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Stickers');
@@ -3669,33 +3743,30 @@ function exportStickersToPDF() {
         const cb = row.querySelector('.sticker-row-checkbox');
         if (cb && cb.checked) {
             const cells = row.querySelectorAll('td');
-            // cells: 0 chk, 1 type, 2 style, 3 po, 4 color, 5 fit, 6 code, 7 packing/desc, 8 size, 9 ctn, 10 par, 11 total, 12 date
+            // cells: 0 chk, 1 brand, 2 style, 3 po, 4 color, 5 part, 6 total ctn/polybag, 7 size, 8 sides, 9 per sheet, 10 total sticker, 11 date
             selData.push([
-                cells[1].innerText, cells[2].innerText, cells[3].innerText, cells[4].innerText, cells[5].innerText, cells[6].innerText,
-                cells[7].innerText, cells[8].innerText, cells[9].innerText, cells[10].innerText, cells[11].innerText, cells[12].innerText
+                cells[1].innerText, cells[2].innerText, cells[3].innerText, cells[4].innerText, cells[5].innerText,
+                cells[6].innerText.replace(/\s+/g,' ').trim(), cells[7].innerText, cells[8].innerText, cells[9].innerText, cells[10].innerText, cells[11].innerText
             ]);
-            selTotal += Number(cells[11].innerText) || 0;
+            selTotal += Number(cells[10].innerText) || 0;
         }
     });
     if (!selData.length) {
         // export all if nothing selected
         stickerRecords.forEach(r => {
             const dateDisp = r.createdAt ? r.createdAt.slice(0,10).split('-').reverse().join('/') : '';
-            const t = stickerTypeOf(r);
-            selData.push([STICKER_TYPES[t].label, r.styleNo, r.poNo, r.color,
-                t === 'polybag' ? r.fit : '—', t === 'polybag' ? r.colorCode : '—', stickerExtraOf(r) || '—',
-                r.size || '', t === 'other' ? '—' : r.totalCtn, t === 'polybag' ? r.par : '—', r.totalSticker, dateDisp]);
+            selData.push([r.brand || '', r.styleNo, r.poNo, r.color, r.part || r.fit || '', `${r.totalCtn || 0} ${r.totalType === 'POLYBAG' ? 'POLYBAG' : 'CARTON'}`, r.size || '', r.sides || '', r.perSheet || r.par || '', r.totalSticker, dateDisp]);
             selTotal += Number(r.totalSticker) || 0;
         });
     }
     if (!selData.length) { alert('No sticker data to export.'); return; }
     selData.push([
-        {content:'GRAND TOTAL', colSpan:10, styles:{halign:'right',fontStyle:'bold',fillColor:[238,242,251]}},
+        {content:'GRAND TOTAL', colSpan:9, styles:{halign:'right',fontStyle:'bold',fillColor:[238,242,251]}},
         {content:String(selTotal), styles:{halign:'center',fontStyle:'bold',fillColor:[238,242,251]}},
         {content:'', styles:{fillColor:[238,242,251]}}
     ]);
     doc.autoTable({
-        head:[['TYPE','STYLE NO','PO NO','COLOR','FIT','COLOR CODE','PACKING / DESC','SIZE (CM)','TOTAL CTN','PAR','TOTAL STICKER','DATE']],
+        head:[['BRAND','STYLE NO','PO NO','COLOR','PART','TOTAL CARTON / POLYBAG','STICKER SIZE','SIDES','STICKER PER SHEET','TOTAL STICKER (SHEETS)','DATE']],
         body: selData, startY:38, theme:'grid',
         styles:{fontSize:8,halign:'center',cellPadding:2,valign:'middle'},
         headStyles:{fillColor:[0,36,77],textColor:[255,255,255],fontSize:8},
@@ -3757,7 +3828,7 @@ function initStickerCharts() {
     sColorChart = new Chart(c2.getContext('2d'), {
         type: 'bar',
         data: { labels: [], datasets: [{
-            label: 'Total CTN', data: [],
+            label: 'Total Carton / Polybag', data: [],
             backgroundColor: barGradient(c2, '#ff5566', '#8f1b28'),
             borderRadius: 6, maxBarThickness: 42, hoverBackgroundColor: '#f0a500'
         }]},
@@ -3872,8 +3943,8 @@ function updateStickerCharts() {
     if (st) st.textContent = sortedDates.length ? `(${sortedDates.length} days)` : '';
     toggleEmptyState('sTrendChart', sortedDates.length === 0);
 
-    // SHARE BY FIT
-    const byFit = aggregateBy(stickerRecords.filter(r => stickerTypeOf(r) === 'polybag'), r => r.fit, r => r.totalSticker);
+    // SHARE BY BRAND
+    const byFit = aggregateBy(stickerRecords, r => r.brand, r => r.totalSticker);
     sFitChart.data.labels = byFit.map(e => e[0]);
     sFitChart.data.datasets[0].data = byFit.map(e => e[1]);
     const fitTotal = byFit.reduce((a,e) => a + e[1], 0);
@@ -3965,7 +4036,7 @@ function renderStickerTeamProduction() {
             <div class="team-bar"><i style="width:${(p.qty / maxQty * 100).toFixed(1)}%"></i></div>
             <div class="team-stats">
                 <div class="team-stat"><b>${p.recs}</b><span>Records</span></div>
-                <div class="team-stat"><b>${p.ctn.toLocaleString('en-US')}</b><span>Total CTN</span></div>
+                <div class="team-stat"><b>${p.ctn.toLocaleString('en-US')}</b><span>Total CTN / Polybag</span></div>
                 <div class="team-stat"><b>${p.colors.size}</b><span>Colors</span></div>
             </div>
         </div>`).join('');
@@ -4205,6 +4276,317 @@ function renderStickerDashboard() {
 }
 
 // =============================================
+//  STICKER BRAND DASHBOARD
+// =============================================
+let stickerBrandPeriod = 'all';
+let stickerBrandView = { brands: [], sizes: [] };
+
+function setStickerBrandPeriod(p) {
+    stickerBrandPeriod = p;
+    document.querySelectorAll('#stickerBrandSection .team-filter').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-period') === p);
+    });
+    const dateEl = document.getElementById('stickerBrandDate');
+    if (dateEl && p !== 'date') dateEl.value = '';
+    renderStickerBrandDashboard();
+}
+function onStickerBrandDate() {
+    const v = (document.getElementById('stickerBrandDate') || {}).value || '';
+    if (v) {
+        stickerBrandPeriod = 'date';
+        document.querySelectorAll('#stickerBrandSection .team-filter').forEach(btn => btn.classList.remove('active'));
+    }
+    renderStickerBrandDashboard();
+}
+function _escHtml(t) {
+    return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function _sizeArea(sz) {
+    const m = String(sz).match(/(\d+(?:\.\d+)?)\s*[×xX]\s*(\d+(?:\.\d+)?)/);
+    return m ? Number(m[1]) * Number(m[2]) : 1e9;
+}
+
+function renderStickerBrandDashboard() {
+    const grid = document.getElementById('stickerBrandGrid');
+    const matrix = document.getElementById('stickerBrandMatrix');
+    if (!grid || !matrix) return;
+    const pad = n => String(n).padStart(2, '0');
+    const now = new Date();
+    const todayKey = now.getFullYear() + '-' + pad(now.getMonth() + 1) + '-' + pad(now.getDate());
+    const monthKey = todayKey.slice(0, 7);
+    const pickedDate = (document.getElementById('stickerBrandDate') || {}).value || '';
+    const inPeriod = r => {
+        const d = (r.createdAt || '').slice(0, 10);
+        if (stickerBrandPeriod === 'today') return d === todayKey;
+        if (stickerBrandPeriod === 'month') return d.slice(0, 7) === monthKey;
+        if (stickerBrandPeriod === 'date')  return d === pickedDate;
+        return true;
+    };
+
+    const brandMap = new Map();   // brand -> { total, recs, sizes: Map }
+    const sizeSet = new Set();
+    let grand = 0, recCount = 0;
+    stickerRecords.filter(inPeriod).forEach(r => {
+        let b = String(r.brand || '').trim().toUpperCase();
+        if (!b || b === 'N/A') b = 'NO BRAND';
+        const sz = r.size || 'N/A';
+        const q = Number(r.totalSticker) || 0;
+        if (!brandMap.has(b)) brandMap.set(b, { name: b, total: 0, recs: 0, sizes: new Map() });
+        const o = brandMap.get(b);
+        o.total += q; o.recs += 1;
+        o.sizes.set(sz, (o.sizes.get(sz) || 0) + q);
+        sizeSet.add(sz);
+        grand += q; recCount += 1;
+    });
+
+    const brands = Array.from(brandMap.values()).sort((a, b) => b.total - a.total);
+    const sizes = Array.from(sizeSet).sort((a, b) => _sizeArea(a) - _sizeArea(b));
+    stickerBrandView = { brands, sizes };
+    const fmt = n => Number(n || 0).toLocaleString('en-US');
+
+    const setTxt = (id, v) => { const el = document.getElementById(id); if (el) el.innerText = v; };
+    setTxt('sBrandTotalQty', fmt(grand));
+    setTxt('sBrandCount', brands.length);
+    setTxt('sBrandRecs', recCount);
+
+    if (!brands.length) {
+        grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--muted);padding:40px 0;font-size:13px;">No sticker records for this period.</div>';
+        matrix.innerHTML = '';
+        return;
+    }
+
+    grid.innerHTML = brands.map((b, i) => {
+        const rows = Array.from(b.sizes.entries()).sort((x, y) => y[1] - x[1]);
+        const maxSz = Math.max(1, ...rows.map(e => e[1]));
+        return `
+        <div class="team-card${i === 0 ? ' rank-1' : ''}" style="cursor:default;">
+            <div class="team-head">
+                <div class="team-avatar">${_escHtml(b.name.charAt(0))}</div>
+                <div>
+                    <div class="team-name">${_escHtml(b.name)}</div>
+                    <div class="team-meta">${b.recs} record${b.recs !== 1 ? 's' : ''} · ${b.sizes.size} size${b.sizes.size !== 1 ? 's' : ''}</div>
+                </div>
+                <div class="team-rank">#${i + 1}</div>
+            </div>
+            <div class="team-qty">${fmt(b.total)}<small>SHEETS</small></div>
+            <div style="margin-top:12px;">
+                ${rows.map(([sz, q]) => `
+                <div class="bd-size-row">
+                    <span class="bd-size-lbl">${_escHtml(sz)} CM</span>
+                    <span class="bd-size-bar"><i style="width:${(q / maxSz * 100).toFixed(1)}%"></i></span>
+                    <span class="bd-size-val">${fmt(q)}<small>${b.total ? (q / b.total * 100).toFixed(0) : 0}%</small></span>
+                </div>`).join('')}
+            </div>
+        </div>`;
+    }).join('');
+
+    const colTotals = sizes.map(sz => brands.reduce((a, b) => a + (b.sizes.get(sz) || 0), 0));
+    matrix.innerHTML = `
+        <thead><tr>
+            <th>BRAND</th>
+            ${sizes.map(sz => `<th>${_escHtml(sz)}</th>`).join('')}
+            <th>TOTAL</th>
+        </tr></thead>
+        <tbody>
+            ${brands.map(b => `<tr>
+                <td>${_escHtml(b.name)}</td>
+                ${sizes.map(sz => { const v = b.sizes.get(sz) || 0; return `<td class="${v ? '' : 'bd-zero'}">${v ? fmt(v) : '—'}</td>`; }).join('')}
+                <td class="td-total">${fmt(b.total)}</td>
+            </tr>`).join('')}
+        </tbody>
+        <tfoot><tr>
+            <td>GRAND TOTAL</td>
+            ${colTotals.map(v => `<td>${fmt(v)}</td>`).join('')}
+            <td>${fmt(grand)}</td>
+        </tr></tfoot>`;
+}
+
+function exportStickerBrandExcel() {
+    renderStickerBrandDashboard();
+    const { brands, sizes } = stickerBrandView;
+    if (!brands.length) { alert('No sticker data to export.'); return; }
+    const rows = brands.map(b => {
+        const o = { 'BRAND': b.name };
+        sizes.forEach(sz => { o[sz + ' CM'] = b.sizes.get(sz) || 0; });
+        o['TOTAL (SHEETS)'] = b.total;
+        return o;
+    });
+    const tot = { 'BRAND': 'GRAND TOTAL' };
+    sizes.forEach(sz => { tot[sz + ' CM'] = brands.reduce((a, b) => a + (b.sizes.get(sz) || 0), 0); });
+    tot['TOTAL (SHEETS)'] = brands.reduce((a, b) => a + b.total, 0);
+    rows.push(tot);
+    const ws = XLSX.utils.json_to_sheet(rows);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Brand x Size');
+    XLSX.writeFile(wb, `Sticker_Brand_Dashboard_${Date.now()}.xlsx`);
+}
+
+// =============================================
+//  OTHER STICKER (data entry + records)
+// =============================================
+function setOtherStickerTodayDate() {
+    const el = document.getElementById('o_entryDate');
+    if (!el || el.value) return;
+    const d = new Date();
+    el.value = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+function resetOtherStickerForm() {
+    document.querySelectorAll('#otherStickerForm input').forEach(i => i.value = '');
+    setOtherStickerTodayDate();
+}
+function refreshOtherStickerLists() {
+    const uniq = key => Array.from(new Set(otherStickerRecords.map(r => (r[key] || '').trim()).filter(Boolean)));
+    const fill = (id, arr) => {
+        const dl = document.getElementById(id);
+        if (dl) dl.innerHTML = arr.map(v => `<option value="${_escHtml(v)}"></option>`).join('');
+    };
+    fill('o_typeList', uniq('type'));
+    const stdSizes = ['2×3','2×4','2×5','3×4','3×5','3×6','4×5','4×6','4×7','5×5','5×7','5×8','6×6','6×8','6×9','7×10','8×8','8×10','8×12','9×12','10×10','10×12','10×15'];
+    const all = Array.from(new Set([...uniq('size'), ...stdSizes]));
+    fill('o_sizeList', all);
+}
+async function addOtherSticker() {
+    const type = (document.getElementById('o_type').value || '').trim();
+    const size = (document.getElementById('o_size').value || '').trim();
+    const qty  = Number(document.getElementById('o_qty').value);
+    const note = (document.getElementById('o_note').value || '').trim();
+    if (!type || !size || !qty) {
+        alert('Please fill in Sticker Type, Sticker Size and Qty.');
+        return;
+    }
+    const dv = document.getElementById('o_entryDate').value;
+    let createdAt;
+    if (dv) createdAt = new Date(dv + 'T12:00:00Z').toISOString();
+    else {
+        const n = new Date();
+        createdAt = new Date(`${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,'0')}-${String(n.getDate()).padStart(2,'0')}T12:00:00Z`).toISOString();
+    }
+    otherStickerRecords.push({
+        id: Date.now(),
+        module: 'otherSticker',
+        type, size, qty, note,
+        createdAt,
+        enteredBy: currentUser?.name || 'N/A',
+        enteredById: currentUser?.empId || 'N/A',
+        enteredIp: currentUserIp || 'unknown'
+    });
+    resetOtherStickerForm();
+    renderOtherStickerTable();
+    await pushData();
+    document.getElementById('o_type').focus();
+}
+function renderOtherStickerTable() {
+    const tbody = document.getElementById('otherStickerBody');
+    refreshOtherStickerLists();
+    if (!tbody) return;
+    let total = 0;
+    tbody.innerHTML = otherStickerRecords.slice().reverse().map(r => {
+        total += Number(r.qty) || 0;
+        const iso = r.createdAt ? r.createdAt.slice(0,10) : '';
+        const disp = iso ? iso.split('-').reverse().join('/') : '—';
+        return `
+        <tr id="orow-${r.id}" data-date="${iso}">
+            <td class="no-print"><input type="checkbox" class="other-row-checkbox" data-total="${Number(r.qty) || 0}"></td>
+            <td class="td-style cell-o-type">${_escHtml(r.type || '')}</td>
+            <td class="cell-o-size">${_escHtml(r.size || '')}</td>
+            <td class="td-total cell-o-qty">${Number(r.qty) || 0}</td>
+            <td class="cell-o-note">${_escHtml(r.note || '')}</td>
+            <td class="cell-o-date">${disp}</td>
+            <td class="cell-enteredBy">
+                <span class="eb-name">${_escHtml(r.enteredBy || '—')}</span>
+                <span class="eb-meta">${_escHtml(r.enteredById || '—')} · ${_escHtml(r.enteredIp || '—')}</span>
+            </td>
+            <td class="no-print"><button onclick="toggleOtherStickerEdit(${r.id})" id="obtn-edit-${r.id}" class="btn-edit-row">EDIT</button></td>
+        </tr>`;
+    }).join('');
+    const gt = document.getElementById('otherStickerTotal');
+    const rc = document.getElementById('otherStickerCount');
+    if (gt) gt.innerText = total.toLocaleString('en-US');
+    if (rc) rc.innerText = otherStickerRecords.length + ' record' + (otherStickerRecords.length !== 1 ? 's' : '');
+    filterOtherStickerTable();
+    applyUserPermissions();
+}
+function filterOtherStickerTable() {
+    const q = ((document.getElementById('otherStickerSearch') || {}).value || '').toLowerCase();
+    const df = (document.getElementById('otherStickerSearchDate') || {}).value || '';
+    let total = 0, vis = 0;
+    document.querySelectorAll('#otherStickerBody tr').forEach(row => {
+        const show = row.innerText.toLowerCase().includes(q) && (!df || row.getAttribute('data-date') === df);
+        row.style.display = show ? '' : 'none';
+        if (show) {
+            const cb = row.querySelector('.other-row-checkbox');
+            total += Number(cb ? cb.getAttribute('data-total') : 0);
+            vis++;
+        }
+    });
+    const gt = document.getElementById('otherStickerTotal');
+    const rc = document.getElementById('otherStickerCount');
+    if (gt) gt.innerText = total.toLocaleString('en-US');
+    if (rc) rc.innerText = vis + ' record' + (vis !== 1 ? 's' : '');
+}
+function toggleOtherStickerSelectAll(src) {
+    document.querySelectorAll('#otherStickerBody tr').forEach(row => {
+        if (row.style.display === 'none') return;
+        const cb = row.querySelector('.other-row-checkbox');
+        if (cb) cb.checked = src.checked;
+    });
+}
+async function deleteSelectedOtherStickers() {
+    const checked = document.querySelectorAll('.other-row-checkbox:checked');
+    if (!checked.length) { alert('Please select rows to delete.'); return; }
+    if (!confirm(`Delete ${checked.length} selected row(s)?`)) return;
+    const ids = Array.from(checked).map(cb => parseInt(cb.closest('tr').id.replace('orow-','')));
+    otherStickerRecords = otherStickerRecords.filter(r => !ids.includes(r.id));
+    renderOtherStickerTable();
+    await pushData();
+}
+function toggleOtherStickerEdit(id) {
+    const row = document.getElementById(`orow-${id}`);
+    const btn = document.getElementById(`obtn-edit-${id}`);
+    if (!row || !btn) return;
+    const editing = btn.classList.contains('btn-save-row');
+    const idx = otherStickerRecords.findIndex(r => r.id === id);
+    if (idx === -1) return;
+    const fields = ['type','size','qty','note'];
+    if (!editing) {
+        const rec = otherStickerRecords[idx];
+        fields.forEach(f => {
+            const cell = row.querySelector(`.cell-o-${f}`);
+            if (!cell) return;
+            const t = f === 'qty' ? 'number' : 'text';
+            cell.innerHTML = `<input type="${t}" class="edit-cell-input" value="${_escHtml(rec[f] ?? '')}" inputmode="${t==='number'?'numeric':'text'}">`;
+        });
+        btn.innerText = 'SAVE';
+        btn.classList.add('btn-save-row');
+    } else {
+        const upd = {};
+        fields.forEach(f => {
+            const inp = row.querySelector(`.cell-o-${f} input`);
+            if (!inp) return;
+            upd[f] = f === 'qty' ? (Number(inp.value) || 0) : inp.value.trim();
+        });
+        otherStickerRecords[idx] = { ...otherStickerRecords[idx], ...upd };
+        renderOtherStickerTable();
+        pushData();
+    }
+}
+function exportOtherStickersToExcel() {
+    if (!otherStickerRecords.length) { alert('No data to export.'); return; }
+    const rows = otherStickerRecords.map(r => ({
+        'STICKER TYPE': r.type || '',
+        'STICKER SIZE': r.size || '',
+        'QTY': Number(r.qty) || 0,
+        'NOTE': r.note || '',
+        'DATE': r.createdAt ? r.createdAt.slice(0,10).split('-').reverse().join('/') : '',
+        'ENTERED BY': r.enteredBy || ''
+    }));
+    const ws = XLSX.utils.json_to_sheet(rows);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Other Stickers');
+    XLSX.writeFile(wb, `Other_Stickers_${Date.now()}.xlsx`);
+}
+
+// =============================================
 //  INIT
 // =============================================
 window.onload = async () => {
@@ -4213,6 +4595,7 @@ window.onload = async () => {
 };
 document.getElementById('passInput').addEventListener('keypress', e => { if(e.key==='Enter') checkPassword(); });
 document.getElementById('inputForm').addEventListener('keypress', e => { if(e.key==='Enter') addData(); });
+initStickerAutoCalc();
 </script>
 </body>
 </html>
