@@ -1374,7 +1374,7 @@ function toggleLgPass() {
 
                         <option value="5×8">5 × 8 CM</option>
 
-                        <option value="5×10">5 × 10 CM</option>
+                        <option value="10×5">10 × 5 CM</option>
 
                         <option value="6×6">6 × 6 CM</option>
 
@@ -1399,7 +1399,7 @@ function toggleLgPass() {
                         <option value="10×12">10 × 12 CM</option>
 
                         <option value="10×15">10 × 15 CM </option>
-                        <option value="A4 SHEET">A4 BROWN STICKER </option>
+                        <option value="A4 SHEET">A4 SHEET </option>
 
                     </select>
 
@@ -1765,7 +1765,7 @@ const USERS = [
     {
         username: "admin",
         password: "admin",
-        role: "admin",
+        role: "user",
         name: "AHMED HASSAN",
         empId: "EMP-005"
     },
@@ -1779,7 +1779,7 @@ const USERS = [
     {
         username: "abdelrahman",
         password: "Abdo2026",
-        role: "user",
+        role: "admin",
         name: "ABDELRAHMAN HOSSAM",
         empId: "EMP-003"
     },
@@ -3240,7 +3240,7 @@ function exportToPDF() {
     doc.setTextColor(255,255,255); doc.setFontSize(18); doc.setFont(undefined,'bold');
     doc.text("GLOBE INTERNATIONAL INDUSTRIES",14,14);
     doc.setFontSize(10); doc.setFont(undefined,'normal');
-    doc.text("LABEL PRINTING DEPARTMENT — PRODUCTION REPORT",14,21);
+    doc.text("LABEL PRINTING DEPARTMENT YNKN KHAN — PRODUCTION REPORT",14,21);
     doc.setFontSize(9); doc.setTextColor(200,210,230);
     doc.text(`DATE: ${rDate}   TIME: ${rTime}`,14,28);
  
