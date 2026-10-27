@@ -776,7 +776,20 @@
         .nl-label .nl-color { font-size: calc(7.5 * var(--pt)); min-height: calc(9.2 * var(--pt)); }
         .nl-label .nl-made  { font-size: calc(7 * var(--pt)); }
         .nl-label .nl-ic { position: absolute; top: 50%; transform: translateY(-50%); pointer-events: none; }
-    </style>
+    
+/* ===== VIEWER ROLE: read-only (no data entry / edit / delete) ===== */
+body.role-viewer .hub-card[onclick*="dataEntry"],
+body.role-viewer .hub-card[onclick*="stickerEntry"],
+body.role-viewer button[onclick*="showSection('dataEntry')"],
+body.role-viewer button[onclick*="showSection('stickerEntry')"],
+body.role-viewer #otherStickerForm,
+body.role-viewer #otherStickerSection .section-label,
+body.role-viewer .btn-save, body.role-viewer .btn-reset, body.role-viewer .btn-delete,
+body.role-viewer .btn-edit-row, body.role-viewer .btn-save-row,
+body.role-viewer #importBtn,
+body.role-viewer button[onclick*="dailyClosure"],
+body.role-viewer table th.no-print, body.role-viewer table td.no-print { display: none !important; }
+</style>
 <base target="_blank">
 <base target="_blank">
 <base target="_blank">
@@ -983,6 +996,14 @@ function toggleLgPass() {
                     <div class="hub-card-sub">View, search, edit &amp;<br>export acetate records</div>
                     <span class="hub-card-go">OPEN →</span>
                 </div>
+                <div class="hub-card" onclick="showSection('acetateBrand')">
+                    <div class="hub-card-icon-wrap iw-blue">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M6 21V9"/><path d="M12 21V3"/><path d="M18 21v-7"/></svg>
+                    </div>
+                    <div class="hub-card-title">BRAND DASHBOARD</div>
+                    <div class="hub-card-sub">Production per brand<br>by line</div>
+                    <span class="hub-card-go">OPEN →</span>
+                </div>
                 <div class="hub-card" onclick="showSection('charts')">
                     <div class="hub-card-icon-wrap iw-green">
                         <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
@@ -1111,6 +1132,7 @@ function toggleLgPass() {
             <div class="action-bar" style="justify-content:flex-start;">
                 <button onclick="showSection('dataEntry')" class="btn btn-save">+ NEW ENTRY</button>
                 <button onclick="showSection('records')" class="btn btn-print">RECORDS</button>
+                <button onclick="showSection('acetateBrand')" class="btn btn-closure">BRANDS</button>
                 <button onclick="showSection('charts')" class="btn btn-excel">FULL CHARTS</button>
                 <button onclick="showSection('team')" class="btn btn-closure">TEAM</button>
             </div>
@@ -1123,6 +1145,10 @@ function toggleLgPass() {
         <div class="form-section no-print">
             <div class="section-label">Data Entry</div>
             <div class="form-grid" id="inputForm">
+                <div class="form-field">
+                    <label class="field-label">Brand</label>
+                    <input type="text" id="brand" placeholder="e.g. DECATHLON" class="field-input" autocomplete="off">
+                </div>
                 <div class="form-field">
                     <label class="field-label">Style No</label>
                     <input type="text" id="styleNo" placeholder="e.g. ST-001" class="field-input" autocomplete="off">
@@ -1158,6 +1184,10 @@ function toggleLgPass() {
                 <div class="form-field">
                     <label class="field-label">Date</label>
                     <input type="date" id="entryDate" class="field-input">
+                </div>
+                <div class="form-field">
+                    <label class="field-label">Entered By</label>
+                    <select id="enteredBySel" class="field-input"></select>
                 </div>
             </div>
             <div class="nl-card no-print">
@@ -1230,7 +1260,7 @@ function toggleLgPass() {
                             <th class="no-print" id="selectAllHeader" style="width:36px;">
                                 <input type="checkbox" id="selectAllChk" class="row-checkbox" onchange="toggleSelectAll(this)">
                             </th>
-                            <th>STYLE</th><th>ERP</th><th>LINE</th><th>BATCH</th>
+                            <th>BRAND</th><th>STYLE</th><th>ERP</th><th>LINE</th><th>BATCH</th>
                             <th>CUT</th><th>COLOR</th><th>SEASON</th><th>TOTAL</th><th>DATE</th>
                             <th>ENTERED BY</th>
                             <th class="no-print">EDIT</th>
@@ -1239,7 +1269,7 @@ function toggleLgPass() {
                     <tbody id="tableBody"></tbody>
                     <tfoot>
                         <tr>
-                            <td colspan="8" id="totalLabelCell" style="text-align:right;padding-right:16px;letter-spacing:2px;">GRAND TOTAL</td>
+                            <td colspan="9" id="totalLabelCell" style="text-align:right;padding-right:16px;letter-spacing:2px;">GRAND TOTAL</td>
                             <td id="grandTotal">0</td>
                             <td></td>
                             <td class="no-print"></td>
@@ -1256,6 +1286,35 @@ function toggleLgPass() {
         </div>
  
         <!-- CHARTS -->
+
+        <!-- ===== ACETATE BRAND DASHBOARD ===== -->
+        <div id="acetateBrandSection" style="display:none;">
+        <div class="section-back-bar no-print"><button class="btn-back" onclick="showHub()">&#8592; MAIN MENU</button></div>
+        <div class="hub-hero" style="margin-bottom:18px;">
+            <div class="hub-hello">ACETATE LABELS</div>
+            <div class="hub-title">Brand <span>Dashboard</span></div>
+            <div class="hub-desc">Total label qty produced for each brand, broken down by production line.</div>
+        </div>
+        <div class="team-toolbar no-print">
+            <button class="team-filter active" data-period="all" onclick="setAcetateBrandPeriod('all')">ALL RECORDS</button>
+            <button class="team-filter" data-period="today" onclick="setAcetateBrandPeriod('today')">TODAY</button>
+            <button class="team-filter" data-period="month" onclick="setAcetateBrandPeriod('month')">THIS MONTH</button>
+            <input type="date" id="acetateBrandDate" class="search-input" style="max-width:170px;" onchange="onAcetateBrandDate()" title="Filter by date">
+            <button class="btn btn-excel" style="margin-left:auto;" onclick="exportAcetateBrandExcel()">&#8595 EXCEL</button>
+        </div>
+        <div class="team-summary no-print">
+            <div class="team-sum-card"><div class="team-sum-val" id="aBrandTotalQty">0</div><div class="team-sum-lbl">Total Labels (Qty)</div></div>
+            <div class="team-sum-card"><div class="team-sum-val" id="aBrandCount">0</div><div class="team-sum-lbl">Brands</div></div>
+            <div class="team-sum-card"><div class="team-sum-val" id="aBrandRecs">0</div><div class="team-sum-lbl">Records</div></div>
+        </div>
+        <div class="team-grid" id="acetateBrandGrid"></div>
+        <div class="table-wrap" style="margin-top:22px;">
+            <div class="table-header-bar no-print">
+                <span class="table-title">BRAND &#215; LINE (QTY)</span>
+            </div>
+            <div class="overflow-x"><table class="bd-matrix" id="acetateBrandMatrix"></table></div>
+        </div>
+        </div>
 
         <!-- ===== STICKER DASHBOARD ===== -->
         <div id="stickerDashboardSection" style="display:none;">
@@ -1426,6 +1485,10 @@ function toggleLgPass() {
                 <div class="form-field">
                     <label class="field-label">Date</label>
                     <input type="date" id="s_entryDate" class="field-input">
+                </div>
+                <div class="form-field">
+                    <label class="field-label">Entered By</label>
+                    <select id="s_enteredBySel" class="field-input"></select>
                 </div>
             </div>
             <div class="action-bar">
@@ -1763,9 +1826,9 @@ const USERS = [
         empId: "EMP-001"
     },
     {
-        username: "admin",
-        password: "admin",
-        role: "admin",
+        username: "ahmed",
+        password: "ahmed",
+        role: "viewer",
         name: "AHMED HASSAN",
         empId: "EMP-005"
     },
@@ -1779,19 +1842,51 @@ const USERS = [
     {
         username: "abdelrahman",
         password: "Abdo2026",
-        role: "admin",
+        role: "user",
         name: "ABDELRAHMAN HOSSAM",
         empId: "EMP-003"
     },
     {
         username: "howaida",
         password: "Howaida2026",
-        role: "admin",
+        role: "user",
         name: "HOWAIDA EL ARABY",
         empId: "EMP-004"
+    },
+    {
+        // VIEWER: يشوف كل البيانات (Dashboards / Records / Charts / Team) بدون إدخال أو تعديل أو حذف
+        username: "admin",
+        password: "admin",
+        role: "viewer",
+        name: "ADMIN",
+        empId: "VIEW-001"
     }
 ];
+function isViewer() { return currentUser?.role === 'viewer'; }
  
+// ===== DATA-ENTRY STAFF PER SECTION (غيّر الأكواد هنا لتغيير الاتنين في كل قسم) =====
+const ENTRY_STAFF = {
+    acetate: ['EMP-002', 'EMP-004'],   // AHMED SAMY, ABDELRAHMAN HOSSAM
+    sticker: ['EMP-003', 'EMP-001']    // HOWAIDA EL ARABY, YASSIN KHAN
+};
+function entryStaffUsers(section) {
+    return (ENTRY_STAFF[section] || []).map(id => USERS.find(u => u.empId === id)).filter(Boolean);
+}
+function fillEntryStaffSelect(selId, section) {
+    const el = document.getElementById(selId);
+    if (!el) return;
+    const staff = entryStaffUsers(section);
+    const prev = el.value;
+    el.innerHTML = staff.map(u => `<option value="${u.empId}">${u.name}</option>`).join('');
+    const mine = currentUser && staff.find(u => u.empId === currentUser.empId);
+    el.value = prev && staff.some(u => u.empId === prev) ? prev : (mine ? mine.empId : (staff[0] ? staff[0].empId : ''));
+}
+function pickEntryStaff(selId, section) {
+    const el = document.getElementById(selId);
+    const u = entryStaffUsers(section).find(x => el && x.empId === el.value) || currentUser;
+    return { enteredBy: u?.name || 'N/A', enteredById: u?.empId || 'N/A' };
+}
+
 // Current logged in user
 let currentUser = null;
 let currentUserIp = 'unknown';
@@ -2011,6 +2106,8 @@ async function showSystem() {
     renderOtherStickerTable();
     initCharts();
     applyUserPermissions();     // ← مهم جدًا
+    fillEntryStaffSelect('enteredBySel', 'acetate');
+    fillEntryStaffSelect('s_enteredBySel', 'sticker');
  
     // بدء جلب البيانات من السيرفر في الخلفية لتحديث البيانات المحلية
     fetchData();
@@ -2048,12 +2145,13 @@ function showHub() {
     document.getElementById('recordsSection').style.display = 'none';
     document.getElementById('chartsSection').style.display = 'none';
     document.getElementById('teamSection').style.display = 'none';
-    ['stickerDataEntrySection','stickerRecordsSection','stickerChartsSection','stickerTeamSection','stickerDashboardSection','stickerBrandSection','otherStickerSection','acetateDashboardSection'].forEach(id => {
+    ['stickerDataEntrySection','stickerRecordsSection','stickerChartsSection','stickerTeamSection','stickerDashboardSection','stickerBrandSection','otherStickerSection','acetateDashboardSection','acetateBrandSection'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.style.display = 'none';
     });
 }
 function showSection(name) {
+    if (isViewer() && (name === 'dataEntry' || name === 'stickerEntry')) { showHub(); return; }
     document.getElementById('hubView').style.display = 'none';
     document.getElementById('dataEntrySection').style.display = (name === 'dataEntry') ? 'block' : 'none';
     document.getElementById('recordsSection').style.display  = (name === 'records')   ? 'block' : 'none';
@@ -2067,7 +2165,8 @@ function showSection(name) {
         stickerDashboard: 'stickerDashboardSection',
         stickerBrand:     'stickerBrandSection',
         otherSticker:     'otherStickerSection',
-        acetateDashboard: 'acetateDashboardSection'
+        acetateDashboard: 'acetateDashboardSection',
+        acetateBrand:     'acetateBrandSection'
     };
     Object.values(map).forEach(id => {
         const el = document.getElementById(id);
@@ -2094,6 +2193,7 @@ function showSection(name) {
     }
     if (name === 'stickerTeam') renderStickerTeamProduction();
     if (name === 'stickerBrand') renderStickerBrandDashboard();
+    if (name === 'acetateBrand') renderAcetateBrandDashboard();
     if (name === 'otherSticker') { setOtherStickerTodayDate(); renderOtherStickerTable(); }
     if (name === 'team') renderTeamProduction();
     if (name === 'charts') {
@@ -2163,7 +2263,7 @@ function renderTeamProduction() {
     // seed all known users (so members with 0 still show)
     const people = {};
     const mk = (name, empId) => ({ name, empId, recs: 0, qty: 0, cuts: 0, lines: new Set() });
-    USERS.forEach(u => { people[u.empId] = mk(u.name, u.empId); });
+    entryStaffUsers('acetate').forEach(u => { people[u.empId] = mk(u.name, u.empId); });
     const byName = {};
     USERS.forEach(u => { byName[u.name.trim().toUpperCase()] = u.empId; });
 
@@ -2224,9 +2324,12 @@ function applyUserPermissions() {
     if (!currentUser) return;
  
     const isAdmin = currentUser.role === 'admin';
+    document.body.classList.toggle('role-viewer', isViewer());
  
     document.querySelectorAll('.btn-delete, .btn-closure').forEach(btn => {
-        btn.style.display = isAdmin ? '' : 'none';
+        // viewer: يشوف زرار TEAM بس بدون CLOSURE / DELETE
+        const isNav = (btn.getAttribute('onclick') || '').includes('showSection');
+        btn.style.display = (isAdmin || (isViewer() && isNav)) ? '' : 'none';
     });
  
     // Import Button
@@ -2268,6 +2371,7 @@ function updateLiveDate() {
 //  DATA CRUD
 // =============================================
 async function addData() {
+    if (isViewer()) return;   // viewer = read-only
     const styleNo  = document.getElementById('styleNo').value.trim();
     const totalVal = Number(document.getElementById('total').value);
     if (!styleNo || !totalVal) { 
@@ -2291,6 +2395,7 @@ async function addData() {
     dataRecords.push({
         id:     Date.now(),
         module: 'acetate',
+        brand:  (document.getElementById('brand').value || '').trim() || 'N/A',
         styleNo,
         erpNo:  document.getElementById('erpNo').value.trim()  || 'N/A',
         line:   document.getElementById('line').value.trim()   || 'N/A',
@@ -2300,8 +2405,7 @@ async function addData() {
         season: document.getElementById('season').value.trim() || 'N/A',
         total:  totalVal,
         createdAt,
-        enteredBy:   currentUser?.name  || 'N/A',
-        enteredById: currentUser?.empId || 'N/A',
+        ...pickEntryStaff('enteredBySel', 'acetate'),
         enteredIp:   currentUserIp      || 'unknown'
     });
  
@@ -2316,6 +2420,7 @@ async function addData() {
 function resetForm() {
     document.querySelectorAll('#inputForm input').forEach(i => i.value = '');
     setTodayDate();
+    fillEntryStaffSelect('enteredBySel', 'acetate');
     if (typeof nlUpdatePreview === 'function') nlUpdatePreview();
 }
 function setTodayDate() {
@@ -2342,6 +2447,7 @@ function renderTable() {
         return `
         <tr id="row-${r.id}" data-date="${dateISO}">
             <td class="no-print"><input type="checkbox" class="row-checkbox" data-total="${r.total}"></td>
+            <td class="cell-brand">${r.brand || 'N/A'}</td>
             <td class="td-style  cell-styleNo">${r.styleNo}</td>
             <td class="cell-erpNo">${r.erpNo}</td>
             <td class="td-line   cell-line">${r.line}</td>
@@ -2384,10 +2490,11 @@ async function saveData() {
 //  INLINE EDIT
 // =============================================
 function toggleEdit(id) {
+    if (isViewer()) return;   // viewer = read-only
     const row    = document.getElementById(`row-${id}`);
     const btn    = document.getElementById(`btn-edit-${id}`);
     const editing = btn.classList.contains('btn-save-row');
-    const fields  = ['styleNo','erpNo','line','batch','cutNo','color','season','total'];
+    const fields  = ['brand','styleNo','erpNo','line','batch','cutNo','color','season','total'];
  
     if (!editing) {
         fields.forEach(f => {
@@ -2402,7 +2509,7 @@ function toggleEdit(id) {
             const ebCell = row.querySelector('.cell-enteredBy');
             if (ebCell) ebCell.innerHTML = `<select class="edit-cell-input" id="eb-sel-${id}" style="min-width:160px;">`
                 + `<option value="">— keep as is —</option>`
-                + USERS.map(u => `<option value="${u.empId}" ${cur.enteredById === u.empId ? 'selected' : ''}>${u.name}</option>`).join('')
+                + USERS.filter(u => u.role !== 'viewer').map(u => `<option value="${u.empId}" ${cur.enteredById === u.empId ? 'selected' : ''}>${u.name}</option>`).join('')
                 + `</select>`;
         }
         btn.textContent = 'SAVE';
@@ -2433,6 +2540,7 @@ function toggleEdit(id) {
 //  DELETE
 // =============================================
 async function deleteSelectedRows() {
+    if (isViewer()) return;   // viewer = read-only
     const checked = document.querySelectorAll('.row-checkbox:checked');
     if (!checked.length) { alert('Please select rows to delete.'); return; }
     if (!confirm(`Delete ${checked.length} selected row(s)?`)) return;
@@ -2483,11 +2591,11 @@ function printSelectedReport() {
     });
     if (!any) { alert('Please select rows to print.'); rows.forEach(r=>r.classList.remove('hide-row-print')); return; }
     totalDisplay.innerText = selTotal;
-    totalLabel.setAttribute('colspan','7');
+    totalLabel.setAttribute('colspan','8');
     window.print();
     rows.forEach(r=>r.classList.remove('hide-row-print'));
     totalDisplay.innerText = origTotal;
-    totalLabel.setAttribute('colspan','8');
+    totalLabel.setAttribute('colspan','9');
 }
  
 // =============================================
@@ -2505,15 +2613,16 @@ async function exportToExcel() {
             hasSelection = true;
             const cells = row.querySelectorAll('td');
             selectedRows.push({
-                styleNo: cells[1] ? cells[1].innerText.trim() : '',
-                erpNo: cells[2] ? cells[2].innerText.trim() : '',
-                line: cells[3] ? cells[3].innerText.trim() : '',
-                batch: cells[4] ? cells[4].innerText.trim() : '',
-                cutNo: cells[5] ? cells[5].innerText.trim() : '0',
-                color: cells[6] ? cells[6].innerText.trim() : '',
-                season: cells[7] ? cells[7].innerText.trim() : '',
-                total: cells[8] ? cells[8].innerText.trim() : '0',
-                date: cells[9] ? cells[9].innerText.trim() : ''
+                brand: cells[1] ? cells[1].innerText.trim() : '',
+                styleNo: cells[2] ? cells[2].innerText.trim() : '',
+                erpNo: cells[3] ? cells[3].innerText.trim() : '',
+                line: cells[4] ? cells[4].innerText.trim() : '',
+                batch: cells[5] ? cells[5].innerText.trim() : '',
+                cutNo: cells[6] ? cells[6].innerText.trim() : '0',
+                color: cells[7] ? cells[7].innerText.trim() : '',
+                season: cells[8] ? cells[8].innerText.trim() : '',
+                total: cells[9] ? cells[9].innerText.trim() : '0',
+                date: cells[10] ? cells[10].innerText.trim() : ''
             });
         }
     });
@@ -2521,6 +2630,7 @@ async function exportToExcel() {
     // If no rows selected, use all data
     const exportData = hasSelection ? selectedRows : dataRecords.map(function(r) {
         return {
+            brand: r.brand || '',
             styleNo: r.styleNo || '',
             erpNo: r.erpNo || '',
             line: r.line || '',
@@ -2762,10 +2872,11 @@ async function appendToExistingExcel() {
         if (cb && cb.checked) {
             const cells = row.querySelectorAll('td');
             selectedSamples.push({
-                styleNo: cells[1]?.innerText||'', erpNo: cells[2]?.innerText||'',
-                line:    cells[3]?.innerText||'',  batch: cells[4]?.innerText||'',
-                cutNo:   cells[5]?.innerText||'',  color: cells[6]?.innerText||'',
-                season:  cells[7]?.innerText||'',  total: cells[8]?.innerText||''
+                brand: cells[1]?.innerText||'',
+                styleNo: cells[2]?.innerText||'', erpNo: cells[3]?.innerText||'',
+                line:    cells[4]?.innerText||'',  batch: cells[5]?.innerText||'',
+                cutNo:   cells[6]?.innerText||'',  color: cells[7]?.innerText||'',
+                season:  cells[8]?.innerText||'',  total: cells[9]?.innerText||''
             });
         }
     }
@@ -2986,11 +3097,12 @@ async function exportToWord() {
         if (cb && cb.checked) {
             const c = row.querySelectorAll('td');
             selected.push({
-                styleNo: c[1]?.innerText||'', erpNo: c[2]?.innerText||'',
-                line:    c[3]?.innerText||'', batch: c[4]?.innerText||'',
-                cutNo:   c[5]?.innerText||'', color: c[6]?.innerText||'',
-                season:  c[7]?.innerText||'', total: c[8]?.innerText||'',
-                date:    c[9]?.innerText.trim()||''
+                brand: c[1]?.innerText||'',
+                styleNo: c[2]?.innerText||'', erpNo: c[3]?.innerText||'',
+                line:    c[4]?.innerText||'', batch: c[5]?.innerText||'',
+                cutNo:   c[6]?.innerText||'', color: c[7]?.innerText||'',
+                season:  c[8]?.innerText||'', total: c[9]?.innerText||'',
+                date:    c[10]?.innerText.trim()||''
             });
         }
     });
@@ -3230,12 +3342,23 @@ nlUpdatePreview();
 // =============================================
 //  PDF EXPORT
 // =============================================
+// ===== PDF gray theme (لون خلفية الـ PDF — غيّر الأرقام هنا لو عايز درجة تانية) =====
+const PDF_BG       = [214, 217, 223];   // خلفية الصفحة (رصاصي)
+const PDF_CELL_BG  = [233, 235, 239];   // خلفية خلايا الجدول
+const PDF_TOTAL_BG = [196, 201, 211];   // صف GRAND TOTAL
+function pdfGrayPage(doc) {
+    const w = doc.internal.pageSize.getWidth(), h = doc.internal.pageSize.getHeight();
+    doc.setFillColor(PDF_BG[0], PDF_BG[1], PDF_BG[2]);
+    doc.rect(0, 0, w, h, 'F');
+}
+
 function exportToPDF() {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF('l','mm','a4');
     const now  = new Date();
     const rDate = now.toLocaleDateString('en-GB');
     const rTime = now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',hour12:true});
+    pdfGrayPage(doc);
     doc.setFillColor(0,36,77); doc.rect(0,0,297,35,'F');
     doc.setTextColor(255,255,255); doc.setFontSize(18); doc.setFont(undefined,'bold');
     doc.text("GLOBE INTERNATIONAL INDUSTRIES",14,14);
@@ -3250,25 +3373,26 @@ function exportToPDF() {
         const cb = row.querySelector('.row-checkbox');
         if (cb && cb.checked) {
             const cells = row.querySelectorAll('td');
-            selData.push([cells[1].innerText,cells[2].innerText,cells[3].innerText,cells[4].innerText,cells[5].innerText,cells[6].innerText,cells[7].innerText,cells[8].innerText,cells[9]?cells[9].innerText:'']);
-            selTotal += Number(cells[8].innerText);
+            selData.push([cells[1].innerText,cells[2].innerText,cells[3].innerText,cells[4].innerText,cells[5].innerText,cells[6].innerText,cells[7].innerText,cells[8].innerText,cells[9].innerText,cells[10]?cells[10].innerText:'']);
+            selTotal += Number(cells[9].innerText);
         }
     });
     if (!selData.length) { alert('Please select rows first.'); return; }
     selData.push([
-        {content:'GRAND TOTAL',colSpan:7,styles:{halign:'right',fontStyle:'bold',fillColor:[238,242,251]}},
-        {content:String(selTotal),styles:{halign:'center',fontStyle:'bold',fillColor:[238,242,251]}},
-        {content:'',styles:{fillColor:[238,242,251]}}
+        {content:'GRAND TOTAL',colSpan:8,styles:{halign:'right',fontStyle:'bold',fillColor:PDF_TOTAL_BG}},
+        {content:String(selTotal),styles:{halign:'center',fontStyle:'bold',fillColor:PDF_TOTAL_BG}},
+        {content:'',styles:{fillColor:PDF_TOTAL_BG}}
     ]);
     const rCount = selData.length;
     const fs = rCount>40?Math.max(5,10-rCount/12):rCount>25?7.5:rCount>15?9:10;
     const cp = rCount>40?0.8:rCount>25?1.2:rCount>15?2:3;
     doc.autoTable({
-        head:[['STYLE NO','ERP NO','LINE','BATCH','CUT NO','COLOR','SEASON','TOTAL','DATE']],
+        head:[['BRAND','STYLE NO','ERP NO','LINE','BATCH','CUT NO','COLOR','SEASON','TOTAL','DATE']],
         body:selData, startY:38, theme:'grid',
-        styles:{fontSize:fs,halign:'center',cellPadding:cp,valign:'middle'},
+        styles:{fontSize:fs,halign:'center',cellPadding:cp,valign:'middle',fillColor:PDF_CELL_BG},
         headStyles:{fillColor:[0,36,77],textColor:[255,255,255],fontSize:Math.max(fs,8)},
-        margin:{bottom:30}
+        margin:{bottom:30},
+        willDrawPage: d => { if (d.pageNumber > 1) pdfGrayPage(doc); }
     });
     const ph = doc.internal.pageSize.height;
     doc.setTextColor(0); doc.setFontSize(8); doc.setFont(undefined,'normal');
@@ -3282,6 +3406,7 @@ function exportToPDF() {
 //  DAILY CLOSURE
 // =============================================
 async function dailyClosure() {
+    if (isViewer()) return;   // viewer = read-only
     if (!dataRecords.length) { alert('No data to archive.'); return; }
     if (!confirm("Close today's report? Data will be archived and the table cleared.")) return;
     const totalQty = dataRecords.reduce((s,r)=>s+r.total,0);
@@ -3297,6 +3422,7 @@ async function dailyClosure() {
 //  IMPORT EXCEL (Admin Only)
 // =============================================
 function importExcel() {
+    if (isViewer()) return;   // viewer = read-only
     if (currentUser?.role !== 'admin') {
         alert("هذه الميزة متاحة للمدير فقط");
         return;
@@ -3365,6 +3491,7 @@ function importExcel() {
  
                     const record = {
                         id: Date.now() + importedCount,
+                        brand: (row["BRAND"] || row["Brand"] || "N/A").toString().trim(),
                         styleNo: styleNo,
                         erpNo: (row["ERP NO"] || row["ERP"] || "N/A").toString().trim(),
                         line: (row["LINE"] || row["Line"] || "N/A").toString().trim(),
@@ -3733,9 +3860,11 @@ function resetStickerForm() {
     const ttEl = document.getElementById('s_totalType');
     if (ttEl) ttEl.value = 'CARTON';
     setStickerTodayDate();
+    fillEntryStaffSelect('s_enteredBySel', 'sticker');
 }
 
 async function addStickerData() {
+    if (isViewer()) return;   // viewer = read-only
     const styleNo = (document.getElementById('s_styleNo').value || '').trim();
     const totalSticker = Number(document.getElementById('s_totalSticker').value);
     const size = (document.getElementById('s_size').value || '').trim();
@@ -3773,8 +3902,7 @@ async function addStickerData() {
         perSheet: Number(document.getElementById('s_perSheet').value) || 0,
         totalSticker,
         createdAt,
-        enteredBy: currentUser?.name || 'N/A',
-        enteredById: currentUser?.empId || 'N/A',
+        ...pickEntryStaff('s_enteredBySel', 'sticker'),
         enteredIp: currentUserIp || 'unknown'
     });
     resetStickerForm();
@@ -3850,6 +3978,7 @@ function toggleStickerSelectAll(src) {
 }
 
 async function deleteSelectedStickerRows() {
+    if (isViewer()) return;   // viewer = read-only
     const checked = document.querySelectorAll('.sticker-row-checkbox:checked');
     if (!checked.length) { alert('Please select rows to delete.'); return; }
     if (!confirm(`Delete ${checked.length} selected sticker row(s)?`)) return;
@@ -3861,6 +3990,7 @@ async function deleteSelectedStickerRows() {
 }
 
 function toggleStickerEdit(id) {
+    if (isViewer()) return;   // viewer = read-only
     const row = document.getElementById(`srow-${id}`);
     const btn = document.getElementById(`sbtn-edit-${id}`);
     if (!row || !btn) return;
@@ -3949,6 +4079,7 @@ function exportStickersToPDF() {
     const now = new Date();
     const rDate = now.toLocaleDateString('en-GB');
     const rTime = now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',hour12:true});
+    pdfGrayPage(doc);
     doc.setFillColor(0,36,77); doc.rect(0,0,297,35,'F');
     doc.setTextColor(255,255,255); doc.setFontSize(18); doc.setFont(undefined,'bold');
     doc.text("GLOBE INTERNATIONAL INDUSTRIES",14,14);
@@ -3982,16 +4113,17 @@ function exportStickersToPDF() {
     }
     if (!selData.length) { alert('No sticker data to export.'); return; }
     selData.push([
-        {content:'GRAND TOTAL', colSpan:9, styles:{halign:'right',fontStyle:'bold',fillColor:[238,242,251]}},
-        {content:String(selTotal), styles:{halign:'center',fontStyle:'bold',fillColor:[238,242,251]}},
-        {content:'', styles:{fillColor:[238,242,251]}}
+        {content:'GRAND TOTAL', colSpan:9, styles:{halign:'right',fontStyle:'bold',fillColor:PDF_TOTAL_BG}},
+        {content:String(selTotal), styles:{halign:'center',fontStyle:'bold',fillColor:PDF_TOTAL_BG}},
+        {content:'', styles:{fillColor:PDF_TOTAL_BG}}
     ]);
     doc.autoTable({
         head:[['BRAND','STYLE NO','PO NO','COLOR','PART','TOTAL CARTON / POLYBAG','STICKER SIZE','SIDES','STICKER PER SHEET','TOTAL STICKER (SHEETS)','DATE']],
         body: selData, startY:38, theme:'grid',
-        styles:{fontSize:8,halign:'center',cellPadding:2,valign:'middle'},
+        styles:{fontSize:8,halign:'center',cellPadding:2,valign:'middle',fillColor:PDF_CELL_BG},
         headStyles:{fillColor:[0,36,77],textColor:[255,255,255],fontSize:8},
-        margin:{bottom:30}
+        margin:{bottom:30},
+        willDrawPage: d => { if (d.pageNumber > 1) pdfGrayPage(doc); }
     });
     const ph = doc.internal.pageSize.height;
     doc.setTextColor(0); doc.setFontSize(8);
@@ -4215,7 +4347,7 @@ function renderStickerTeamProduction() {
 
     const people = {};
     const mk = (name, empId) => ({ name, empId, recs: 0, qty: 0, ctn: 0, colors: new Set() });
-    USERS.forEach(u => { people[u.empId] = mk(u.name, u.empId); });
+    entryStaffUsers('sticker').forEach(u => { people[u.empId] = mk(u.name, u.empId); });
     const byName = {};
     USERS.forEach(u => { byName[u.name.trim().toUpperCase()] = u.empId; });
 
@@ -4643,6 +4775,144 @@ function exportStickerBrandExcel() {
 }
 
 // =============================================
+//  ACETATE BRAND DASHBOARD (per brand × line)
+// =============================================
+let acetateBrandPeriod = 'all';
+let acetateBrandView = { brands: [], lines: [] };
+
+function setAcetateBrandPeriod(p) {
+    acetateBrandPeriod = p;
+    document.querySelectorAll('#acetateBrandSection .team-filter').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-period') === p);
+    });
+    const dateEl = document.getElementById('acetateBrandDate');
+    if (dateEl && p !== 'date') dateEl.value = '';
+    renderAcetateBrandDashboard();
+}
+function onAcetateBrandDate() {
+    const v = (document.getElementById('acetateBrandDate') || {}).value || '';
+    if (v) {
+        acetateBrandPeriod = 'date';
+        document.querySelectorAll('#acetateBrandSection .team-filter').forEach(btn => btn.classList.remove('active'));
+    }
+    renderAcetateBrandDashboard();
+}
+function renderAcetateBrandDashboard() {
+    const grid = document.getElementById('acetateBrandGrid');
+    const matrix = document.getElementById('acetateBrandMatrix');
+    if (!grid || !matrix) return;
+    const pad = n => String(n).padStart(2, '0');
+    const now = new Date();
+    const todayKey = now.getFullYear() + '-' + pad(now.getMonth() + 1) + '-' + pad(now.getDate());
+    const monthKey = todayKey.slice(0, 7);
+    const pickedDate = (document.getElementById('acetateBrandDate') || {}).value || '';
+    const inPeriod = r => {
+        const d = (r.createdAt || '').slice(0, 10);
+        if (acetateBrandPeriod === 'today') return d === todayKey;
+        if (acetateBrandPeriod === 'month') return d.slice(0, 7) === monthKey;
+        if (acetateBrandPeriod === 'date')  return d === pickedDate;
+        return true;
+    };
+
+    const brandMap = new Map();   // brand -> { total, recs, lines: Map }
+    const lineSet = new Set();
+    let grand = 0, recCount = 0;
+    dataRecords.filter(inPeriod).forEach(r => {
+        let b = String(r.brand || '').trim().toUpperCase();
+        if (!b || b === 'N/A') b = 'NO BRAND';
+        const ln = String(r.line || '').trim().toUpperCase() || 'N/A';
+        const q = Number(r.total) || 0;
+        if (!brandMap.has(b)) brandMap.set(b, { name: b, total: 0, recs: 0, lines: new Map() });
+        const o = brandMap.get(b);
+        o.total += q; o.recs += 1;
+        o.lines.set(ln, (o.lines.get(ln) || 0) + q);
+        lineSet.add(ln);
+        grand += q; recCount += 1;
+    });
+
+    const brands = Array.from(brandMap.values()).sort((a, b) => b.total - a.total);
+    const lines = Array.from(lineSet).sort((a, b) => String(a).localeCompare(String(b), undefined, { numeric: true }));
+    acetateBrandView = { brands, lines };
+    const fmt = n => Number(n || 0).toLocaleString('en-US');
+
+    const setTxt = (id, v) => { const el = document.getElementById(id); if (el) el.innerText = v; };
+    setTxt('aBrandTotalQty', fmt(grand));
+    setTxt('aBrandCount', brands.length);
+    setTxt('aBrandRecs', recCount);
+
+    if (!brands.length) {
+        grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--muted);padding:40px 0;font-size:13px;">No acetate records for this period.</div>';
+        matrix.innerHTML = '';
+        return;
+    }
+
+    grid.innerHTML = brands.map((b, i) => {
+        const rows = Array.from(b.lines.entries()).sort((x, y) => y[1] - x[1]);
+        const maxLn = Math.max(1, ...rows.map(e => e[1]));
+        return `
+        <div class="team-card${i === 0 ? ' rank-1' : ''}" style="cursor:default;">
+            <div class="team-head">
+                <div class="team-avatar">${_escHtml(b.name.charAt(0))}</div>
+                <div>
+                    <div class="team-name">${_escHtml(b.name)}</div>
+                    <div class="team-meta">${b.recs} record${b.recs !== 1 ? 's' : ''} · ${b.lines.size} line${b.lines.size !== 1 ? 's' : ''}</div>
+                </div>
+                <div class="team-rank">#${i + 1}</div>
+            </div>
+            <div class="team-qty">${fmt(b.total)}<small>QTY</small></div>
+            <div style="margin-top:12px;">
+                ${rows.map(([ln, q]) => `
+                <div class="bd-size-row">
+                    <span class="bd-size-lbl">${_escHtml(ln)}</span>
+                    <span class="bd-size-bar"><i style="width:${(q / maxLn * 100).toFixed(1)}%"></i></span>
+                    <span class="bd-size-val">${fmt(q)}<small>${b.total ? (q / b.total * 100).toFixed(0) : 0}%</small></span>
+                </div>`).join('')}
+            </div>
+        </div>`;
+    }).join('');
+
+    const colTotals = lines.map(ln => brands.reduce((a, b) => a + (b.lines.get(ln) || 0), 0));
+    matrix.innerHTML = `
+        <thead><tr>
+            <th>BRAND</th>
+            ${lines.map(ln => `<th>${_escHtml(ln)}</th>`).join('')}
+            <th>TOTAL</th>
+        </tr></thead>
+        <tbody>
+            ${brands.map(b => `<tr>
+                <td>${_escHtml(b.name)}</td>
+                ${lines.map(ln => { const v = b.lines.get(ln) || 0; return `<td class="${v ? '' : 'bd-zero'}">${v ? fmt(v) : '—'}</td>`; }).join('')}
+                <td class="td-total">${fmt(b.total)}</td>
+            </tr>`).join('')}
+        </tbody>
+        <tfoot><tr>
+            <td>GRAND TOTAL</td>
+            ${colTotals.map(v => `<td>${fmt(v)}</td>`).join('')}
+            <td>${fmt(grand)}</td>
+        </tr></tfoot>`;
+}
+
+function exportAcetateBrandExcel() {
+    renderAcetateBrandDashboard();
+    const { brands, lines } = acetateBrandView;
+    if (!brands.length) { alert('No acetate data to export.'); return; }
+    const rows = brands.map(b => {
+        const o = { 'BRAND': b.name };
+        lines.forEach(ln => { o['LINE ' + ln] = b.lines.get(ln) || 0; });
+        o['TOTAL QTY'] = b.total;
+        return o;
+    });
+    const tot = { 'BRAND': 'GRAND TOTAL' };
+    lines.forEach(ln => { tot['LINE ' + ln] = brands.reduce((a, b) => a + (b.lines.get(ln) || 0), 0); });
+    tot['TOTAL QTY'] = brands.reduce((a, b) => a + b.total, 0);
+    rows.push(tot);
+    const ws = XLSX.utils.json_to_sheet(rows);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Brand x Line');
+    XLSX.writeFile(wb, `Acetate_Brand_Dashboard_${Date.now()}.xlsx`);
+}
+
+// =============================================
 //  OTHER STICKER (data entry + records)
 // =============================================
 function setOtherStickerTodayDate() {
@@ -4667,6 +4937,7 @@ function refreshOtherStickerLists() {
     fill('o_sizeList', all);
 }
 async function addOtherSticker() {
+    if (isViewer()) return;   // viewer = read-only
     const type = (document.getElementById('o_type').value || '').trim();
     const size = (document.getElementById('o_size').value || '').trim();
     const qty  = Number(document.getElementById('o_qty').value);
@@ -4753,6 +5024,7 @@ function toggleOtherStickerSelectAll(src) {
     });
 }
 async function deleteSelectedOtherStickers() {
+    if (isViewer()) return;   // viewer = read-only
     const checked = document.querySelectorAll('.other-row-checkbox:checked');
     if (!checked.length) { alert('Please select rows to delete.'); return; }
     if (!confirm(`Delete ${checked.length} selected row(s)?`)) return;
@@ -4762,6 +5034,7 @@ async function deleteSelectedOtherStickers() {
     await pushData();
 }
 function toggleOtherStickerEdit(id) {
+    if (isViewer()) return;   // viewer = read-only
     const row = document.getElementById(`orow-${id}`);
     const btn = document.getElementById(`obtn-edit-${id}`);
     if (!row || !btn) return;
