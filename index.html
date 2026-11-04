@@ -4128,57 +4128,93 @@ function exportStickersToPDF() {
     const now = new Date();
     const rDate = now.toLocaleDateString('en-GB');
     const rTime = now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',hour12:true});
+    const PW = doc.internal.pageSize.getWidth();    // 297
+    const PH = doc.internal.pageSize.getHeight();   // 210
+
     pdfGrayPage(doc);
-    doc.setFillColor(PDF_HEAD_BG[0],PDF_HEAD_BG[1],PDF_HEAD_BG[2]); doc.rect(0,0,297,35,'F');
+    doc.setFillColor(PDF_HEAD_BG[0],PDF_HEAD_BG[1],PDF_HEAD_BG[2]); doc.rect(0,0,PW,32,'F');
     doc.setTextColor(PDF_HEAD_TXT[0],PDF_HEAD_TXT[1],PDF_HEAD_TXT[2]); doc.setFontSize(18); doc.setFont(undefined,'bold');
-    doc.text("GLOBE INTERNATIONAL INDUSTRIES",14,14);
+    doc.text("GLOBE INTERNATIONAL INDUSTRIES",10,13);
     doc.setFontSize(10); doc.setFont(undefined,'normal');
-    doc.text("STICKER PRINTING DEPARTMENT YNKN KHAN — PRODUCTION REPORT",14,21);
+    doc.text("STICKER PRINTING DEPARTMENT YNKN KHAN — PRODUCTION REPORT",10,20);
     doc.setFontSize(9); doc.setTextColor(90,98,112);
-    doc.text(`DATE: ${rDate}   TIME: ${rTime}`,14,28);
+    doc.text(`DATE: ${rDate}   TIME: ${rTime}`,10,27);
 
     let selData = [], selTotal = 0;
-    const rows = document.querySelectorAll('#stickerTableBody tr');
-    rows.forEach(row => {
+    document.querySelectorAll('#stickerTableBody tr').forEach(row => {
         if (row.style.display === 'none') return;
         const cb = row.querySelector('.sticker-row-checkbox');
         if (cb && cb.checked) {
-            const cells = row.querySelectorAll('td');
-            // cells: 0 chk, 1 brand, 2 style, 3 po, 4 color, 5 part, 6 total ctn/polybag, 7 size, 8 sides, 9 per sheet, 10 total sticker, 11 date
+            const c = row.querySelectorAll('td');
             selData.push([
-                cells[1].innerText, cells[2].innerText, cells[3].innerText, cells[4].innerText, cells[5].innerText,
-                cells[6].innerText.replace(/\s+/g,' ').trim(), cells[7].innerText, cells[8].innerText, cells[9].innerText, cells[10].innerText, cells[11].innerText
+                c[1].innerText.trim(), c[2].innerText.trim(), c[3].innerText.trim(), c[4].innerText.trim(), c[5].innerText.trim(),
+                c[6].innerText.replace(/\s+/g,' ').trim(), c[7].innerText.trim(), c[8].innerText.trim(),
+                c[9].innerText.trim(), c[10].innerText.trim(), c[11].innerText.trim()
             ]);
-            selTotal += Number(cells[10].innerText) || 0;
+            selTotal += Number(c[10].innerText) || 0;
         }
     });
     if (!selData.length) {
-        // export all if nothing selected
         stickerRecords.forEach(r => {
             const dateDisp = r.createdAt ? r.createdAt.slice(0,10).split('-').reverse().join('/') : '';
-            selData.push([r.brand || '', r.styleNo, r.poNo, r.color, r.part || r.fit || '', `${r.totalCtn || 0} ${r.totalType === 'POLYBAG' ? 'POLYBAG' : 'CARTON'}`, r.size || '', r.sides || '', r.perSheet || r.par || '', r.totalSticker, dateDisp]);
+            selData.push([r.brand || '', r.styleNo || '', r.poNo || '', r.color || '', r.part || r.fit || '',
+                `${r.totalCtn || 0} ${r.totalType === 'POLYBAG' ? 'POLYBAG' : 'CARTON'}`,
+                r.size || '', r.sides || '', r.perSheet || r.par || '', r.totalSticker, dateDisp]);
             selTotal += Number(r.totalSticker) || 0;
         });
     }
     if (!selData.length) { alert('No sticker data to export.'); return; }
+
     selData.push([
         {content:'GRAND TOTAL', colSpan:9, styles:{halign:'right',fontStyle:'bold',fillColor:PDF_TOTAL_BG}},
         {content:String(selTotal), styles:{halign:'center',fontStyle:'bold',fillColor:PDF_TOTAL_BG}},
         {content:'', styles:{fillColor:PDF_TOTAL_BG}}
     ]);
+
+    // عرض الصفحة المتاح = 297 - 20 = 277mm
     doc.autoTable({
-        head:[['BRAND','STYLE NO','PO NO','COLOR','PART','TOTAL CARTON / POLYBAG','STICKER SIZE','SIDES','STICKER PER SHEET','TOTAL STICKER (SHEETS)','DATE']],
-        body: selData, startY:38, theme:'grid',
-        styles:{fontSize:8,halign:'center',cellPadding:2,valign:'middle',fillColor:PDF_CELL_BG},
-        headStyles:{fillColor:PDF_HEAD_BG,textColor:PDF_HEAD_TXT,lineColor:[200,204,211],fontSize:8},
-        margin:{bottom:30},
+        head:[['BRAND','STYLE NO','PO NO','COLOR','PART','TOTAL CTN / POLYBAG','SIZE (CM)','SIDES','PER SHEET','TOTAL STICKER (SHEETS)','DATE']],
+        body: selData,
+        startY: 36,
+        theme: 'grid',
+        tableWidth: 277,
+        margin: { left: 10, right: 10, top: 12, bottom: 28 },
+        styles: { fontSize: 7.5, halign:'center', valign:'middle', cellPadding: 1.6, fillColor: PDF_CELL_BG, overflow: 'linebreak', lineColor:[200,204,211], lineWidth:0.1 },
+        headStyles: { fillColor: PDF_HEAD_BG, textColor: PDF_HEAD_TXT, fontSize: 7.5, fontStyle:'bold', lineColor:[200,204,211] },
+        columnStyles: {
+            0: { cellWidth: 18 },   // BRAND
+            1: { cellWidth: 24 },   // STYLE NO
+            2: { cellWidth: 62 },   // PO NO (بيلف على أكتر من سطر لو طويل)
+            3: { cellWidth: 32 },   // COLOR
+            4: { cellWidth: 26 },   // PART
+            5: { cellWidth: 24 },   // TOTAL CTN
+            6: { cellWidth: 16 },   // SIZE
+            7: { cellWidth: 14 },   // SIDES
+            8: { cellWidth: 14 },   // PER SHEET
+            9: { cellWidth: 23 },   // TOTAL STICKER
+            10:{ cellWidth: 24 }    // DATE
+        },
+        rowPageBreak: 'avoid',
         willDrawPage: d => { if (d.pageNumber > 1) pdfGrayPage(doc); }
     });
-    const ph = doc.internal.pageSize.height;
-    doc.setTextColor(0); doc.setFontSize(8);
+
+    // التوقيعات في آخر صفحة بس
+    const lastY = doc.lastAutoTable.finalY;
+    let sigY = PH - 16;
+    if (lastY + 22 > PH - 10) { doc.addPage(); pdfGrayPage(doc); sigY = PH - 16; }
+    doc.setTextColor(0); doc.setFontSize(8); doc.setFont(undefined,'normal');
     doc.setDrawColor(80); doc.setLineWidth(0.4);
-    doc.line(25,ph-20,90,ph-20);  doc.text("RECEIVED BY",45,ph-14,{align:'center'});
-    doc.line(210,ph-20,275,ph-20); doc.text("AUTHORISED SIGNATORY",242,ph-14,{align:'center'});
+    doc.line(25, sigY-6, 90, sigY-6);   doc.text("RECEIVED BY", 57, sigY, {align:'center'});
+    doc.line(207, sigY-6, 272, sigY-6); doc.text("AUTHORISED SIGNATORY", 240, sigY, {align:'center'});
+
+    // ترقيم الصفحات
+    const pages = doc.internal.getNumberOfPages();
+    for (let i = 1; i <= pages; i++) {
+        doc.setPage(i);
+        doc.setFontSize(7); doc.setTextColor(120);
+        doc.text(`Page ${i} / ${pages}`, PW - 10, PH - 5, {align:'right'});
+    }
+
     doc.save(`Sticker_Report_${rDate.replace(/\//g,'-')}.pdf`);
 }
 
