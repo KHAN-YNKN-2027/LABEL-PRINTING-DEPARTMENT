@@ -4171,28 +4171,47 @@ function exportStickersToPDF() {
         {content:'', styles:{fillColor:PDF_TOTAL_BG}}
     ]);
 
-    // عرض الصفحة المتاح = 297 - 20 = 277mm
+    // عناوين بأسطر صريحة — jsPDF بيلف على حدود الأسطر مش في نص الكلمة
+    const HEAD = [
+        'BRAND', 'STYLE\nNO', 'PO NO', 'COLOR', 'PART',
+        'TOTAL CTN /\nPOLYBAG', 'SIZE\n(CM)', 'SIDES', 'PER\nSHEET',
+        'TOTAL STICKER\n(SHEETS)', 'DATE'
+    ];
+
+    // مجموع العرض = 277mm ويملا الصفحة من غير ما يضغط أي عمود
     doc.autoTable({
-        head:[['BRAND','STYLE NO','PO NO','COLOR','PART','TOTAL CTN / POLYBAG','SIZE (CM)','SIDES','PER SHEET','TOTAL STICKER (SHEETS)','DATE']],
+        head:[HEAD],
         body: selData,
         startY: 36,
         theme: 'grid',
-        tableWidth: 277,
         margin: { left: 10, right: 10, top: 12, bottom: 28 },
-        styles: { fontSize: 7.5, halign:'center', valign:'middle', cellPadding: 1.6, fillColor: PDF_CELL_BG, overflow: 'linebreak', lineColor:[200,204,211], lineWidth:0.1 },
-        headStyles: { fillColor: PDF_HEAD_BG, textColor: PDF_HEAD_TXT, fontSize: 7.5, fontStyle:'bold', lineColor:[200,204,211] },
+        styles: {
+            fontSize: 8.5,              // خط الجسم أكبر شوية لأن العرض أريح
+            halign:'center', valign:'middle',
+            cellPadding: 1.8,
+            fillColor: PDF_CELL_BG,
+            overflow: 'linebreak',
+            lineColor:[200,204,211], lineWidth:0.1
+        },
+        headStyles: {
+            fillColor: PDF_HEAD_BG, textColor: PDF_HEAD_TXT,
+            fontSize: 7, fontStyle:'bold',              // خط هيدر صغير فيه الكلام كله
+            lineColor:[200,204,211],
+            cellPadding: 1.2,
+            minCellHeight: 9
+        },
         columnStyles: {
-            0: { cellWidth: 18 },   // BRAND
-            1: { cellWidth: 24 },   // STYLE NO
-            2: { cellWidth: 62 },   // PO NO (بيلف على أكتر من سطر لو طويل)
-            3: { cellWidth: 32 },   // COLOR
-            4: { cellWidth: 26 },   // PART
-            5: { cellWidth: 24 },   // TOTAL CTN
-            6: { cellWidth: 16 },   // SIZE
-            7: { cellWidth: 14 },   // SIDES
-            8: { cellWidth: 14 },   // PER SHEET
-            9: { cellWidth: 23 },   // TOTAL STICKER
-            10:{ cellWidth: 24 }    // DATE
+            0: { cellWidth: 20 },   // BRAND
+            1: { cellWidth: 25 },   // STYLE NO
+            2: { cellWidth: 55 },   // PO NO — كفاية جدًا للأرقام الطويلة
+            3: { cellWidth: 25 },   // COLOR
+            4: { cellWidth: 20 },   // PART
+            5: { cellWidth: 22 },   // TOTAL CTN / POLYBAG
+            6: { cellWidth: 14 },   // SIZE (CM)
+            7: { cellWidth: 13 },   // SIDES
+            8: { cellWidth: 13 },   // PER SHEET
+            9: { cellWidth: 32 },   // TOTAL STICKER (SHEETS)
+            10:{ cellWidth: 28 }    // DATE
         },
         rowPageBreak: 'avoid',
         willDrawPage: d => { if (d.pageNumber > 1) pdfGrayPage(doc); }
@@ -4217,7 +4236,6 @@ function exportStickersToPDF() {
 
     doc.save(`Sticker_Report_${rDate.replace(/\//g,'-')}.pdf`);
 }
-
 
 // =============================================
 //  STICKER CHARTS
