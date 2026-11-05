@@ -1872,8 +1872,8 @@ function isViewer() { return currentUser?.role === 'viewer'; }
  
 // ===== DATA-ENTRY STAFF PER SECTION (غيّر الأكواد هنا لتغيير الاتنين في كل قسم) =====
 const ENTRY_STAFF = {
-    acetate: ['EMP-002', 'EMP-001'],   // AHMED SAMY, ABDELRAHMAN HOSSAM
-    sticker: ['EMP-003', 'EMP-004']    // HOWAIDA EL ARABY, YASSIN KHAN
+    acetate: ['EMP-003', 'EMP-004'],   // AHMED SAMY, ABDELRAHMAN HOSSAM
+    sticker: ['EMP-001', 'EMP-002']    // HOWAIDA EL ARABY, YASSIN KHAN
 };
 function entryStaffUsers(section) {
     return (ENTRY_STAFF[section] || []).map(id => USERS.find(u => u.empId === id)).filter(Boolean);
