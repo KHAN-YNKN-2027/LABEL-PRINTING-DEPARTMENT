@@ -4201,15 +4201,15 @@ function exportStickersToPDF() {
             minCellHeight: 9
         },
         columnStyles: {
-            0: { cellWidth: 20 },   // BRAND
-            1: { cellWidth: 25 },   // STYLE NO
-            2: { cellWidth: 55 },   // PO NO — كفاية جدًا للأرقام الطويلة
-            3: { cellWidth: 25 },   // COLOR
+            0: { cellWidth: 30, fontSize: 8 },   // BRAND — أعرض + خط أصغر عشان DECATHLON ما تتكسرش
+            1: { cellWidth: 24 },   // STYLE NO
+            2: { cellWidth: 46 },   // PO NO — قللناه لأنه كان واخد مساحة زيادة
+            3: { cellWidth: 24 },   // COLOR
             4: { cellWidth: 20 },   // PART
             5: { cellWidth: 22 },   // TOTAL CTN / POLYBAG
             6: { cellWidth: 14 },   // SIZE (CM)
             7: { cellWidth: 13 },   // SIDES
-            8: { cellWidth: 13 },   // PER SHEET
+            8: { cellWidth: 12 },   // PER SHEET
             9: { cellWidth: 32 },   // TOTAL STICKER (SHEETS)
             10:{ cellWidth: 28 }    // DATE
         },
@@ -4217,6 +4217,15 @@ function exportStickersToPDF() {
         willDrawPage: d => { if (d.pageNumber > 1) pdfGrayPage(doc); }
     });
 
+     styles: {
+            fontSize: 8.5,
+            halign:'center', valign:'middle',
+            cellPadding: 1.8,
+            fillColor: PDF_CELL_BG,
+            overflow: 'linebreak',
+            lineColor:[200,204,211], lineWidth:0.1
+        },
+    
     // التوقيعات في آخر صفحة بس
     const lastY = doc.lastAutoTable.finalY;
     let sigY = PH - 16;
