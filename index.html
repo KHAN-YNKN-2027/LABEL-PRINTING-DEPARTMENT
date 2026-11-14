@@ -1034,6 +1034,9 @@ body.role-viewer table th.no-print, body.role-viewer table td.no-print { display
 .hub-card:hover .tool-logo img { transform: scale(1.07); }
 .tool-logo.tl-decathlon img { max-height: 58px; border-radius: 4px; }
 .tool-logo.tl-ppj img { max-height: 70px; }
+
+        .ynkn-toast.t-security { border-inline-start-color: #7b2cbf; }
+        .al-badge.security { background:#7b2cbf; }
     </style>
 <base target="_blank">
 <base target="_blank">
@@ -1482,7 +1485,7 @@ function lgxForgot(e) { if (e) e.preventDefault(); document.getElementById('lgxH
             <div class="al-controls no-print">
                 <select id="alUser" onchange="renderActivityLog()"><option value="">All users</option></select>
                 <select id="alAction" onchange="renderActivityLog()">
-                    <option value="">All actions</option><option value="add">Added</option><option value="edit">Edited</option><option value="delete">Deleted</option><option value="closure">Daily closure</option>
+                    <option value="">All actions</option><option value="add">Added</option><option value="edit">Edited</option><option value="delete">Deleted</option><option value="closure">Daily closure</option><option value="security">Security</option>
                 </select>
                 <input id="alSearch" type="search" placeholder="Search…" oninput="renderActivityLog()" style="min-width:160px;">
                 <label style="font-size:12px;color:var(--muted);display:flex;gap:6px;align-items:center;"><input type="checkbox" id="alMine" onchange="renderActivityLog()"> Hide my own</label>
@@ -2239,7 +2242,7 @@ const LOG_TABLE  = 'activity_log';
 const LOG_QUEUE  = 'ynkn_log_queue';
 const LOG_SEEN   = 'ynkn_log_seen_id';
 const MODULE_LABEL = { acetate:'Acetate', sticker:'Sticker', otherSticker:'Other Sticker' };
-const ACTION_LABEL = { add:'ADDED', edit:'EDITED', delete:'DELETED', closure:'CLOSURE' };
+const ACTION_LABEL = { add:'ADDED', edit:'EDITED', delete:'DELETED', closure:'CLOSURE', security:'SECURITY' };
 let _snap = new Map(), _snapHist = 0;
 let _alRows = [], _alMaxId = 0, _alTimer = null, _alChan = null, _alWarned = false, _alBooted = false;
 
@@ -2350,7 +2353,7 @@ function _fmtTime(iso) {
     const d = new Date(iso);
     return d.toLocaleDateString('en-GB', { day:'2-digit', month:'short' }) + ' ' + d.toLocaleTimeString('en-US', { hour:'2-digit', minute:'2-digit', hour12:true });
 }
-function _verb(r) { return ({ add:'added', edit:'edited', delete:'deleted', closure:'closed a daily report' })[r.action] || r.action; }
+function _verb(r) { return ({ add:'added', edit:'edited', delete:'deleted', closure:'closed a daily report', security:'opened developer tools' })[r.action] || r.action; }
 function _toast(r, sticky) {
     const box = document.getElementById('ynknToasts'); if (!box) return;
     const el = document.createElement('div');
@@ -4582,24 +4585,53 @@ document.addEventListener('keydown', (e) => {
     const k = e.key.toLowerCase();
     const isDevToolsCombo =
         e.key === 'F12' ||
-        (e.ctrlKey && e.shiftKey && ['i','j','c','k'].includes(k)) || // Ctrl+Shift+I/J/C/K
+        (e.ctrlKey && e.shiftKey && ['i','j','c','k','e','m'].includes(k)) || // Ctrl+Shift+I/J/C/K/E/M (Chrome/Edge/Firefox)
         (e.ctrlKey && ['u','s'].includes(k)) ||                       // Ctrl+U (view-source) / Ctrl+S (save page)
+        (e.metaKey && ['u','s'].includes(k)) ||                       // Cmd+U / Cmd+S (Mac)
         (e.metaKey && e.altKey && ['i','j','c'].includes(k));         // Cmd+Option+I/J/C (Mac Safari/Chrome)
     if (isDevToolsCombo) {
         e.preventDefault();
         e.stopPropagation();
         return false;
     }
-});
+}, true);
+document.addEventListener('keyup', (e) => { if (e.key === 'F12') e.preventDefault(); }, true);
+// no dragging images/text out of the page
+document.addEventListener('dragstart', (e) => e.preventDefault());
  
-// 3) Best-effort DevTools-open detection → shows a blocking warning overlay while open
+// 3) DevTools-open detection → blocking overlay (tamper-resistant) + security log
 (function () {
-    let devToolsOpen = false;
+    let devToolsOpen = false, lastLog = 0;
+    const OWNER = 'yassin';                           // the owner is exempt after login (to maintain the system). Remove this to apply to everyone.
+    const tpl = (document.getElementById('devToolsWarning') || {}).outerHTML || '';
+    const isOwner = () => typeof currentUser !== 'undefined' && currentUser && currentUser.username === OWNER;
+    function ensureOverlay() {
+        let el = document.getElementById('devToolsWarning');
+        if (!el && tpl) { document.body.insertAdjacentHTML('beforeend', tpl); el = document.getElementById('devToolsWarning'); }
+        return el;
+    }
+    function paint(open) {
+        const el = ensureOverlay(); if (!el) return;
+        el.classList.toggle('show', open);
+        if (open) el.setAttribute('style', 'display:flex !important; z-index:2147483647 !important; visibility:visible !important; opacity:1 !important;');
+        else el.removeAttribute('style');
+    }
+    function logSecurity() {
+        try {
+            if (typeof currentUser === 'undefined' || !currentUser || typeof _sendLogs !== 'function') return;
+            if (Date.now() - lastLog < 300000) return;          // at most once / 5 min
+            lastLog = Date.now();
+            _sendLogs([{ user_name: currentUser.name, user_emp: currentUser.empId, user_role: currentUser.role, action: 'security', module: 'security',
+                         summary: 'Opened developer tools', details: null, ip: (typeof currentUserIp !== 'undefined' ? currentUserIp : 'unknown') }]);
+        } catch (e) {}
+    }
     function setState(open) {
-        if (open === devToolsOpen) return;
+        if (open && isOwner()) open = false;
+        if (open === devToolsOpen && (!open || document.getElementById('devToolsWarning'))) return;
+        const wasOpen = devToolsOpen;
         devToolsOpen = open;
-        const el = document.getElementById('devToolsWarning');
-        if (el) el.classList.toggle('show', open);
+        paint(open);
+        if (open && !wasOpen) logSecurity();
     }
     // Detects docked devtools panels by comparing outer/inner window size
     function checkBySize() {
@@ -4614,7 +4646,12 @@ document.addEventListener('keydown', (e) => {
         debugger;
         return (performance.now() - start) > 100;
     }
-    setInterval(() => setState(checkBySize() || checkByTiming()), 1000);
+    const tick = () => setState(checkBySize() || checkByTiming());
+    setInterval(tick, 1000);
+    window.addEventListener('resize', () => setState(checkBySize() || devToolsOpen && checkByTiming()));
+    // if someone deletes / hides the overlay from the Elements panel, put it back immediately
+    new MutationObserver(() => { if (devToolsOpen) { const el = document.getElementById('devToolsWarning'); if (!el || !el.classList.contains('show') || el.style.display === 'none') paint(true); } })
+        .observe(document.documentElement, { childList: true, subtree: true, attributes: true, attributeFilter: ['class', 'style'] });
 })();
  
 // 4) Soft deterrent message for anyone who does get a console open
